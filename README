@@ -1,0 +1,37 @@
+
+                 |- Markaby (Markup as Ruby) -|
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Write Rails templates in pure Ruby.  Example layout:
+
+  html do
+    head do
+      title 'Products: ' + action_name
+      stylesheet_link_tag 'scaffold'
+    end
+  
+    body do
+      p flash[:notice], :style => "color: green"
+  
+      self << content_for_layout
+    end
+  end
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Output defaults to XHTML 1.0 Transitional. To do XHTML 1.0 Strict,
+try this:
+
+  xhtml_strict do
+    # innerds
+  end
+
+Classes may be added by hooking methods onto container elements:
+
+  div.entry do
+    h2.entryTitle 'Son of WebPage'
+    div.entrySection %{by Anthony}
+    div.entryContent 'Okay, once again, the idea here is ...'
+  end
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Markaby by Tim Fletcher and why the lucky stiff
