@@ -1,6 +1,7 @@
 module Markaby
   class Builder
-      attr_accessor :output_helpers
+
+    attr_accessor :output_helpers
 
     def initialize(assigns, helpers, &block)
       @builder, @assigns, @helpers = ::Builder::XmlMarkup.new(:indent => 2), assigns, helpers.dup
@@ -81,10 +82,12 @@ module Markaby
       method_missing(:p, *args, &block)
     end
 
+    @@default_image_tag_options ||= { :border => '0', :alt => '' }
+
     def img(opts = {})
       opts[:border] ||= '0'
       opts[:alt] ||= ''
-      tag!(:img, opts)
+      tag!(:img, @@default_image_tag_options.merge(opts))
     end
 
     def head
@@ -106,7 +109,7 @@ module Markaby
     alias_method :xhtml_transitional, :html
 
     def xhtml_strict(&block)
-      html("-//W3C//DTD XHTML 1.0 Transitional//EN", "DTD/xhtml1-transitional.dtd", &block)
+      html("-//W3C//DTD XHTML 1.0 Strict//EN", "DTD/xhtml1-strict.dtd", &block)
     end
   end
 end
