@@ -1,8 +1,10 @@
 module Markaby
   class Builder
+      attr_accessor :output_helpers
 
     def initialize(assigns, helpers, &block)
       @builder, @assigns, @helpers = ::Builder::XmlMarkup.new(:indent => 2), assigns, helpers
+      @output_helpers = true
       for iv in helpers.instance_variables
         instance_variable_set(iv, helpers.instance_variable_get(iv))
       end
@@ -26,10 +28,24 @@ module Markaby
     end
     alias_method :<<, :text
 
+    def capture(&block)
+      assigns = instance_variables.inject({}) do |hsh, iv|
+        unless ['@builder', '@assigns', '@helpers'].include?(iv)
+          hsh[iv[1..-1]] = instance_variable_get(iv)
+        end
+        hsh
+      end
+      self.class.new(assigns, @helpers, &block).to_s
+    end
+
+    def content_for(name, &block)
+      eval "@content_for_#{name} = (@content_for_#{name} || '') + capture(&block)"
+    end
+
     def tag!(tag, *args, &block)
       if block
-        scope = self.class.new(assigns, helpers, &block)
-        block = proc { text scope }
+        str = capture &block
+        block = proc { text(str) }
       end
       @builder.method_missing(tag, *args, &block)
     end
@@ -52,7 +68,9 @@ module Markaby
       elsif instance_variable_get("@#{tag}")
         instance_variable_get("@#{tag}")
       elsif @helpers.respond_to?(tag)
-        text @helpers.send(tag, *args, &block)
+        r = @helpers.send(tag, *args, &block)
+        text(r) if @output_helpers
+        r
       else
         tag!(tag, *args, &block)
       end
