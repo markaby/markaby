@@ -3,13 +3,14 @@ module Markaby
       attr_accessor :output_helpers
 
     def initialize(assigns, helpers, &block)
-      @builder, @assigns, @helpers = ::Builder::XmlMarkup.new(:indent => 2), assigns, helpers
+      @builder, @assigns, @helpers = ::Builder::XmlMarkup.new(:indent => 2), assigns, helpers.dup
       @output_helpers = true
       for iv in helpers.instance_variables
         instance_variable_set(iv, helpers.instance_variable_get(iv))
       end
       for iv, val in assigns
         instance_variable_set("@#{iv}", val)
+        @helpers.instance_variable_set("@#{iv}", val)
       end
 
       if block
