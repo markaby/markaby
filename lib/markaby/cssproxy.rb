@@ -12,8 +12,7 @@ module Markaby
       when /!$/
         @opts[:id] = $`
       else 
-        @opts[:class] ||= ""
-        @opts[:class] += "#{idc} "
+        @opts[:class] = "#{@opts[:class]} #{idc}".strip
       end
       if args.empty? and blk.nil?
         self

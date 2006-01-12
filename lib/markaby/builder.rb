@@ -2,7 +2,7 @@ module Markaby
   class Builder
 
     def initialize(assigns, helpers, &block)
-      @builder, @helpers = ::Builder::XmlMarkup.new(:indent => 2), helpers
+      @builder, @assigns, @helpers = ::Builder::XmlMarkup.new(:indent => 2), assigns, helpers
       for iv in helpers.instance_variables
         instance_variable_set(iv, helpers.instance_variable_get(iv))
       end
@@ -11,7 +11,8 @@ module Markaby
       end
 
       if block
-        instance_eval &block
+        r = instance_eval &block
+        text(r) if to_s.empty?
       end
     end
 
@@ -26,6 +27,10 @@ module Markaby
     alias_method :<<, :text
 
     def tag!(tag, *args, &block)
+      if block
+        scope = self.class.new(assigns, helpers, &block)
+        block = proc { text scope }
+      end
       @builder.method_missing(tag, *args, &block)
     end
 
