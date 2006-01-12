@@ -57,6 +57,12 @@ module Markaby
       method_missing(:p, *args, &block)
     end
 
+    def img(opts = {})
+      opts[:border] ||= '0'
+      opts[:alt] ||= ''
+      tag!(:img, opts)
+    end
+
     def head
       tag!(:head) do
         tag!(:meta, 'http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8')
