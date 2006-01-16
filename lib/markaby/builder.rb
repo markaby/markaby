@@ -4,8 +4,12 @@ module Markaby
     attr_accessor :output_helpers
 
     def initialize(assigns, helpers, &block)
-      @builder, @assigns, @helpers = ::Builder::XmlMarkup.new(:indent => 2), assigns, helpers.dup
+      @assigns = assigns
+      @helpers = helpers.dup
+      @stream = []
+      @builder = ::Builder::XmlMarkup.new(:indent => 2, :target => @stream)
       @output_helpers = true
+
       for iv in helpers.instance_variables
         instance_variable_set(iv, helpers.instance_variable_get(iv))
       end
@@ -32,7 +36,7 @@ module Markaby
 
     def capture(&block)
       assigns = instance_variables.inject({}) do |hsh, iv|
-        unless ['@builder', '@assigns', '@helpers'].include?(iv)
+        unless ['@stream', '@builder', '@assigns', '@helpers'].include?(iv)
           hsh[iv[1..-1]] = instance_variable_get(iv)
         end
         hsh
@@ -53,6 +57,10 @@ module Markaby
     end
 
     def method_missing(tag, *args, &block)
+      args.each do |arg|
+        @stream.delete_if { |x| x.object_id == arg.object_id }
+      end
+
       if (TAGS + BIG_TAGS).include?(tag)
         if args.empty? and block.nil?
           return CssProxy.new do |args, block|
