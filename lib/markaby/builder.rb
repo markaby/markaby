@@ -29,7 +29,7 @@ module Markaby
     end
 
     def text(string)
-      @builder << string.to_s
+      @builder << "#{string}"
       nil
     end
     alias_method :<<, :text
@@ -79,7 +79,7 @@ module Markaby
         instance_variable_get("@#{tag}")
       elsif @helpers.respond_to?(tag)
         r = @helpers.send(tag, *args, &block)
-        text(r) if @output_helpers
+        @builder << r if @output_helpers
         r
       else
         tag!(tag, *args, &block)
@@ -98,10 +98,10 @@ module Markaby
       tag!(:img, @@default_image_tag_options.merge(opts))
     end
 
-    def head
-      tag!(:head) do
+    def head(*args, &block)
+      tag!(:head, *args) do
         tag!(:meta, 'http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8')
-        yield
+        instance_eval &block
       end
     end
 
