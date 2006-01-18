@@ -2,12 +2,12 @@
 # as a stub to remind me that it's an option someday...
 require 'rubygems'
 spec = Gem::Specification.new do |s|
-  s.name = 'Markaby'
+  s.name = 'markaby'
   s.version = "0.2"
   s.platform = Gem::Platform::RUBY
   s.summary = "Markup as Ruby, write HTML in your native Ruby tongue"
   s.add_dependency('builder')
-  s.files = ['tests/**/*', 'lib/**/*', 'bin/**/*'].collect do |dirglob|
+  s.files = ['test/**/*', 'lib/**/*', 'bin/**/*'].collect do |dirglob|
                 Dir.glob(dirglob)
             end.flatten.delete_if {|item| item.include?("CVS")}
   s.require_path = 'lib'

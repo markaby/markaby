@@ -1,8 +1,6 @@
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'builder'
 require 'markaby'
-
 
 module Helpers
   def self.link_to(person)
@@ -37,13 +35,13 @@ template = <<-EOT
   
   ul do
     people.each do |person|
-      li link_to(person)
+      li { link_to(person) }
     end
   end
   
   hr
   
-  div self.p("foo")
+  div { p("foo") }
 
 EOT
 
