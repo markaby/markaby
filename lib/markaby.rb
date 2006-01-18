@@ -1,5 +1,9 @@
 $:.unshift File.expand_path(File.dirname(__FILE__))
 
+module Markaby
+    VERSION = '0.2'
+end
+
 unless defined?(Builder)
   require 'rubygems'
   require 'builder'
