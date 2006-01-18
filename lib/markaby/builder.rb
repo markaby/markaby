@@ -25,7 +25,7 @@ module Markaby
     end
 
     def to_s
-      @builder.target!
+      @builder.target!.join
     end
 
     def text(string)
@@ -93,8 +93,6 @@ module Markaby
     @@default_image_tag_options ||= { :border => '0', :alt => '' }
 
     def img(opts = {})
-      opts[:border] ||= '0'
-      opts[:alt] ||= ''
       tag!(:img, @@default_image_tag_options.merge(opts))
     end
 
