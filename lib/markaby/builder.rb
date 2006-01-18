@@ -3,19 +3,28 @@ module Markaby
 
     attr_accessor :output_helpers
 
-    def initialize(assigns, helpers, &block)
-      @assigns = assigns
-      @helpers = helpers.dup
+    def initialize(assigns = {}, helpers = nil, &block)
       @stream = []
+      @assigns = assigns
       @builder = ::Builder::XmlMarkup.new(:indent => 2, :target => @stream)
       @output_helpers = true
 
-      for iv in helpers.instance_variables
-        instance_variable_set(iv, helpers.instance_variable_get(iv))
+      if helpers.nil?
+        @helpers = nil
+      else
+        @helpers = helpers.dup
+        for iv in helpers.instance_variables
+          instance_variable_set(iv, helpers.instance_variable_get(iv))
+        end
       end
-      for iv, val in assigns
-        instance_variable_set("@#{iv}", val)
-        @helpers.instance_variable_set("@#{iv}", val)
+
+      unless assigns.nil? || assigns.empty?
+        for iv, val in assigns
+          instance_variable_set("@#{iv}", val)
+          unless @helpers.nil?
+            @helpers.instance_variable_set("@#{iv}", val)
+          end
+        end
       end
 
       if block
