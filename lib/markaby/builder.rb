@@ -69,18 +69,12 @@ module Markaby
       args.each do |arg|
         @stream.delete_if { |x| x.object_id == arg.object_id }
       end
-
-      if (TAGS + BIG_TAGS).include?(tag)
+      if TAGS.include?(tag)
         if args.empty? and block.nil?
           return CssProxy.new do |args, block|
             tag!(tag, *args, &block)
           end
         end
-      end
-
-      if TAGS.include?(tag)
-        tag!(tag, *args, &block)
-      elsif BIG_TAGS.include?(tag)
         tag!(tag, *args, &block)
       elsif SELF_CLOSING_TAGS.include?(tag)
         tag!(tag, *args)
