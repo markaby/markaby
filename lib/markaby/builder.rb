@@ -40,7 +40,7 @@ module Markaby
       @assigns = assigns
       @output_helpers = true
       @indent = 2
-      @level = -1
+      @margin = -1
 
       if helpers.nil?
         @helpers = nil
@@ -60,8 +60,8 @@ module Markaby
         end
       end
 
-      @level += 1
-      @builder = ::Builder::XmlMarkup.new(:indent => @indent, :margin => @level, :target => @stream)
+      @margin += 1
+      @builder = ::Builder::XmlMarkup.new(:indent => @indent, :margin => @margin, :target => @stream)
 
       if block
         r = instance_eval &block
