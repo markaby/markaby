@@ -38,8 +38,9 @@ module Markaby
     def initialize(assigns = {}, helpers = nil, &block)
       @stream = []
       @assigns = assigns
-      @builder = ::Builder::XmlMarkup.new(:indent => 2, :target => @stream)
       @output_helpers = true
+      @indent = 2
+      @level = -1
 
       if helpers.nil?
         @helpers = nil
@@ -58,6 +59,9 @@ module Markaby
           end
         end
       end
+
+      @level += 1
+      @builder = ::Builder::XmlMarkup.new(:indent => @indent, :margin => @level, :target => @stream)
 
       if block
         r = instance_eval &block
