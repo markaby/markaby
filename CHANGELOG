@@ -1,0 +1,17 @@
+= 0.3
+=== 02nd February, 2006
+
+* Allow Markaby::Builder.new without args.
+* Rails helper method render_markaby.
+
+= 0.2
+=== 17th January, 2006
+
+* Public announcement.
+* DOCTYPES, head tags.
+* Works with Rails helpers.
+
+= 0.1
+=== 05th January, 2006
+
+* Initial import.

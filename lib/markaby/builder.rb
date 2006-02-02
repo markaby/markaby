@@ -1,8 +1,40 @@
 module Markaby
+  # The Markaby::Builder class is the central gear in the system.  When using
+  # from Ruby code, this is the only class you need to instantiate directly.
+  #
+  #   mab = Markaby::Builder.new
+  #   mab.html do
+  #     head { title "Boats.com" }
+  #     body do
+  #       h1 "Boats.com has great deals"
+  #       ul do
+  #         li "$49 for a canoe"
+  #         li "$39 for a raft"
+  #         li "$29 for a huge boot that floats and can fit 5 people"
+  #       end
+  #     end
+  #   end
+  #   puts mab.to_s
+  #
   class Builder
 
     attr_accessor :output_helpers
 
+    # Create a Markaby builder object.  Pass in a hash of variable assignments to
+    # +assigns+ which will be available as instance variables inside tag construction
+    # blocks.  If an object is passed in to +helpers+, its methods will be available
+    # from those same blocks.
+    #
+    # Pass in a +block+ to new and the block will be evaluated.
+    #
+    #   mab = Markaby::Builder.new {
+    #     html do
+    #       body do
+    #         h1 "Matching Mole"
+    #       end
+    #     end
+    #   }
+    #
     def initialize(assigns = {}, helpers = nil, &block)
       @stream = []
       @assigns = assigns
@@ -33,16 +65,24 @@ module Markaby
       end
     end
 
+    # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
     def to_s
       @builder.target!.join
     end
 
+    # Write a +string+ to the HTML stream without escaping it.
     def text(string)
       @builder << "#{string}"
       nil
     end
     alias_method :<<, :text
 
+    # Captures the HTML code built inside the +block+.  This is done by creating a new
+    # builder object, running the block and passing back its stream as a string.
+    #
+    #   >> Markaby::Builder.new.capture { h1 "TEST"; h2 "CAPTURE ME" }
+    #   => "<h1>TITLE</h1>\n<h2>CAPTURE ME</h2>\n"
+    #
     def capture(&block)
       assigns = instance_variables.inject({}) do |hsh, iv|
         unless ['@stream', '@builder', '@assigns', '@helpers'].include?(iv)
@@ -53,10 +93,25 @@ module Markaby
       self.class.new(assigns, @helpers, &block).to_s
     end
 
+    # Content_for will store the given block in an instance variable for later use 
+    # in another template or in the layout.
+    #
+    # The name of the instance variable is content_for_<name> to stay consistent 
+    # with @content_for_layout which is used by ActionView's layouts.
+    #
+    # Example:
+    #
+    #   content_for("header") do
+    #     h1 "Half Shark and Half Lion"
+    #   end
+    #
+    # If used several times, the variable will contain all the parts concatenated.
     def content_for(name, &block)
       eval "@content_for_#{name} = (@content_for_#{name} || '') + capture(&block)"
     end
 
+    # Create a tag named +tag+. Other than the first argument which is the tag name,
+    # the arguments are the same as the tags implemented via method_missing.
     def tag!(tag, *args, &block)
       if block
         str = capture &block
@@ -65,27 +120,42 @@ module Markaby
       @builder.method_missing(tag, *args, &block)
     end
 
-    def method_missing(tag, *args, &block)
+    # Create XML markup based on the name of the method +sym+. This method is never 
+    # invoked directly, but is called for each markup method in the markup block.
+    #
+    # This method is also used to intercept calls to helper methods and instance
+    # variables.  Here is the order of interception:
+    #
+    # * If +sym+ is a recognized HTML tag, the tag is output
+    #   or a CssProxy is returned if no arguments are given.
+    # * If +sym+ appears to be a self-closing tag, its block
+    #   is ignored, thus outputting a valid self-closing tag.
+    # * If +sym+ is also the name of an instance variable, the
+    #   value of the instance variable is returned.
+    # * If +sym+ is a helper method, the helper method is called
+    #   and output to the stream.
+    # * Otherwise, +sym+ and its arguments are passed to tag!
+    def method_missing(sym, *args, &block)
       args.each do |arg|
         @stream.delete_if { |x| x.object_id == arg.object_id }
       end
-      if TAGS.include?(tag)
+      if TAGS.include?(sym)
         if args.empty? and block.nil?
           return CssProxy.new do |args, block|
-            tag!(tag, *args, &block)
+            tag!(sym, *args, &block)
           end
         end
-        tag!(tag, *args, &block)
-      elsif SELF_CLOSING_TAGS.include?(tag)
-        tag!(tag, *args)
-      elsif instance_variable_get("@#{tag}")
-        instance_variable_get("@#{tag}")
-      elsif @helpers.respond_to?(tag)
-        r = @helpers.send(tag, *args, &block)
+        tag!(sym, *args, &block)
+      elsif SELF_CLOSING_TAGS.include?(sym)
+        tag!(sym, *args)
+      elsif instance_variable_get("@#{sym}")
+        instance_variable_get("@#{sym}")
+      elsif @helpers.respond_to?(sym)
+        r = @helpers.send(sym, *args, &block)
         @builder << r if @output_helpers
         r
       else
-        tag!(tag, *args, &block)
+        tag!(sym, *args, &block)
       end
     end
 
@@ -95,10 +165,13 @@ module Markaby
 
     @@default_image_tag_options ||= { :border => '0', :alt => '' }
 
+    # Builds a image tag.  Assumes <tt>:border => '0', :alt => ''</tt>.
     def img(opts = {})
       tag!(:img, @@default_image_tag_options.merge(opts))
     end
 
+    # Builds a head tag.  Adds a <tt>meta</tt> tag inside with Content-Type
+    # set to <tt>text/html; charset=utf-8</tt>.
     def head(*args, &block)
       tag!(:head, *args) do
         tag!(:meta, 'http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8')
@@ -106,6 +179,9 @@ module Markaby
       end
     end
 
+    # Builds an html tag.  An XML 1.0 instruction and an XHTML 1.0 Transitional doctype
+    # are prepended.  Also assumes <tt>:xmlns => "http://www.w3.org/1999/xhtml",
+    # "xml:lang" => "en", :lang => "en"</tt>.
     def html(*args, &block)
       if args.empty?
         args = ["-//W3C//DTD XHTML 1.0 Transitional//EN", "DTD/xhtml1-transitional.dtd"]
@@ -117,6 +193,7 @@ module Markaby
     end
     alias_method :xhtml_transitional, :html
 
+    # Builds an html tag with XHTML 1.0 Strict doctype instead.
     def xhtml_strict(&block)
       html("-//W3C//DTD XHTML 1.0 Strict//EN", "DTD/xhtml1-strict.dtd", &block)
     end

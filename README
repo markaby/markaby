@@ -1,7 +1,12 @@
+= Markaby (Markup as Ruby)
 
-                 |- Markaby (Markup as Ruby) -|
+Markaby is a very short bit of code for writing HTML pages in pure Ruby.
+It is an alternative to ERb which weaves the two languages together.
+Also a replacement for templating languages which use primitive languages
+that blend with HTML.
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+== Using Markaby as a Rails plugin
+
 Write Rails templates in pure Ruby.  Example layout:
 
   html do
@@ -17,15 +22,97 @@ Write Rails templates in pure Ruby.  Example layout:
     end
   end
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Output defaults to XHTML 1.0 Transitional. To do XHTML 1.0 Strict,
-try this:
+== Using Markaby as a Ruby class
 
-  xhtml_strict do
-    # innerds
+Markaby is flaming easy to call from your Ruby classes.
+
+  require 'markaby'
+
+  mab = Markaby::Builder.new
+  mab.html do
+    head { title "Boats.com" }
+    body do
+      h1 "Boats.com has great deals"
+      ul do
+        li "$49 for a canoe"
+        li "$39 for a raft"
+        li "$29 for a huge boot that floats and can fit 5 people"
+      end
+    end
+  end
+  puts mab.to_s
+
+Markaby::Builder.new does take two arguments for passing in variables and
+a helper object.  You can also affix the block right on to the class.
+
+See Markaby::Builder for all of that.
+
+= A Note About <tt>instance_eval</tt>
+
+The Markaby::Builder class is different from the normal Builder class,
+since it uses <tt>instance_eval</tt> when running blocks.  This cleans
+up the appearance of the Markaby code you write.  If <tt>instance_eval</tt>
+was not used, the code would look like this:
+
+  mab = Markaby::Builder.new
+  mab.html do
+    mab.head { mab.title "Boats.com" }
+    mab.body do
+      mab.h1 "Boats.com has great deals"
+    end
+  end
+  puts mab.to_s
+
+So, the advantage is the cleanliness of your code.  The disadvantage is that
+the block will run inside the Markaby::Builder object's scope.  This means
+that inside these blocks, <tt>self</tt> will be your Markaby::Builder object.
+When you use instance variables in these blocks, they will be instance variables
+of the Markaby::Builder object.
+
+This doesn't effect Rails users, but when used in regular Ruby code, it can
+be a bit disorienting.  You are recommended to put your Markaby code in a
+module where it won't mix with anything.
+
+= A Note About Rails Helpers
+
+When used in Rails templates, the Rails helper object is passed into 
+Markaby::Builder.  When you call helper methods inside Markaby, the output
+from those methods will be output to the stream.  This is incredibly
+handy, since most Rails helpers output HTML tags.
+
+  head do
+    javascript_include_tag 'prototype'
+    autodiscovery_link_tag
   end
 
-Classes may be added by hooking methods onto container elements:
+However, some methods are designed to give back a String which you can use
+elsewhere.  Call the <tt>@helpers</tt> object with the method and you'll get
+the String back and nothing will be output.
+
+  p "Total is: #{@helper.number_to_human_size @file_bytes}"
+
+Conversely, you may call instance variables from your controller by using
+a method and its value will be returned, nothing will be output.
+
+  # Inside imaginary ProductController
+  def list
+    @products = Product.find :all
+  end
+
+  # Inside app/views/product/list.mab
+  products.each do |product|
+    p product.title
+  end
+
+= A Quick Tour
+
+If you dive right into Markaby, it'll probably make good sense, but you're
+likely to run into a few kinks.  Keep these pointers in mind and everything
+will be fine.
+
+== Element Classes
+
+Element classes may be added by hooking methods onto container elements:
 
   div.entry do
     h2.entryTitle 'Son of WebPage'
@@ -33,5 +120,70 @@ Classes may be added by hooking methods onto container elements:
     div.entryContent 'Okay, once again, the idea here is ...'
   end
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Markaby by Tim Fletcher and why the lucky stiff
+Which results in:
+
+  <div class="entry">
+    <h2 class="entryTitle">Son of WebPage</h2>
+    <div class="entrySection">by Anthony</div>
+    <div class="entryContent">Okay, once again, the idea here is ...</div>
+  </div>
+
+== Element IDs
+
+IDs may be added by the use of bang methods:
+
+  div.page!
+    div.content!
+      h1 "A Short Short Saintly Dog"
+    end
+  end
+
+Which results in:
+
+  <div id="page">
+    <div id="content">
+      <h1>A Short Short Saintly Dog</h1>
+    </div>
+  </div>
+
+== Markaby assumes XHTML 1.0 Transitional 
+
+Output defaults to XHTML 1.0 Transitional. To do XHTML 1.0 Strict,
+try this:
+
+  xhtml_strict do
+    # innerds
+  end
+
+== The <tt>capture</tt> Method
+
+Want to catch a block of HTML as a string and play with it a bit?
+Use the <tt>capture</tt> method.
+
+Commonly used to join HTML blocks together:
+
+  div.menu! \
+    ['5.gets', 'bits', 'cult', 'inspect', '-h'].map do |category|
+      capture { link_to category }
+    end.
+    join( " | " )
+
+== The <tt>tag!</tt> Method
+
+If you need to force a tag at any time, call <tt>tag!</tt> with the
+tag name followed by the possible arguments and block.  The CssProxy
+won't work with this technique.
+
+  tag! :select, :id => "country_list" do
+    countries.each do |country|
+      tag! :option, country
+    end
+  end
+
+= Credits
+
+Markaby is a work of immense hope by Tim Fletcher and why the lucky stiff.
+Thankyou for giving it a whirl.
+
+Markaby is inspired by the HTML library within cgi.rb.  Hopefully it will
+turn around and take some cues.
