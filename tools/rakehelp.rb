@@ -64,7 +64,7 @@ def setup_extension(dir, extension)
 end
 
 
-def setup_gem(pkg_name, pkg_version, author, summary, files, test_file)
+def setup_gem(pkg_name, pkg_version, author, summary, dependencies, test_file)
     pkg_version = pkg_version
     pkg_name    = pkg_name
     pkg_file_name = "#{pkg_name}-#{pkg_version}"
@@ -78,7 +78,9 @@ def setup_gem(pkg_name, pkg_version, author, summary, files, test_file)
         s.test_file = test_file
         s.has_rdoc = true
         s.extra_rdoc_files = [ "README" ]
-
+        dependencies.each do |dep|
+            s.add_dependency(dep)
+        end
         s.files = %w(README Rakefile setup.rb) +
         Dir.glob("{bin,doc,test,lib}/**/*") + 
         Dir.glob("ext/**/*.{h,c,rb}") +
