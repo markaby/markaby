@@ -8,7 +8,7 @@ require 'fileutils'
 include FileUtils
 
 setup_tests
-setup_rdoc ['README', 'CHANGELOG', 'lib/*.rb']
+setup_rdoc ['README', 'CHANGELOG', 'lib/**/*.rb']
 
 summary = "Markup as Ruby, write HTML in your native Ruby tongue"
 test_file = "test/test_markaby.rb"
