@@ -143,11 +143,17 @@ module Markaby
       args.each do |arg|
         @stream.delete_if { |x| x.object_id == arg.object_id }
       end
-      if TAGS.include?(sym)
+      if TAGS.include?(sym) or (FORM_TAGS.include?(sym) and args.empty?)
         if args.empty? and block.nil?
           return CssProxy.new do |args, block|
+            if FORM_TAGS.include?(sym) and args.last.respond_to?(:to_hash) and args.last[:id]
+              args.last[:name] ||= args.last[:id]
+            end
             tag!(sym, *args, &block)
           end
+        end
+        if args.first.respond_to? :to_hash
+            block ||= proc{}
         end
         tag!(sym, *args, &block)
       elsif SELF_CLOSING_TAGS.include?(sym)
@@ -163,9 +169,8 @@ module Markaby
       end
     end
 
-    def p(*args, &block)
-      method_missing(:p, *args, &block)
-    end
+    undef_method :p
+    undef_method :select
 
     @@default_image_tag_options ||= { :border => '0', :alt => '' }
 

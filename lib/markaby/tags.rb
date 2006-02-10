@@ -9,6 +9,7 @@ module Markaby
     :noscript, :object, :ol, :pre, :q, :samp, :script, :style, :table, :ul
   ]
 
+  FORM_TAGS = [ :form, :input, :select, :textarea ]
   SELF_CLOSING_TAGS = [ :hr, :br, :link, :meta, :input ]
 
 end
