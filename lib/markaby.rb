@@ -1,4 +1,4 @@
-# = About lib/markany.rb
+# = About lib/markaby.rb
 #
 # By requiring <tt>lib/markaby</tt>, you can load Markaby's dependency (the Builder library,)
 # as well as the full set of Markaby classes.
@@ -19,7 +19,7 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 # * Markaby::Template: a class for hooking Markaby into Rails as a
 #   proper templating language.
 module Markaby
-    VERSION = '0.3.1'
+  VERSION = '0.3.1'
 end
 
 unless defined?(Builder)

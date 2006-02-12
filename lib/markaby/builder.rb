@@ -153,17 +153,17 @@ module Markaby
           end
         end
         if args.first.respond_to? :to_hash
-            block ||= proc{}
+          block ||= proc{}
         end
         tag!(sym, *args, &block)
       elsif SELF_CLOSING_TAGS.include?(sym)
         tag!(sym, *args)
-      elsif instance_variable_get("@#{sym}")
-        instance_variable_get("@#{sym}")
       elsif @helpers.respond_to?(sym)
         r = @helpers.send(sym, *args, &block)
         @builder << r if @output_helpers
         r
+      elsif instance_variable_get("@#{sym}")
+        instance_variable_get("@#{sym}")
       else
         tag!(sym, *args, &block)
       end
