@@ -71,7 +71,7 @@ module Markaby
 
     # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
     def to_s
-      @builder.target!.join
+      @stream.join
     end
 
     # Write a +string+ to the HTML stream without escaping it.
@@ -82,19 +82,18 @@ module Markaby
     alias_method :<<, :text
 
     # Captures the HTML code built inside the +block+.  This is done by creating a new
-    # builder object, running the block and passing back its stream as a string.
+    # stream for the builder object, running the block and passing back its stream as a string.
     #
     #   >> Markaby::Builder.new.capture { h1 "TEST"; h2 "CAPTURE ME" }
     #   => "<h1>TITLE</h1>\n<h2>CAPTURE ME</h2>\n"
     #
     def capture(&block)
-      assigns = instance_variables.inject({}) do |hsh, iv|
-        unless ['@stream', '@builder', '@assigns', '@helpers'].include?(iv)
-          hsh[iv[1..-1]] = instance_variable_get(iv)
-        end
-        hsh
-      end
-      self.class.new(assigns, @helpers, &block).to_s
+      old_stream = @stream.dup
+      @stream.replace []
+      str = instance_eval(&block).to_s
+      str = @stream.join unless @stream.empty?
+      @stream.replace old_stream
+      str
     end
 
     # Content_for will store the given block in an instance variable for later use 
@@ -140,9 +139,6 @@ module Markaby
     #   and output to the stream.
     # * Otherwise, +sym+ and its arguments are passed to tag!
     def method_missing(sym, *args, &block)
-      args.each do |arg|
-        @stream.delete_if { |x| x.object_id == arg.object_id }
-      end
       if TAGS.include?(sym) or (FORM_TAGS.include?(sym) and args.empty?)
         if args.empty? and block.nil?
           return CssProxy.new do |args, block|

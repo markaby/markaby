@@ -36,6 +36,7 @@ class MarkabyTest < Test::Unit::TestCase
   def test_escaping
     assert_equal "<h1>Apples &amp; Oranges</h1>\n", mab("h1 'Apples & Oranges'")
     assert_equal "<h1>\nApples & Oranges</h1>\n", mab("h1 { 'Apples & Oranges' }")
+    assert_equal "<h1 class=\"fruits&amp;floots\">Apples</h1>\n", mab("h1 'Apples', :class => 'fruits&floots'")
   end
 
   def test_capture
@@ -43,6 +44,14 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal html, mab("div { h1 'hello world' }")
     assert_equal html, mab("div { capture { h1 'hello world' } }")
     assert mab("capture { h1 'hello world' }").empty?
+  end
+
+  def test_ivars
+    html = "<div>\n<h1>Steve</h1>\n<div>\n<h2>Gerald</h2>\n</div>\n<h3>Gerald</h3>\n</div>\n"
+    assert_equal html, mab("div { @name = 'Steve'; h1 @name; div { @name = 'Gerald'; h2 @name }; h3 @name }")
+    assert_equal html, mab("div { @name = 'Steve'; h1 @name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name }")
+    assert_equal html, mab("div { h1 @name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name }",
+                           :name => 'Steve')
   end
 
   def test_output_helpers
