@@ -19,7 +19,7 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 # * Markaby::Template: a class for hooking Markaby into Rails as a
 #   proper templating language.
 module Markaby
-  VERSION = '0.3.1'
+  VERSION = '0.4'
 end
 
 unless defined?(Builder)
