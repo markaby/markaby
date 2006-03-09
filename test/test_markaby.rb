@@ -1,26 +1,22 @@
 require 'test/unit'
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'markaby'))
 
+module MarkabyTestHelpers
+  def link_to(obj)
+    %{<a href="">#{obj}</a>}
+  end
+  def pluralize(n, string)
+    n == 1 ? string : string + "s"
+  end
+  module_function :link_to, :pluralize
+end
+
 class MarkabyTest < Test::Unit::TestCase
   
   def mab(string, assigns = {}, helpers = nil)
     Markaby::Template.new(string.to_s).render(assigns, helpers)
   end
   
-  def setup
-    @helpers = Module.new do
-      def link_to(obj)
-        %{<a href="">#{obj}</a>}
-      end
-      def pluralize(n, string)
-        n == 1 ? string : string + "s"
-      end
-      module_function :link_to, :pluralize
-    end
-    @helpers_ohf = @helpers.dup
-    @helpers_ohf.instance_variable_set("@output_helpers", false)
-  end
-
   def test_simple
     assert_equal "<hr/>\n", mab("hr")
     assert_equal "<p>foo</p>\n", mab("p 'foo'")
@@ -55,8 +51,8 @@ class MarkabyTest < Test::Unit::TestCase
   end
 
   def test_output_helpers
-    assert_equal %{<a href="">edit</a>}, mab("link_to('edit')", {}, @helpers)
-    assert mab("link_to('edit')", {}, @helpers_ohf).empty?
+    assert_equal %{<a href="">edit</a>}, mab("link_to('edit')", {}, MarkabyTestHelpers)
+    assert mab("@output_helpers = false; link_to('edit')", {}, MarkabyTestHelpers).empty?
   end
 
 end

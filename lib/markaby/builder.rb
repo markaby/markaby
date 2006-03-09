@@ -18,6 +18,22 @@ module Markaby
   #
   class Builder
 
+    @@default = {
+      :indent => 2,
+      :output_helpers => true,
+      :output_xml_instruction => true,
+      :output_meta_tag => true,
+      :image_tag_options => { :border => '0', :alt => '' }
+    }
+
+    def self.set(option, value)
+      @@default[option] = value
+    end
+
+    XHTMLTransitional = ["-//W3C//DTD XHTML 1.0 Transitional//EN", "DTD/xhtml1-transitional.dtd"]
+    
+    XHTMLStrict = ["-//W3C//DTD XHTML 1.0 Strict//EN", "DTD/xhtml1-strict.dtd"]
+
     attr_accessor :output_helpers
 
     # Create a Markaby builder object.  Pass in a hash of variable assignments to
@@ -38,9 +54,12 @@ module Markaby
     def initialize(assigns = {}, helpers = nil, &block)
       @stream = []
       @assigns = assigns
-      @output_helpers = true
-      @indent = 2
       @margin = -1
+
+      @indent = @@default[:indent]
+      @output_helpers = @@default[:output_helpers]
+      @output_meta_tag = @@default[:output_meta_tag]
+      @output_xml_instruction = @@default[:output_xml_instruction]
 
       if helpers.nil?
         @helpers = nil
@@ -168,18 +187,16 @@ module Markaby
     undef_method :p
     undef_method :select
 
-    @@default_image_tag_options ||= { :border => '0', :alt => '' }
-
     # Builds a image tag.  Assumes <tt>:border => '0', :alt => ''</tt>.
     def img(opts = {})
-      tag!(:img, @@default_image_tag_options.merge(opts))
+      tag!(:img, @@default[:image_tag_options].merge(opts))
     end
 
     # Builds a head tag.  Adds a <tt>meta</tt> tag inside with Content-Type
     # set to <tt>text/html; charset=utf-8</tt>.
     def head(*args, &block)
       tag!(:head, *args) do
-        tag!(:meta, 'http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8')
+        tag!(:meta, "http-equiv" => "Content-Type", "content" => "text/html; charset=utf-8") if @output_meta_tag
         instance_eval &block
       end
     end
@@ -187,20 +204,18 @@ module Markaby
     # Builds an html tag.  An XML 1.0 instruction and an XHTML 1.0 Transitional doctype
     # are prepended.  Also assumes <tt>:xmlns => "http://www.w3.org/1999/xhtml",
     # "xml:lang" => "en", :lang => "en"</tt>.
-    def html(*args, &block)
-      if args.empty?
-        args = ["-//W3C//DTD XHTML 1.0 Transitional//EN", "DTD/xhtml1-transitional.dtd"]
-      end
-      @builder.instruct!
-      @builder.declare!(:DOCTYPE, :html, :PUBLIC, *args)
-      tag!(:html, :xmlns => "http://www.w3.org/1999/xhtml",
-        "xml:lang" => "en", :lang => "en", &block)
+    def html(*doctype, &block)
+      doctype = XHTMLTransitional if doctype.empty?
+      @builder.instruct! if @output_xml_instruction
+      @builder.declare!(:DOCTYPE, :html, :PUBLIC, *doctype)
+      tag!(:html, :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en", &block)
     end
     alias_method :xhtml_transitional, :html
 
     # Builds an html tag with XHTML 1.0 Strict doctype instead.
     def xhtml_strict(&block)
-      html("-//W3C//DTD XHTML 1.0 Strict//EN", "DTD/xhtml1-strict.dtd", &block)
+      html XHTMLStrict, &block
     end
+
   end
 end
