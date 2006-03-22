@@ -99,6 +99,10 @@ module Markaby
       nil
     end
     alias_method :<<, :text
+    alias_method :concat, :text
+
+    # Emulate ERB to satisfy helpers like <tt>form_for</tt>.
+    def _erbout; self end
 
     # Captures the HTML code built inside the +block+.  This is done by creating a new
     # stream for the builder object, running the block and passing back its stream as a string.
