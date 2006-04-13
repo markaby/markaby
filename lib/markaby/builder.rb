@@ -218,7 +218,7 @@ module Markaby
 
     # Builds an html tag with XHTML 1.0 Strict doctype instead.
     def xhtml_strict(&block)
-      html XHTMLStrict, &block
+      html *XHTMLStrict, &block
     end
 
   end
