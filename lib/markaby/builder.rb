@@ -183,6 +183,8 @@ module Markaby
         r
       elsif instance_variable_get("@#{sym}")
         instance_variable_get("@#{sym}")
+      elsif @builder.respond_to?(sym)
+        @builder.send(sym, *args, &block)
       else
         tag!(sym, *args, &block)
       end
@@ -209,8 +211,8 @@ module Markaby
     # "xml:lang" => "en", :lang => "en"</tt>.
     def html(*doctype, &block)
       doctype = XHTMLTransitional if doctype.empty?
-      @builder.instruct! if @output_xml_instruction
-      @builder.declare!(:DOCTYPE, :html, :PUBLIC, *doctype)
+      instruct! if @output_xml_instruction
+      declare!(:DOCTYPE, :html, :PUBLIC, *doctype)
       tag!(:html, :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en", &block)
     end
     alias_method :xhtml_transitional, :html
