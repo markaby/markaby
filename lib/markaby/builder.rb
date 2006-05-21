@@ -58,11 +58,8 @@ module Markaby
       @indent = @@default[:indent]
       @output_helpers = @@default[:output_helpers]
       @output_meta_tag = @@default[:output_meta_tag]
-      @output_xml_instruction = @@default[:output_xml_instruction]
 
-      if helpers.nil?
-        @helpers = nil
-      else
+      if helpers
         @helpers = helpers.dup
         for iv in helpers.instance_variables
           instance_variable_set(iv, helpers.instance_variable_get(iv))
@@ -81,10 +78,7 @@ module Markaby
       @margin += 1
       @builder = ::Builder::XmlMarkup.new(:indent => @indent, :margin => @margin, :target => @stream)
 
-      if block
-        r = instance_eval &block
-        text(r) if to_s.empty?
-      end
+      instance_eval(&block) if block
     end
 
     # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
@@ -113,7 +107,7 @@ module Markaby
       old_stream = @stream.dup
       @stream.replace []
       str = instance_eval(&block).to_s
-      str = @stream.join unless @stream.empty?
+      str = to_s unless @stream.empty?
       @stream.replace old_stream
       str
     end
