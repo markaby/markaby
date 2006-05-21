@@ -161,7 +161,13 @@ module Markaby
     #   and output to the stream.
     # * Otherwise, +sym+ and its arguments are passed to tag!
     def method_missing(sym, *args, &block)
-      if TAGS.include?(sym) or (FORM_TAGS.include?(sym) and args.empty?)
+      if @helpers.respond_to?(sym)
+        r = @helpers.send(sym, *args, &block)
+        @builder << r if @output_helpers
+        r
+      elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
+        @builder.__send__(sym, *args, &block)
+      elsif TAGS.include?(sym) or (FORM_TAGS.include?(sym) and args.empty?)
         if args.empty? and block.nil?
           return CssProxy.new do |args, block|
             if FORM_TAGS.include?(sym) and args.last.respond_to?(:to_hash) and args.last[:id]
@@ -170,20 +176,11 @@ module Markaby
             tag!(sym, *args, &block)
           end
         end
-        if args.first.respond_to? :to_hash
-          block ||= proc{}
-        end
         tag!(sym, *args, &block)
       elsif SELF_CLOSING_TAGS.include?(sym)
         tag!(sym, *args)
-      elsif @helpers.respond_to?(sym, true)
-        r = @helpers.send(sym, *args, &block)
-        @builder << r if @output_helpers
-        r
-      elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
-        @builder.__send__(sym, *args, &block)
-      elsif instance_variable_get("@#{sym}")
-        instance_variable_get("@#{sym}")
+      elsif value = instance_variable_get("@#{sym}")
+        value
       else
         tag!(sym, *args, &block)
       end

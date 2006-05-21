@@ -54,6 +54,10 @@ class MarkabyTest < Test::Unit::TestCase
                            :name => 'Steve')
   end
 
+  def test_ivars_without_at_symbol
+    assert_equal "<h1>Hello World</h1>\n", mab("@message = 'Hello World'; h1 message")
+  end
+  
   def test_output_helpers
     assert_equal %{<a href="">edit</a>}, mab("link_to('edit')", {}, MarkabyTestHelpers)
     assert mab("@output_helpers = false; link_to('edit')", {}, MarkabyTestHelpers).empty?
