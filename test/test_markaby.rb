@@ -16,7 +16,11 @@ class MarkabyTest < Test::Unit::TestCase
   def mab(string, assigns = {}, helpers = nil)
     Markaby::Template.new(string.to_s).render(assigns, helpers)
   end
-  
+
+  def test_builder_bang_methods
+    assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", mab('instruct!')
+  end
+
   def test_simple
     assert_equal "<hr/>\n", mab("hr")
     assert_equal "<p>foo</p>\n", mab("p 'foo'")

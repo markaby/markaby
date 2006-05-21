@@ -180,10 +180,10 @@ module Markaby
         r = @helpers.send(sym, *args, &block)
         @builder << r if @output_helpers
         r
+      elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
+        @builder.__send__(sym, *args, &block)
       elsif instance_variable_get("@#{sym}")
         instance_variable_get("@#{sym}")
-      elsif @builder.respond_to?(sym)
-        @builder.send(sym, *args, &block)
       else
         tag!(sym, *args, &block)
       end
