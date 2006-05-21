@@ -176,7 +176,7 @@ module Markaby
         tag!(sym, *args, &block)
       elsif SELF_CLOSING_TAGS.include?(sym)
         tag!(sym, *args)
-      elsif @helpers.respond_to?(sym)
+      elsif @helpers.respond_to?(sym, true)
         r = @helpers.send(sym, *args, &block)
         @builder << r if @output_helpers
         r
