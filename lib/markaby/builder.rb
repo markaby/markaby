@@ -21,7 +21,6 @@ module Markaby
     @@default = {
       :indent => 2,
       :output_helpers => true,
-      :output_xml_instruction => true,
       :output_meta_tag => true,
       :image_tag_options => { :border => '0', :alt => '' }
     }
@@ -211,7 +210,6 @@ module Markaby
     # "xml:lang" => "en", :lang => "en"</tt>.
     def html(*doctype, &block)
       doctype = XHTMLTransitional if doctype.empty?
-      instruct! if @output_xml_instruction
       declare!(:DOCTYPE, :html, :PUBLIC, *doctype)
       tag!(:html, :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en", &block)
     end
@@ -219,6 +217,7 @@ module Markaby
 
     # Builds an html tag with XHTML 1.0 Strict doctype instead.
     def xhtml_strict(&block)
+      instruct!
       html *XHTMLStrict, &block
     end
 
