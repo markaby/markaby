@@ -188,8 +188,7 @@ module Markaby
       end
     end
 
-    undef_method :p
-    undef_method :select
+    undef_method :p, :select, :sub
 
     # Builds a image tag.  Assumes <tt>:border => '0', :alt => ''</tt>.
     def img(opts = {})
