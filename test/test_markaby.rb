@@ -12,9 +12,18 @@ module MarkabyTestHelpers
 end
 
 class MarkabyTest < Test::Unit::TestCase
-  
+
   def mab(*args, &block)
     Markaby::Builder.new(*args, &block).to_s
+  end
+
+  def assert_exception(exclass, exmsg, *mab_args, &block)
+    begin
+      mab(*mab_args, &block)
+    rescue Exception => e
+      assert_equal exclass, e.class
+      assert_equal exmsg, e.message
+    end
   end
 
   def test_simple
@@ -62,6 +71,37 @@ class MarkabyTest < Test::Unit::TestCase
 
   def test_builder_bang_methods
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n", mab { instruct! }
+  end
+
+  def test_fragments
+    assert_equal %{<div>\n<h1>Monkeys</h1>\n<h2>\nGiraffes <small>Miniature</small>\n and <strong>Large</strong>\n</h2>\n<h3>Donkeys</h3>\n<h4>\nParakeet <b>\n<i>Innocent IV</i>\n</b>\n in Classic Chartreuse</h4>\n</div>\n}, 
+        mab { div { h1 "Monkeys"; h2 { "Giraffes #{small 'Miniature' } and #{strong 'Large'}" }; h3 "Donkeys"; h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse" } } }
+    assert_equal %{<div>\n<h1>Monkeys</h1>\n<h2>\nGiraffes <strong>Miniature</strong>\n</h2>\n<h3>Donkeys</h3>\n</div>\n}, 
+        mab { div { h1 "Monkeys"; h2 { "Giraffes #{strong 'Miniature' }" }; h3 "Donkeys" } }
+    assert_equal %{<div>\n<h1>Monkeys</h1>\n<h2>\nGiraffes <small>Miniature</small>\n and <strong>Large</strong>\n</h2>\n<h3>Donkeys</h3>\n<h4>\nParakeet <strong>Large</strong>\n as well...</h4>\n</div>\n}, 
+        mab { div { @a = small 'Miniature'; @b = strong 'Large'; h1 "Monkeys"; h2 { "Giraffes #{@a} and #{@b}" }; h3 "Donkeys"; h4 { "Parakeet #{@b} as well..." } } }
+  end
+
+  def test_invalid_xhtml
+    assert_exception(NoMethodError, "no such method `dav'") { dav {} }
+    assert_exception(Markaby::InvalidXhtmlError, "no attribute `styl' on div elements") { div(:styl => 'ok') {} }
+    assert_exception(Markaby::InvalidXhtmlError, "no attribute `class' on tbody elements") { tbody.okay {} }
+  end
+
+  def test_full_doc_transitional
+    doc = %{<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"DTD/xhtml1-transitional.dtd\">
+<html xml:lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">
+<head>\n<meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\"/>\n<title>OKay</title>\n</head>\n</html>\n}
+    assert_equal doc, mab { instruct!; html { head { title 'OKay' } } }
+  end
+
+  def test_full_doc_transitional
+    doc = %{<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"DTD/xhtml1-strict.dtd\">
+<html lang=\"en\" xml:lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">
+<head>\n<meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\"/>\n<title>OKay</title>\n</head>\n</html>\n}
+    assert_equal doc, mab { xhtml_strict { head { title 'OKay' } } }
   end
 
 end

@@ -132,11 +132,11 @@ Which results in:
 
 IDs may be added by the use of bang methods:
 
-  div.page!
-    div.content!
+  div.page! {
+    div.content! {
       h1 "A Short Short Saintly Dog"
-    end
-  end
+    }
+  }
 
 Which results in:
 
@@ -155,16 +155,39 @@ try this:
     # innerds
   end
 
-== The <tt>capture</tt> Method
+== Markaby prevents invalid HTML
 
-Want to catch a block of HTML as a string and play with it a bit?
-Use the <tt>capture</tt> method.
+Since Markaby knows which doctype you're using, it checks a big
+list of valid tags and attributes before printing anything.
 
-Commonly used to join HTML blocks together:
+  >> div :styl => "padding: 10px" do
+  >>   img :src => "samorost.jpg"
+  >> end
+  InvalidHtmlError: no such attribute `styl'
+
+== Auto-stringification
+
+If you end up using any of your Markaby "tags" as a string, the
+tag won't be output.  It'll be up to you to add the new string
+back into the HTML output.
+
+This means if you call <tt>to_s</tt>, you'll get a string back.
+
+  div.title { "Rock Bottom" + span(" by Robert Wyatt").to_s }
+
+But, when you're adding strings in Ruby, <tt>to_s</tt> happens automatically.
+
+  div.title { "Rock Bottom" + span(" by Robert Wyatt") }
+
+Interpolation works fine.
+
+  div.title { "Rock Bottom #{span(" by Robert Wyatt")}" }
+
+And any other operation you might perform on a string.
 
   div.menu! \
     ['5.gets', 'bits', 'cult', 'inspect', '-h'].map do |category|
-      capture { link_to category }
+      link_to category
     end.
     join( " | " )
 

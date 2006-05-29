@@ -51,13 +51,15 @@ module Markaby
     #   }
     #
     def initialize(assigns = {}, helpers = nil, &block)
-      @stream = []
+      @streams = [[]]
       @assigns = assigns
       @margin = -1
 
       @indent = @@default[:indent]
       @output_helpers = @@default[:output_helpers]
       @output_meta_tag = @@default[:output_meta_tag]
+
+      use_tagset Markaby::XHTMLTransitionalTags
 
       if helpers
         @helpers = helpers.dup
@@ -76,14 +78,18 @@ module Markaby
       end
 
       @margin += 1
-      @builder = ::Builder::XmlMarkup.new(:indent => @indent, :margin => @margin, :target => @stream)
+      @builder = ::Builder::XmlMarkup.new(:indent => @indent, :margin => @margin, :target => @streams.last)
+
+      def @builder.target=(io)
+        @target = io
+      end
 
       instance_eval(&block) if block
     end
 
     # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
     def to_s
-      @stream.join
+      @streams.last.join
     end
 
     # Write a +string+ to the HTML stream without escaping it.
@@ -104,11 +110,11 @@ module Markaby
     #   => "<h1>TITLE</h1>\n<h2>CAPTURE ME</h2>\n"
     #
     def capture(&block)
-      old_stream = @stream.dup
-      @stream.replace []
-      str = instance_eval(&block).to_s
-      str = to_s unless @stream.empty?
-      @stream.replace old_stream
+      @streams.push(builder.target = [])
+      str = instance_eval(&block)
+      str = to_s unless @streams.last.compact.empty?
+      @streams.pop
+      builder.target = @streams.last
       str
     end
 
@@ -132,11 +138,23 @@ module Markaby
     # Create a tag named +tag+. Other than the first argument which is the tag name,
     # the arguments are the same as the tags implemented via method_missing.
     def tag!(tag, *args, &block)
+      if @tagset
+        if !@tagset.has_key?(tag)
+          raise InvalidXhtmlError, "no element `#{tag}' for #{doctype}"
+        elsif args.last.respond_to?(:to_hash)
+          attrs = args.last.to_hash
+          attrs.each do |k, v|
+            unless k =~ /:/ or @tagset[tag].include? k.to_s.downcase.intern
+              raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
+            end
+          end
+        end
+      end
       if block
         str = capture &block
         block = proc { text(str) }
       end
-      @builder.method_missing(tag, *args, &block)
+      fragment { @builder.method_missing(tag, *args, &block) }
     end
 
     # Create XML markup based on the name of the method +sym+. This method is never 
@@ -145,38 +163,43 @@ module Markaby
     # This method is also used to intercept calls to helper methods and instance
     # variables.  Here is the order of interception:
     #
+    # * If +sym+ is a helper method, the helper method is called
+    #   and output to the stream.
     # * If +sym+ is a recognized HTML tag, the tag is output
     #   or a CssProxy is returned if no arguments are given.
     # * If +sym+ appears to be a self-closing tag, its block
     #   is ignored, thus outputting a valid self-closing tag.
     # * If +sym+ is also the name of an instance variable, the
     #   value of the instance variable is returned.
-    # * If +sym+ is a helper method, the helper method is called
-    #   and output to the stream.
     # * Otherwise, +sym+ and its arguments are passed to tag!
     def method_missing(sym, *args, &block)
       if @helpers.respond_to?(sym)
         r = @helpers.send(sym, *args, &block)
-        @builder << r if @output_helpers
-        r
+        @output_helpers ? fragment { @builder << r } : r
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
         @builder.__send__(sym, *args, &block)
-      elsif TAGS.include?(sym) or (FORM_TAGS.include?(sym) and args.empty?)
-        if args.empty? and block.nil?
+      elsif @tagset and @tagset_tags.include?(sym)
+        if @tagset_self_closing.include?(sym) and block
+          raise InvalidXhtmlError, "the `#{sym}' element is self-closing, please remove the block"
+        end
+        if args.empty? and block.nil? and not NO_PROXY.include?(sym)
           return CssProxy.new do |args, block|
-            if FORM_TAGS.include?(sym) and args.last.respond_to?(:to_hash) and args.last[:id]
+            if @tagset_forms.include?(sym) and args.last.respond_to?(:to_hash) and args.last[:id]
               args.last[:name] ||= args.last[:id]
             end
             tag!(sym, *args, &block)
           end
         end
+        if not @tagset_self_closing.include?(sym) and args.first.respond_to?(:to_hash)
+          block ||= proc{}
+        end
         tag!(sym, *args, &block)
-      elsif SELF_CLOSING_TAGS.include?(sym)
-        tag!(sym, *args)
-      elsif value = instance_variable_get("@#{sym}")
-        value
+      elsif instance_variable_get("@#{sym}")
+        instance_variable_get("@#{sym}")
+      elsif @tagset.nil?
+        tag!(sym, *args, &block)
       else
-        tag!(sym, *args, &block)
+        raise NoMethodError, "no such method `#{sym}'"
       end
     end
 
@@ -196,11 +219,22 @@ module Markaby
       end
     end
 
+    def use_tagset(tagset)
+      return if @tagset == tagset
+      @tagset = tagset
+      @tagset_tags = tagset.keys
+      @tagset_forms = @tagset_tags & FORM_TAGS
+      @tagset_self_closing = @tagset_tags & SELF_CLOSING_TAGS
+    end
+
     # Builds an html tag.  An XML 1.0 instruction and an XHTML 1.0 Transitional doctype
     # are prepended.  Also assumes <tt>:xmlns => "http://www.w3.org/1999/xhtml",
-    # "xml:lang" => "en", :lang => "en"</tt>.
+    # :lang => "en"</tt>.
     def html(*doctype, &block)
-      doctype = XHTMLTransitional if doctype.empty?
+      if doctype.empty?
+        doctype = XHTMLTransitional
+        use_tagset Markaby::XHTMLTransitionalTags
+      end
       declare!(:DOCTYPE, :html, :PUBLIC, *doctype)
       tag!(:html, :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en", &block)
     end
@@ -208,9 +242,35 @@ module Markaby
 
     # Builds an html tag with XHTML 1.0 Strict doctype instead.
     def xhtml_strict(&block)
+      use_tagset Markaby::XHTMLStrictTags
       instruct!
       html *XHTMLStrict, &block
     end
 
+    private
+
+    def fragment
+      stream = @streams.last
+      f1 = stream.length
+      yield
+      f2 = stream.length - f1
+      Fragment.new(stream, f1, f2)
+    end
+
   end
+
+  class Fragment < ::Builder::BlankSlate
+    def initialize(s, a, b)
+      @s, @f1, @f2 = s, a, b
+    end
+    def method_missing(*a)
+      unless @str
+        @str = @s[@f1, @f2].to_s
+        @s[@f1, @f2] = [nil] * @f2
+        @str
+      end
+      @str.send(*a)
+    end
+  end
+
 end

@@ -20,6 +20,8 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 #   proper templating language.
 module Markaby
   VERSION = '0.4'
+
+  class InvalidXhtmlError < Exception; end
 end
 
 unless defined?(Builder)
