@@ -29,6 +29,14 @@ module Markaby
       @@default[option] = value
     end
 
+    def self.ignored_helpers
+      @@ignored_helpers ||= []
+    end
+
+    def self.ignore_helpers(*helpers)
+      ignored_helpers.concat helpers
+    end
+
     XHTMLTransitional = ["-//W3C//DTD XHTML 1.0 Transitional//EN", "DTD/xhtml1-transitional.dtd"]
     
     XHTMLStrict = ["-//W3C//DTD XHTML 1.0 Strict//EN", "DTD/xhtml1-strict.dtd"]
@@ -173,7 +181,7 @@ module Markaby
     #   value of the instance variable is returned.
     # * Otherwise, +sym+ and its arguments are passed to tag!
     def method_missing(sym, *args, &block)
-      if @helpers.respond_to?(sym)
+      if @helpers.respond_to?(sym) && !self.class.ignored_helpers.include?(sym)
         r = @helpers.send(sym, *args, &block)
         @output_helpers ? fragment { @builder << r } : r
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
@@ -190,9 +198,9 @@ module Markaby
             tag!(sym, *args, &block)
           end
         end
-        if not @tagset_self_closing.include?(sym) and args.first.respond_to?(:to_hash)
-          block ||= proc{}
-        end
+        #if not @tagset_self_closing.include?(sym) and args.first.respond_to?(:to_hash)
+        #  block ||= proc{}
+        #end
         tag!(sym, *args, &block)
       elsif instance_variable_get("@#{sym}")
         instance_variable_get("@#{sym}")

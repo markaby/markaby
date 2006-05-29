@@ -5,8 +5,8 @@ module MarkabyTestHelpers
   def link_to(obj)
     %{<a href="">#{obj}</a>}
   end
-  def pluralize(n, string)
-    n == 1 ? string : string + "s"
+  def pluralize(string)
+    string + "s"
   end
   module_function :link_to, :pluralize
 end
@@ -25,7 +25,7 @@ class MarkabyTest < Test::Unit::TestCase
       assert_equal exmsg, e.message
     end
   end
-
+  
   def test_simple
     assert_equal "<hr/>\n", mab { hr }
     assert_equal "<p>foo</p>\n", mab { p 'foo' }
@@ -64,9 +64,13 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal "<h1>Hello World</h1>\n", mab { @message = 'Hello World'; h1 message }
   end
   
-  def test_output_helpers
+  def test_helpers
+    Markaby::Builder.ignored_helpers.clear
+    assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }
     assert_equal %{<a href="">edit</a>}, mab({}, MarkabyTestHelpers) { link_to('edit') }
     assert mab({}, MarkabyTestHelpers) { @output_helpers = false; link_to('edit') }.empty?
+    Markaby::Builder.ignore_helpers :pluralize
+    assert_exception(NoMethodError, "no such method `pluralize'", {}, MarkabyTestHelpers) { pluralize('squirrel') }
   end
 
   def test_builder_bang_methods
@@ -89,19 +93,17 @@ class MarkabyTest < Test::Unit::TestCase
   end
 
   def test_full_doc_transitional
-    doc = %{<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"DTD/xhtml1-transitional.dtd\">
-<html xml:lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\">
-<head>\n<meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\"/>\n<title>OKay</title>\n</head>\n</html>\n}
-    assert_equal doc, mab { instruct!; html { head { title 'OKay' } } }
+    doc = mab { instruct!; html { head { title 'OKay' } } }    
+    assert doc =~ /^<\?xml version="1.0" encoding="UTF-8"\?>/
+    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">})
+    assert doc.include?(%{<title>OKay</title>})
   end
 
-  def test_full_doc_transitional
-    doc = %{<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"DTD/xhtml1-strict.dtd\">
-<html lang=\"en\" xml:lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">
-<head>\n<meta content=\"text/html; charset=utf-8\" http-equiv=\"Content-Type\"/>\n<title>OKay</title>\n</head>\n</html>\n}
-    assert_equal doc, mab { xhtml_strict { head { title 'OKay' } } }
+  def test_full_doc_strict
+    doc = mab { xhtml_strict { head { title 'OKay' } } }
+    assert doc =~ /^<\?xml version="1.0" encoding="UTF-8"\?>/
+    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">})
+    assert doc.include?(%{<title>OKay</title>})
   end
 
 end
