@@ -108,9 +108,6 @@ module Markaby
     alias_method :<<, :text
     alias_method :concat, :text
 
-    # Emulate ERB to satisfy helpers like <tt>form_for</tt>.
-    def _erbout; self end
-
     # Captures the HTML code built inside the +block+.  This is done by creating a new
     # stream for the builder object, running the block and passing back its stream as a string.
     #
@@ -124,23 +121,6 @@ module Markaby
       @streams.pop
       builder.target = @streams.last
       str
-    end
-
-    # Content_for will store the given block in an instance variable for later use 
-    # in another template or in the layout.
-    #
-    # The name of the instance variable is content_for_<name> to stay consistent 
-    # with @content_for_layout which is used by ActionView's layouts.
-    #
-    # Example:
-    #
-    #   content_for("header") do
-    #     h1 "Half Shark and Half Lion"
-    #   end
-    #
-    # If used several times, the variable will contain all the parts concatenated.
-    def content_for(name, &block)
-      eval "@content_for_#{name} = (@content_for_#{name} || '') + capture(&block)"
     end
 
     # Create a tag named +tag+. Other than the first argument which is the tag name,
