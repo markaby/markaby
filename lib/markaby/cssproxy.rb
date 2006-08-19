@@ -12,12 +12,22 @@ module Markaby
       @blk = blk
     end
   
+    # Adds attributes to an element, for internal use only.  For example, if you
+    # want to write a wrapper which sets a bunch of default attributes for a certain
+    # tag.  Like the default `img' method included with Markaby automatically sets an
+    # empty alt attribute.
+    def merge!(opts)
+      @opts.merge! opts
+      self
+    end
+
     # Adds attributes to an element.  Bang methods set the :id attribute.
     # Other methods add to the :class attribute.  If a block is supplied,
     # it is executed with a merged hash (@opts + args).
     def method_missing(id_or_class, *args, &blk)
       idc = id_or_class.to_s
       case idc
+      when "pass"
       when /!$/
         @opts[:id] = $`
       else 
@@ -33,5 +43,11 @@ module Markaby
         @blk.call(args, blk)
       end
     end
+
+    def to_str
+      @blk.call([[@opts]]).to_s
+    end
+    alias_method :to_s, :to_str
+
   end
 end
