@@ -38,7 +38,8 @@ module Markaby
     #
     # If used several times, the variable will contain all the parts concatenated.
     def content_for(name, &block)
-      eval "@content_for_#{name} = (@content_for_#{name} || '') + capture(&block)"
+      @helpers.assigns["content_for_#{name}"] =
+        eval("@content_for_#{name} = (@content_for_#{name} || '') + capture(&block)")
     end
   end
 
