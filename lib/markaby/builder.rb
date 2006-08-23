@@ -26,7 +26,6 @@ module Markaby
       :output_xml_instruction => true,
       :output_meta_tag => true,
       :auto_validation => true,
-      :image_tag_options => { :border => '0', :alt => '' },
       :tagset => Markaby::XHTMLTransitional
     }
 
