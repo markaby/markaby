@@ -97,4 +97,10 @@ def setup_gem(pkg_name, pkg_version, author, summary, dependencies, test_file)
         p.gem_spec = spec
         p.need_tar = true
     end
+
+    task :install do
+        sh %{rake package}
+        sh %{gem install pkg/#{pkg_name}-#{pkg_version}}
+    end
+
 end
