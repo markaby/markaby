@@ -186,7 +186,7 @@ module Markaby
         end
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s) 
         @builder.__send__(sym, *args, &block)
-      elsif instance_variable_get("@#{sym}")
+      elsif instance_variables.include?("@#{sym}")
         instance_variable_get("@#{sym}")
       elsif @tagset.nil?
         tag!(sym, *args, &block)
