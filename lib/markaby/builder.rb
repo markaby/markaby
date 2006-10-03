@@ -161,25 +161,23 @@ module Markaby
       f
     end
 
-    # Create XML markup based on the name of the method +sym+. This method is never 
-    # invoked directly, but is called for each markup method in the markup block.
-    #
-    # This method is also used to intercept calls to helper methods and instance
+    # This method is used to intercept calls to helper methods and instance
     # variables.  Here is the order of interception:
     #
-    # * If +sym+ is a recognized HTML tag, the tag is output
-    #   or a CssProxy is returned if no arguments are given.
-    # * If +sym+ appears to be a self-closing tag, its block
-    #   is ignored, thus outputting a valid self-closing tag.
-    # * If +sym+ is also the name of an instance variable, the
-    #   value of the instance variable is returned.
     # * If +sym+ is a helper method, the helper method is called
     #   and output to the stream.
-    # * Otherwise, +sym+ and its arguments are passed to tag!
+    # * If +sym+ is a Builder::XmlMarkup method, it is passed on to the builder object.
+    # * If +sym+ is also the name of an instance variable, the
+    #   value of the instance variable is returned.
+    # * If +sym+ has come this far and no +tagset+ is found, +sym+ and its arguments are passed to tag!
+    # * If a tagset is found, though, +NoMethodError+ is raised.
+    #
+    # method_missing used to be the lynchpin in Markaby, but it's no longer used to handle
+    # HTML tags.  See html_tag for that.
     def method_missing(sym, *args, &block)
       if @helpers.respond_to?(sym, true) && !self.class.ignored_helpers.include?(sym)
         r = @helpers.send(sym, *args, &block)
-        if @output_helpers
+        if @output_helpers and r.respond_to? :to_str
           fragment { @builder << r }
         else
           r
@@ -195,6 +193,12 @@ module Markaby
       end
     end
 
+    # Every HTML tag method goes through an html_tag call.  So, calling <tt>div</tt> is equivalent
+    # to calling <tt>html_tag(:div)</tt>.  All HTML tags in Markaby's list are given generated wrappers
+    # for this method.
+    #
+    # If the @auto_validation setting is on, this method will check for many common mistakes which
+    # could lead to invalid XHTML.
     def html_tag(sym, *args, &block)
       if @auto_validation and @tagset.self_closing.include?(sym) and block
         raise InvalidXhtmlError, "the `\#{sym}' element is self-closing, please remove the block"
@@ -262,6 +266,11 @@ module Markaby
 
   end
 
+  # Every tag method in Markaby returns a Fragment.  If any method gets called on the Fragment,
+  # the tag is removed from the Markaby stream and given back as a string.  Usually the fragment
+  # is never used, though, and the stream stays intact.
+  #
+  # For a more practical explanation, check out the README.
   class Fragment < ::Builder::BlankSlate
     def initialize(s, a, b)
       @s, @f1, @f2 = s, a, b 

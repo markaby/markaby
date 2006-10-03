@@ -73,44 +73,13 @@ This doesn't effect Rails users, but when used in regular Ruby code, it can
 be a bit disorienting.  You are recommended to put your Markaby code in a
 module where it won't mix with anything.
 
-= A Note About Rails Helpers
-
-When used in Rails templates, the Rails helper object is passed into 
-Markaby::Builder.  When you call helper methods inside Markaby, the output
-from those methods will be output to the stream.  This is incredibly
-handy, since most Rails helpers output HTML tags.
-
-  head do
-    javascript_include_tag 'prototype'
-    autodiscovery_link_tag
-  end
-
-However, some methods are designed to give back a String which you can use
-elsewhere.  Call the <tt>@helpers</tt> object with the method and you'll get
-the String back and nothing will be output.
-
-  p "Total is: #{@helper.number_to_human_size @file_bytes}"
-
-Conversely, you may call instance variables from your controller by using
-a method and its value will be returned, nothing will be output.
-
-  # Inside imaginary ProductController
-  def list
-    @products = Product.find :all
-  end
-
-  # Inside app/views/product/list.mab
-  products.each do |product|
-    p product.title
-  end
-
-= A Quick Tour
+= The Six Steps of Markaby
 
 If you dive right into Markaby, it'll probably make good sense, but you're
-likely to run into a few kinks.  Keep these pointers in mind and everything
-will be fine.
+likely to run into a few kinks.  Why not review these six steps and commit
+them memory so you can really *know* what you're doing?
 
-== Element Classes
+== 1. Element Classes
 
 Element classes may be added by hooking methods onto container elements:
 
@@ -128,7 +97,7 @@ Which results in:
     <div class="entryContent">Okay, once again, the idea here is ...</div>
   </div>
 
-== Element IDs
+== 2. Element IDs
 
 IDs may be added by the use of bang methods:
 
@@ -146,18 +115,22 @@ Which results in:
     </div>
   </div>
 
-== Markaby assumes XHTML 1.0 Transitional 
+== 3. Validate Your XHTML 1.0 Output 
 
-Output defaults to XHTML 1.0 Transitional. To do XHTML 1.0 Strict,
-try this:
+If you'd like Markaby to help you assemble valid XHTML documents,
+you can use the <tt>xhtml_transitional</tt> or <tt>xhtml_strict</tt>
+methods in place of the normal <tt>html</tt> tag.
 
   xhtml_strict do
-    # innerds
+    head { ... }
+    body { ... }
   end
 
-== Markaby prevents invalid HTML
+This will add the XML instruction and the doctype tag to your document.
+Also, a character set meta tag will be placed inside your <tt>head</tt>
+tag.
 
-Since Markaby knows which doctype you're using, it checks a big
+Now, since Markaby knows which doctype you're using, it checks a big
 list of valid tags and attributes before printing anything.
 
   >> div :styl => "padding: 10px" do
@@ -165,7 +138,38 @@ list of valid tags and attributes before printing anything.
   >> end
   InvalidHtmlError: no such attribute `styl'
 
-== Auto-stringification
+Markaby will also make sure you don't use the same element ID twice!
+
+== 4. Escape or No Escape?
+
+Markaby uses a simple convention for escaping stuff: if a string
+is an argument, it gets escaped.  If the string is in a block, it
+doesn't.
+
+This is handy if you're using something like RedCloth or
+RDoc inside an element.  Pass the string back through the block
+and it'll skip out of escaping.
+
+  div.comment { RedCloth.new(str).to_html }
+
+But, if we have some raw text that needs escaping, pass it in
+as an argument:
+
+  div.comment raw_str
+
+One caveat: if you have other tags inside a block, the string
+passed back will be ignored.
+
+  div.comment {
+    div.author "_why"
+    div.says "Torpedoooooes!"
+    "<div>Silence.</div>"
+  }
+
+The final div above won't appear in the output.  You can't mix
+tag modes like that, friend.
+
+== 5. Auto-stringification
 
 If you end up using any of your Markaby "tags" as a string, the
 tag won't be output.  It'll be up to you to add the new string
@@ -191,7 +195,7 @@ And any other operation you might perform on a string.
     end.
     join( " | " )
 
-== The <tt>tag!</tt> Method
+== 6. The <tt>tag!</tt> Method
 
 If you need to force a tag at any time, call <tt>tag!</tt> with the
 tag name followed by the possible arguments and block.  The CssProxy
@@ -201,6 +205,45 @@ won't work with this technique.
     countries.each do |country|
       tag! :option, country
     end
+  end
+
+= A Note About Rails Helpers
+
+When used in Rails templates, the Rails helper object is passed into 
+Markaby::Builder.  When you call helper methods inside Markaby, the output
+from those methods will be output to the stream.  This is incredibly
+handy, since most Rails helpers output HTML tags.
+
+  head do
+    javascript_include_tag 'prototype'
+    autodiscovery_link_tag
+  end
+
+However, some methods are designed to give back a String which you can use
+elsewhere.  That's okay!  Every method returns a Fragment object, which can
+be used as a string.
+
+  p { "Total is: #{number_to_human_size @file_bytes}" }
+
+Also see the Quick Tour above, specifically the stuff about auto-stringification.
+
+If for any reason you have trouble with fragments, you can just
+call the <tt>@helpers</tt> object with the method and you'll get
+the String back and nothing will be output.
+
+  p { "Total is: #{@helper.number_to_human_size @file_bytes}" }
+
+Conversely, you may call instance variables from your controller by using
+a method and its value will be returned, nothing will be output.
+
+  # Inside imaginary ProductController
+  def list
+    @products = Product.find :all
+  end
+
+  # Inside app/views/product/list.mab
+  products.each do |product|
+    p product.title
   end
 
 = Credits

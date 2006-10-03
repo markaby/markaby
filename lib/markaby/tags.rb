@@ -6,7 +6,7 @@ module Markaby
 
   # Common sets of attributes.
   AttrCore = [:id, :class, :style, :title]
-  AttrI18n = [:lang, :'xml:lang', :dir]
+  AttrI18n = [:lang, 'xml:lang'.intern, :dir]
   AttrEvents = [:onclick, :ondblclick, :onmousedown, :onmouseup, :onmouseover, :onmousemove, 
       :onmouseout, :onkeypress, :onkeydown, :onkeyup]
   AttrFocus = [:accesskey, :tabindex, :onfocus, :onblur]
@@ -25,10 +25,10 @@ module Markaby
       :head => AttrI18n + [:id, :profile],
       :title => AttrI18n + [:id],
       :base => [:href, :id],
-      :meta => AttrI18n + [:id, :http, :name, :content, :scheme, :'http-equiv'],
+      :meta => AttrI18n + [:id, :http, :name, :content, :scheme, 'http-equiv'.intern],
       :link => Attrs + [:charset, :href, :hreflang, :type, :rel, :rev, :media],
-      :style => AttrI18n + [:id, :type, :media, :title, :'xml:space'],
-      :script => [:id, :charset, :type, :src, :defer, :'xml:space'],
+      :style => AttrI18n + [:id, :type, :media, :title, 'xml:space'.intern],
+      :script => [:id, :charset, :type, :src, :defer, 'xml:space'.intern],
       :noscript => Attrs,
       :body => Attrs + [:onload, :onunload],
       :div => Attrs,
@@ -41,13 +41,13 @@ module Markaby
       :dd => Attrs,
       :address => Attrs,
       :hr => Attrs,
-      :pre => Attrs + [:'xml:space'],
+      :pre => Attrs + ['xml:space'.intern],
       :blockquote => Attrs + [:cite],
       :ins => Attrs + [:cite, :datetime],
       :del => Attrs + [:cite, :datetime],
       :a => Attrs + AttrFocus + [:charset, :type, :name, :href, :hreflang, :rel, :rev, :shape, :coords],
       :span => Attrs,
-      :bdo => AttrCore + AttrEvents + [:lang, :'xml:lang', :dir],
+      :bdo => AttrCore + AttrEvents + [:lang, 'xml:lang'.intern, :dir],
       :br => AttrCore,
       :em => Attrs,
       :strong => Attrs,

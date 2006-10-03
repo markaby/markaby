@@ -8,7 +8,7 @@ require 'fileutils'
 include FileUtils
 
 REV = File.read(".svn/entries")[/committed-rev="(\d+)"/, 1] rescue nil
-VERS = ENV['VERSION'] || "0.4" + (REV ? ".#{REV}" : "")
+VERS = ENV['VERSION'] || "0.5" + (REV ? ".#{REV}" : "")
 
 task :default => [:package]
 
