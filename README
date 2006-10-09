@@ -69,7 +69,7 @@ that inside these blocks, <tt>self</tt> will be your Markaby::Builder object.
 When you use instance variables in these blocks, they will be instance variables
 of the Markaby::Builder object.
 
-This doesn't effect Rails users, but when used in regular Ruby code, it can
+This doesn't affect Rails users, but when used in regular Ruby code, it can
 be a bit disorienting.  You are recommended to put your Markaby code in a
 module where it won't mix with anything.
 
@@ -231,7 +231,7 @@ If for any reason you have trouble with fragments, you can just
 call the <tt>@helpers</tt> object with the method and you'll get
 the String back and nothing will be output.
 
-  p { "Total is: #{@helper.number_to_human_size @file_bytes}" }
+  p { "Total is: #{@helpers.number_to_human_size @file_bytes}" }
 
 Conversely, you may call instance variables from your controller by using
 a method and its value will be returned, nothing will be output.
