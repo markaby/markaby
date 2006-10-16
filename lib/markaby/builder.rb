@@ -87,12 +87,10 @@ module Markaby
 
       @builder = ::Builder::XmlMarkup.new(:indent => @indent, :target => @streams.last)
       class << @builder
-          attr_accessor :target, :level
+        attr_accessor :target, :level
       end
 
-      if block
-        text(capture(&block))
-      end
+      text(capture(&block)) if block
     end
 
     # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
@@ -152,7 +150,7 @@ module Markaby
           end
       end
       if block
-        str = capture &block
+        str = capture(&block)
         block = proc { text(str) }
       end
 
@@ -211,9 +209,6 @@ module Markaby
           tag!(sym, *args, &block)
         end
       end
-      if not @tagset.self_closing.include?(sym) and args.first.respond_to?(:to_hash)
-        block ||= proc{}
-      end
       tag!(sym, *args, &block)
     end
 
@@ -225,6 +220,8 @@ module Markaby
       }
     end
 
+    remove_method :head
+    
     # Builds a head tag.  Adds a <tt>meta</tt> tag inside with Content-Type
     # set to <tt>text/html; charset=utf-8</tt>.
     def head(*args, &block)
@@ -239,13 +236,13 @@ module Markaby
     # :lang => "en"</tt>.
     def xhtml_transitional(&block)
       self.tagset = Markaby::XHTMLTransitional
-      xhtml_html &block
+      xhtml_html(&block)
     end
 
     # Builds an html tag with XHTML 1.0 Strict doctype instead.
     def xhtml_strict(&block)
       self.tagset = Markaby::XHTMLStrict
-      xhtml_html &block
+      xhtml_html(&block)
     end
 
     private
@@ -258,10 +255,10 @@ module Markaby
 
     def fragment
       stream = @streams.last
-      f1 = stream.length
+      start = stream.length
       yield
-      f2 = stream.length - f1
-      Fragment.new(stream, f1, f2)
+      length = stream.length - start
+      Fragment.new(stream, start, length)
     end
 
   end
@@ -272,16 +269,18 @@ module Markaby
   #
   # For a more practical explanation, check out the README.
   class Fragment < ::Builder::BlankSlate
-    def initialize(s, a, b)
-      @s, @f1, @f2 = s, a, b 
+    def initialize(*args)
+      @stream, @start, @length = args
     end
-    def method_missing(*a)
-      unless @str
-        @str = @s[@f1, @f2].to_s  
-        @s[@f1, @f2] = [nil] * @f2
-        @str
+    def method_missing(*args)
+      # We can't do @stream.slice!(@start, @length),
+      # as it would invalidate the @starts and @lengths of other Fragment instances.
+      @str = @stream[@start, @length].to_s
+      @stream[@start, @length] = [nil] * @length
+      def self.method_missing(*args, &block)
+        @str.send(*args, &block)
       end
-      @str.send(*a)
+      @str.send(*args, &block)
     end
   end
 
