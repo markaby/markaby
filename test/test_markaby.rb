@@ -1,5 +1,9 @@
 require 'test/unit'
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'markaby'))
+
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+require 'markaby'
+require 'markaby/kernel_method'
 
 module MarkabyTestHelpers
   def link_to(obj)
@@ -12,10 +16,6 @@ module MarkabyTestHelpers
 end
 
 class MarkabyTest < Test::Unit::TestCase
-
-  def mab(*args, &block)
-    Markaby::Builder.new(*args, &block).to_s
-  end
 
   def assert_exception(exclass, exmsg, *mab_args, &block)
     begin

@@ -27,3 +27,8 @@ task :warnings do
     puts line
   end
 end
+
+desc "Start a Markaby-aware IRB session"
+task :irb do
+  sh 'irb -I lib -r markaby -r markaby/kernel_method'
+end
