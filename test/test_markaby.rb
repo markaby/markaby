@@ -57,13 +57,9 @@ class MarkabyTest < Test::Unit::TestCase
     html = "<div><h1>Steve</h1><div><h2>Gerald</h2></div><h3>Gerald</h3></div>"
     assert_equal html, mab { div { @name = 'Steve'; h1 @name; div { @name = 'Gerald'; h2 @name }; h3 @name } }
     assert_equal html, mab { div { @name = 'Steve'; h1 @name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name } }
-    assert_equal html, mab(:name => 'Steve') { div { h1 @name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name } }
+    assert_equal html, mab(:name => 'Steve') { div { h1 name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name } }
   end
 
-  def test_ivars_without_at_symbol
-    assert_equal "<h1>Hello World</h1>", mab { @message = 'Hello World'; h1 message }
-  end
-  
   def test_helpers
     Markaby::Builder.ignored_helpers.clear
     assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }

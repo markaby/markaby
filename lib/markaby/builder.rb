@@ -61,33 +61,16 @@ module Markaby
     def initialize(assigns = {}, helpers = nil, &block)
       @streams = [[]]
       @assigns = assigns
+      @helpers = helpers
       @elements = {}
-
-      @@default.each do |k, v|
-        instance_variable_set("@#{k}", @assigns[k] || v)
-      end
-
-      if helpers.nil?
-        @helpers = nil
-      else
-        @helpers = helpers.dup
-        for iv in helpers.instance_variables
-          instance_variable_set(iv, helpers.instance_variable_get(iv))
-        end
-      end
-
-      unless assigns.nil? || assigns.empty?
-        for iv, val in assigns
-          instance_variable_set("@#{iv}", val)
-          unless @helpers.nil?
-            @helpers.instance_variable_set("@#{iv}", val)
-          end
-        end
-      end
 
       @builder = ::Builder::XmlMarkup.new(:indent => @indent, :target => @streams.last)
       class << @builder
         attr_accessor :target, :level
+      end
+
+      @@default.each do |k, v|
+        instance_variable_set("@#{k}", @assigns[k] || v)
       end
 
       text(capture(&block)) if block
@@ -113,13 +96,13 @@ module Markaby
     #   => "<h1>TITLE</h1>\n<h2>CAPTURE ME</h2>\n"
     #
     def capture(&block)
-      @streams.push(builder.target = [])
+      @streams.push(@builder.target = [])
       @builder.level += 1
       str = instance_eval(&block)
       str = @streams.last.join if @streams.last.any?
       @streams.pop
       @builder.level -= 1
-      builder.target = @streams.last
+      @builder.target = @streams.last
       str
     end
 
@@ -177,10 +160,12 @@ module Markaby
         else
           r
         end
+      elsif @assigns.has_key?(sym)
+        @assigns[sym]
+      elsif @helpers.instance_variables.include?("@#{sym}")
+        @helpers.instance_variable_get("@#{sym}")
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s) 
         @builder.__send__(sym, *args, &block)
-      elsif instance_variables.include?("@#{sym}")
-        instance_variable_get("@#{sym}")
       elsif @tagset.nil?
         tag!(sym, *args, &block)
       else
