@@ -7,7 +7,7 @@ module Markaby
     #
     # Use this method in your controllers to output Markaby directly from inside.
     def render_markaby(options = {}, &block)
-      render options.merge({ :text => Builder.new({}, self, &block).to_s })
+      render options.merge({ :text => Builder.new(options[:locals], self, &block).to_s })
     end
   end
 
