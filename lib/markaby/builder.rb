@@ -64,13 +64,13 @@ module Markaby
       @helpers = helpers
       @elements = {}
 
+      @@default.each do |k, v|
+        instance_variable_set("@#{k}", @assigns[k] || v)
+      end
+
       @builder = ::Builder::XmlMarkup.new(:indent => @indent, :target => @streams.last)
       class << @builder
         attr_accessor :target, :level
-      end
-
-      @@default.each do |k, v|
-        instance_variable_set("@#{k}", @assigns[k] || v)
       end
 
       text(capture(&block)) if block
