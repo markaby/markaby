@@ -8,6 +8,10 @@ class MarkabyController < ActionController::Base
 
   def rescue_action(e) raise e end;
 
+  def index
+    @monkey_names = @@locals[:monkeys].map(&:name)
+  end
+
   def partial_rendering
     render :partial => 'monkeys', :locals => @@locals
   end
@@ -31,6 +35,14 @@ class MarkabyOnRailsTest < Test::Unit::TestCase
     @response = ActionController::TestResponse.new
     @controller = MarkabyController.new
     @controller.template_root = File.join(File.dirname(__FILE__), 'rails')
+    @expected_monkey_names = '<ul><li>Frank</li><li>Benny</li><li>Paul</li></ul>'
+  end
+  
+  def test_index
+    process :index
+    assert_response :success
+    assert_template 'markaby/index'
+    assert_equal @expected_monkey_names, @response.body
   end
   
   def test_partial_rendering
@@ -50,17 +62,15 @@ class MarkabyOnRailsTest < Test::Unit::TestCase
   end
 
   def test_inline_helper_rendering
-    Markaby::Builder.set :indent, 0
     process :inline_helper_rendering
     assert_response :success
-    assert_equal '<ul><li>Frank</li><li>Benny</li><li>Paul</li></ul>', @response.body
+    assert_equal @expected_monkey_names, @response.body
   end  
 
   def test_basic_inline_rendering
-    Markaby::Builder.set :indent, 0
     process :basic_inline_rendering
     assert_response :success
-    assert_equal '<ul><li>Frank</li><li>Benny</li><li>Paul</li></ul>', @response.body
+    assert_equal @expected_monkey_names, @response.body
   end  
 
 end

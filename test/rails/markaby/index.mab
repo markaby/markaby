@@ -1,0 +1,5 @@
+ul {
+  monkey_names.each { |name|
+    li name
+  }
+}

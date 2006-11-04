@@ -68,10 +68,7 @@ module Markaby
         instance_variable_set("@#{k}", @assigns[k] || v)
       end
 
-      @builder = ::Builder::XmlMarkup.new(:indent => @indent, :target => @streams.last)
-      class << @builder
-        attr_accessor :target, :level
-      end
+      @builder = XmlMarkup.new(:indent => @indent, :target => @streams.last)
 
       text(capture(&block)) if block
     end
@@ -83,7 +80,7 @@ module Markaby
 
     # Write a +string+ to the HTML stream without escaping it.
     def text(string)
-      @builder << "#{string}"
+      @builder << string.to_s
       nil
     end
     alias_method :<<, :text
@@ -162,6 +159,10 @@ module Markaby
         end
       elsif @assigns.has_key?(sym)
         @assigns[sym]
+      elsif @assigns.has_key?(stringy_key = sym.to_s)
+        # Rails' ActionView assigns hash has string keys for
+        # instance variables that are defined in the controller.
+        @assigns[stringy_key]
       elsif @helpers.instance_variables.include?("@#{sym}")
         @helpers.instance_variable_get("@#{sym}")
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s) 
@@ -266,4 +267,8 @@ module Markaby
     end
   end
 
+  class XmlMarkup < ::Builder::XmlMarkup
+    attr_accessor :target, :level
+  end
+  
 end
