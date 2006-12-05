@@ -13,6 +13,7 @@ class MarkabyController < ActionController::Base
   end
   
   def create
+    flash[:message] = 'Hello World'
   end
 
   def partial_rendering
@@ -76,9 +77,10 @@ class MarkabyOnRailsTest < Test::Unit::TestCase
     assert_equal @expected_monkey_names, @response.body
   end  
 
-  def test_rendering_that_uses_form_tag
+  def test_flash_and_form_tag
     process :create
     assert_response :success
     assert_select 'form div input[type=submit]', 1
+    assert_select 'p', 'Hello World'
   end
 end

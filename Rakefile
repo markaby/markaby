@@ -32,3 +32,11 @@ desc "Start a Markaby-aware IRB session"
 task :irb do
   sh 'irb -I lib -r markaby -r markaby/kernel_method'
 end
+
+namespace :test do
+  desc ''
+  task :rails do
+    Dir.chdir '../../../'
+    sh 'rake test:plugins PLUGIN=markaby'
+  end
+end

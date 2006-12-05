@@ -33,6 +33,10 @@ module Markaby
   end
   
   class Builder
+    def flash(*args)
+      @helpers.controller.send(:flash, *args)
+    end
+    
     # Emulate ERB to satisfy helpers like <tt>form_for</tt>.
     def _erbout
       @_erbout ||= FauxErbout.new(self)
