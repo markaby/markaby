@@ -184,7 +184,7 @@ module Markaby
       if @auto_validation and @tagset.self_closing.include?(sym) and block
         raise InvalidXhtmlError, "the `\#{sym}' element is self-closing, please remove the block"
       end
-      if args.empty? and block.nil? and not NO_PROXY.include?(sym)
+      if args.empty? and block.nil?
         return CssProxy.new do |args, block|
           if @tagset.forms.include?(sym) and args.last.respond_to?(:to_hash) and args.last[:id]
             args.last[:name] ||= args.last[:id]

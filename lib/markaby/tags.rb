@@ -2,7 +2,6 @@ module Markaby
 
   FORM_TAGS = [ :form, :input, :select, :textarea ]
   SELF_CLOSING_TAGS = [ :base, :meta, :link, :hr, :br, :param, :img, :area, :input, :col ]
-  NO_PROXY = [ :hr, :br ]
 
   # Common sets of attributes.
   AttrCore = [:id, :class, :style, :title]

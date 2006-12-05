@@ -36,6 +36,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal %{<div class="one"></div>}, mab { div.one '' }
     assert_equal %{<div class="one two"></div>}, mab { div.one.two '' }
     assert_equal %{<div id="three"></div>}, mab { div.three! '' }
+    assert_equal %{<hr class="hidden"/>}, mab { hr.hidden }
   end
   
   def test_escaping
