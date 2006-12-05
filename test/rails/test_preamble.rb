@@ -7,8 +7,10 @@ require File.join(MARKABY_ROOT,
     '..', # vendor/
     '..', # RAILS_ROOT
     'config',
-    'environment'
+    'boot'
   )
+
+Rails::Initializer.run
 
 require 'action_controller/test_process'
 
