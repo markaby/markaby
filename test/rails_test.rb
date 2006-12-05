@@ -11,6 +11,9 @@ class MarkabyController < ActionController::Base
   def index
     @monkey_names = @@locals[:monkeys].map(&:name)
   end
+  
+  def create
+  end
 
   def partial_rendering
     render :partial => 'monkeys', :locals => @@locals
@@ -73,4 +76,9 @@ class MarkabyOnRailsTest < Test::Unit::TestCase
     assert_equal @expected_monkey_names, @response.body
   end  
 
+  def test_rendering_that_uses_form_tag
+    process :create
+    assert_response :success
+    assert_select 'form div input[type=submit]', 1
+  end
 end

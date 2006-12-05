@@ -20,9 +20,23 @@ module Markaby
     end
   end
 
+  class FauxErbout < ::Builder::BlankSlate
+    def initialize(builder)
+      @builder = builder
+    end
+    def nil? # see ActionView::Helpers::CaptureHelper#capture
+      true
+    end
+    def method_missing(*args, &block)
+      @builder.send *args, &block
+    end
+  end
+  
   class Builder
     # Emulate ERB to satisfy helpers like <tt>form_for</tt>.
-    def _erbout; self end
+    def _erbout
+      @_erbout ||= FauxErbout.new(self)
+    end
 
     # Content_for will store the given block in an instance variable for later use 
     # in another template or in the layout.

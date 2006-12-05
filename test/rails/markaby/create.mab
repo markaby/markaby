@@ -1,0 +1,5 @@
+form_tag '/monkeys' do
+  div {
+    submit_tag 'Save'
+  }
+end
