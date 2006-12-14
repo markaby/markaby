@@ -1,3 +1,16 @@
+module ActionView # :nodoc:
+  class Base # :nodoc:
+    def render_template(template_extension, template, file_path = nil, local_assigns = {})
+      if handler = @@template_handlers[template_extension]
+        template ||= read_template_file(file_path, template_extension)
+        handler.new(self).render(template, local_assigns, file_path)
+      else
+        compile_and_render_template(template_extension, template, file_path, local_assigns)
+      end
+    end
+  end
+end
+
 module Markaby
 
   # Markaby helpers for Rails.
@@ -11,16 +24,18 @@ module Markaby
     end
   end
 
-  class ActionViewTemplateHandler
+  class ActionViewTemplateHandler # :nodoc:
     def initialize(action_view)
       @action_view = action_view
     end
-    def render(template, local_assigns = {})
-      Template.new(template).render(@action_view.assigns.merge(local_assigns), @action_view)
+    def render(template, local_assigns, file_path)
+      template = Template.new(template)
+      template.path = file_path
+      template.render(@action_view.assigns.merge(local_assigns), @action_view)
     end
   end
 
-  class FauxErbout < ::Builder::BlankSlate
+  class FauxErbout < ::Builder::BlankSlate # :nodoc:
     def initialize(builder)
       @builder = builder
     end
@@ -32,7 +47,7 @@ module Markaby
     end
   end
   
-  class Builder
+  class Builder # :nodoc:
     def flash(*args)
       @helpers.controller.send(:flash, *args)
     end

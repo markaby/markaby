@@ -1,6 +1,3 @@
-#
-# run `rake test:plugins PLUGIN=markaby` from your RAILS_ROOT
-#
 require File.join(File.dirname(__FILE__), 'rails', 'test_preamble')
 
 class MarkabyController < ActionController::Base
@@ -16,6 +13,9 @@ class MarkabyController < ActionController::Base
     flash[:message] = 'Hello World'
   end
 
+  def broken
+  end
+  
   def partial_rendering
     render :partial => 'monkeys', :locals => @@locals
   end
@@ -82,5 +82,13 @@ class MarkabyOnRailsTest < Test::Unit::TestCase
     assert_response :success
     assert_select 'form div input[type=submit]', 1
     assert_select 'p', 'Hello World'
+  end
+  
+  def test_template_error_has_correct_line_number
+    begin
+      process :broken
+    rescue ActionView::TemplateError => error
+      assert_equal 5, error.line_number.to_i
+    end
   end
 end

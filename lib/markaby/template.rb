@@ -1,12 +1,23 @@
 module Markaby
   class Template
-    def initialize(template)
-      @template = template      
+
+    attr_accessor :source, :path
+    
+    def initialize(source)
+      @source = source.to_s
     end
+
     def render(*args)
       output = Builder.new(*args)
-      output.instance_eval @template
+
+      if path.nil?
+        output.instance_eval source
+      else
+        output.instance_eval source, path
+      end
+      
       return output.to_s
     end
+
   end
 end
