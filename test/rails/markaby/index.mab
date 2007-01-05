@@ -1,5 +1,5 @@
 ul {
-  monkey_names.each { |name|
-    li name
+  @monkeys.each { |monkey|
+    li monkey.name
   }
 }

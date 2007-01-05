@@ -60,12 +60,16 @@ module Markaby
     #
     def initialize(assigns = {}, helpers = nil, &block)
       @streams = [[]]
-      @assigns = assigns
+      @assigns = assigns.dup
       @helpers = helpers
       @elements = {}
 
       @@default.each do |k, v|
-        instance_variable_set("@#{k}", @assigns[k] || v)
+        instance_variable_set("@#{k}", @assigns.delete(k) || v)
+      end
+      
+      @assigns.each do |k, v|
+        instance_variable_set("@#{k}", v)
       end
 
       @builder = XmlMarkup.new(:indent => @indent, :target => @streams.last)
@@ -163,8 +167,10 @@ module Markaby
         # Rails' ActionView assigns hash has string keys for
         # instance variables that are defined in the controller.
         @assigns[stringy_key]
-      elsif @helpers.instance_variables.include?("@#{sym}")
-        @helpers.instance_variable_get("@#{sym}")
+      elsif instance_variables.include?(ivar = "@#{sym}")
+        instance_variable_get(ivar)
+      elsif !@helpers.nil? && @helpers.instance_variables.include?(ivar)
+        @helpers.instance_variable_get(ivar)
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s) 
         @builder.__send__(sym, *args, &block)
       elsif @tagset.nil?

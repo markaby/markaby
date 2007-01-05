@@ -6,7 +6,7 @@ class MarkabyController < ActionController::Base
   def rescue_action(e) raise e end;
 
   def index
-    @monkey_names = @@locals[:monkeys].map(&:name)
+    @monkeys = Monkey.find(:all)
   end
   
   def create
@@ -29,7 +29,7 @@ class MarkabyController < ActionController::Base
   end
   
   def basic_inline_rendering
-    render :inline => mab { ul { @@locals[:monkeys].each { |m| li m.name } } }
+    render :inline => mab { ul { Monkey.find(:all).each { |m| li m.name } } }
   end
 end
 
