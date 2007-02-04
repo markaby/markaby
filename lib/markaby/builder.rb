@@ -188,7 +188,7 @@ module Markaby
     # could lead to invalid XHTML.
     def html_tag(sym, *args, &block)
       if @auto_validation and @tagset.self_closing.include?(sym) and block
-        raise InvalidXhtmlError, "the `\#{sym}' element is self-closing, please remove the block"
+        raise InvalidXhtmlError, "the `#{sym}' element is self-closing, please remove the block"
       end
       if args.empty? and block.nil?
         return CssProxy.new do |args, block|
