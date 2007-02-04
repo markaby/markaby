@@ -26,7 +26,10 @@ module Markaby
       :output_xml_instruction => true,
       :output_meta_tag => true,
       :auto_validation => true,
-      :tagset => Markaby::XHTMLTransitional
+      :tagset => Markaby::XHTMLTransitional,
+      :root_attributes => {
+        :xmlns => 'http://www.w3.org/1999/xhtml', :'xml:lang' => 'en', :lang => 'en'
+      }
     }
 
     def self.set(option, value)
@@ -223,23 +226,23 @@ module Markaby
     # Builds an html tag.  An XML 1.0 instruction and an XHTML 1.0 Transitional doctype
     # are prepended.  Also assumes <tt>:xmlns => "http://www.w3.org/1999/xhtml",
     # :lang => "en"</tt>.
-    def xhtml_transitional(&block)
+    def xhtml_transitional(attrs = {}, &block)
       self.tagset = Markaby::XHTMLTransitional
-      xhtml_html(&block)
+      xhtml_html(attrs, &block)
     end
 
     # Builds an html tag with XHTML 1.0 Strict doctype instead.
-    def xhtml_strict(&block)
+    def xhtml_strict(attrs = {}, &block)
       self.tagset = Markaby::XHTMLStrict
-      xhtml_html(&block)
+      xhtml_html(attrs, &block)
     end
 
     private
 
-    def xhtml_html(&block)
+    def xhtml_html(attrs = {}, &block)
       instruct! if @output_xml_instruction
       declare!(:DOCTYPE, :html, :PUBLIC, *tagset.doctype)
-      tag!(:html, :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en", &block)
+      tag!(:html, @root_attributes.merge(attrs), &block)
     end
 
     def fragment
