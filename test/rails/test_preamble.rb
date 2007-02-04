@@ -14,6 +14,8 @@ Rails::Initializer.run
 
 require 'action_controller/test_process'
 
+Dependencies.load_paths.unshift File.dirname(__FILE__)
+
 $:.unshift MARKABY_ROOT
 
 require 'init'

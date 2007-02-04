@@ -1,6 +1,14 @@
 module Markaby
   class Template
 
+    def self.builder_class=(builder)
+      @@builder_class = builder
+    end
+      
+    def self.builder_class
+      @@builder_class ||= Builder
+    end
+    
     attr_accessor :source, :path
     
     def initialize(source)
@@ -8,7 +16,7 @@ module Markaby
     end
 
     def render(*args)
-      output = Builder.new(*args)
+      output = self.class.builder_class.new(*args)
 
       if path.nil?
         output.instance_eval source

@@ -1,4 +1,6 @@
 ul {
+  check_ivar_exists :monkeys
+  
   @monkeys.each { |monkey|
     li monkey.name
   }

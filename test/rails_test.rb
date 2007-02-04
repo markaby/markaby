@@ -1,6 +1,9 @@
 require File.join(File.dirname(__FILE__), 'rails', 'test_preamble')
 
 class MarkabyController < ActionController::Base
+
+  helper :test
+  
   @@locals = { :monkeys => Monkey.find(:all) }
 
   def rescue_action(e) raise e end;
@@ -31,6 +34,7 @@ class MarkabyController < ActionController::Base
   def basic_inline_rendering
     render :inline => mab { ul { Monkey.find(:all).each { |m| li m.name } } }
   end
+
 end
 
 class MarkabyOnRailsTest < Test::Unit::TestCase
@@ -91,4 +95,5 @@ class MarkabyOnRailsTest < Test::Unit::TestCase
       assert_equal 5, error.line_number.to_i
     end
   end
+
 end
