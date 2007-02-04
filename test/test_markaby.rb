@@ -28,6 +28,7 @@ class MarkabyTest < Test::Unit::TestCase
   
   def test_simple
     assert_equal "<hr/>", mab { hr }
+    assert_equal "<hr/><br/>", mab { hr; br }
     assert_equal "<p>foo</p>", mab { p 'foo' }
     assert_equal "<p>foo</p>", mab { p { 'foo' } }
   end
@@ -37,6 +38,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal %{<div class="one two"></div>}, mab { div.one.two '' }
     assert_equal %{<div id="three"></div>}, mab { div.three! '' }
     assert_equal %{<hr class="hidden"/>}, mab { hr.hidden }
+    assert_equal %{<input class="foo" name="bar" id="bar"/>}, mab { input.foo :id => 'bar' }
   end
   
   def test_escaping

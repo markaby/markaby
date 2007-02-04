@@ -5,49 +5,44 @@ module Markaby
   # See the README for examples.
   class CssProxy
 
-    # Creates a CssProxy object.  The +opts+ and +block+ passed in are
-    # stored until the element is created by Builder.tag!
-    def initialize(opts = {}, &blk)
-      @opts = opts
-      @blk = blk
+    # Creates a CssProxy object.
+    def initialize(builder, stream, sym)
+      @builder, @stream, @sym, @attrs = builder, stream, sym, {}
+      
+      @original_stream_length = @stream.length
+      
+      @builder.tag! @sym
     end
-  
-    # Adds attributes to an element, for internal use only.  For example, if you
-    # want to write a wrapper which sets a bunch of default attributes for a certain
-    # tag.  Like the default `img' method included with Markaby automatically sets an
-    # empty alt attribute.
-    def merge!(opts)
-      @opts.merge! opts
-      self
-    end
-
+    
     # Adds attributes to an element.  Bang methods set the :id attribute.
-    # Other methods add to the :class attribute.  If a block is supplied,
-    # it is executed with a merged hash (@opts + args).
-    def method_missing(id_or_class, *args, &blk)
-      idc = id_or_class.to_s
-      case idc
-      when "pass"
-      when /!$/
-        @opts[:id] = $`
-      else 
-        @opts[:class] = "#{@opts[:class]} #{idc}".strip
-      end
-      if args.empty? and blk.nil?
-        self
+    # Other methods add to the :class attribute.
+    def method_missing(id_or_class, *args, &block)
+      if (idc = id_or_class.to_s) =~ /!$/
+        @attrs[:id] = $`
       else
-        if args.last.respond_to? :to_hash
-          @opts.merge!(args.pop.to_hash)
-        end
-        args.push @opts
-        @blk.call(args, blk)
+        @attrs[:class] = @attrs[:class].nil? ? idc : "#{@attrs[:class]} #{idc}".strip
       end
-    end
 
-    def to_str
-      @blk.call([[@opts]]).to_s
+      unless args.empty?
+        if args.last.respond_to? :to_hash
+          @attrs.merge! args.pop.to_hash
+        end
+      end
+      
+      args.push(@attrs)
+      
+      while @stream.length > @original_stream_length
+        @stream.pop
+      end
+      
+      if block
+        @builder.tag! @sym, *args, &block
+      else
+        @builder.tag! @sym, *args
+      end
+      
+      return self
     end
-    alias_method :to_s, :to_str
 
   end
 end

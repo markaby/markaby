@@ -116,6 +116,11 @@ module Markaby
               raise InvalidXhtmlError, "no element `#{tag}' for #{tagset.doctype}"
           elsif args.last.respond_to?(:to_hash)
               attrs = args.last.to_hash
+              
+              if @tagset.forms.include?(tag) and attrs[:id]
+                attrs[:name] ||= attrs[:id]
+              end
+              
               attrs.each do |k, v|
                   atname = k.to_s.downcase.intern
                   unless k =~ /:/ or @tagset.tagset[tag].include? atname
@@ -189,16 +194,11 @@ module Markaby
     def html_tag(sym, *args, &block)
       if @auto_validation and @tagset.self_closing.include?(sym) and block
         raise InvalidXhtmlError, "the `#{sym}' element is self-closing, please remove the block"
+      elsif args.empty? and block.nil?
+        CssProxy.new(self, @streams.last, sym)
+      else
+        tag!(sym, *args, &block)
       end
-      if args.empty? and block.nil?
-        return CssProxy.new do |args, block|
-          if @tagset.forms.include?(sym) and args.last.respond_to?(:to_hash) and args.last[:id]
-            args.last[:name] ||= args.last[:id]
-          end
-          tag!(sym, *args, &block)
-        end
-      end
-      tag!(sym, *args, &block)
     end
 
     XHTMLTransitional.tags.each do |k|
