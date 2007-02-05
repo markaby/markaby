@@ -1,3 +1,12 @@
+= SVN
+===
+
+* Default attributes on the root (<html>) element can now be overidden
+* Reworked CssProxy, allowing attributes on hr and br
+* Added Kernel#mab convenience method (require 'markaby/kernel_method')
+* WhenOnRails: Can now use :locals with render_markaby
+* WhenOnRails: Template errors now report line number
+
 = 0.5
 === 03 October, 2006
 
