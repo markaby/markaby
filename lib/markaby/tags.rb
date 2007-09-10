@@ -18,7 +18,7 @@ module Markaby
     class << self
       attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
     end
-    @doctype = ["-//W3C//DTD XHTML 1.0 Strict//EN", "DTD/xhtml1-strict.dtd"]
+    @doctype = ['-//W3C//DTD XHTML 1.0 Strict//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd']
     @tagset = {
       :html => AttrI18n + [:id, :xmlns],
       :head => AttrI18n + [:id, :profile],
@@ -109,7 +109,7 @@ module Markaby
     class << self
       attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
     end
-    @doctype = ["-//W3C//DTD XHTML 1.0 Transitional//EN", "DTD/xhtml1-transitional.dtd"]
+    @doctype = ['-//W3C//DTD XHTML 1.0 Transitional//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd']
     @tagset = XHTMLStrict.tagset.merge \
       :strike => Attrs,
       :center => Attrs,
