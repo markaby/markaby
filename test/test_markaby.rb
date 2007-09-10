@@ -98,20 +98,20 @@ class MarkabyTest < Test::Unit::TestCase
   def test_full_doc_transitional
     doc = mab { xhtml_transitional { head { title 'OKay' } } }    
     assert doc =~ /^<\?xml version="1.0" encoding="UTF-8"\?>/
-    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">})
+    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">})
     assert doc.include?(%{<title>OKay</title>})
   end
 
   def test_full_doc_strict
     doc = mab { xhtml_strict { head { title 'OKay' } } }
     assert doc =~ /^<\?xml version="1.0" encoding="UTF-8"\?>/
-    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">})
+    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">})
     assert doc.include?(%{<title>OKay</title>})
   end
   
   def test_root_attributes_can_be_changed
     doc = mab { xhtml_strict(:lang => 'fr') { head { title { 'Salut!' } } } }
-    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">})
+    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">})
     assert doc.include?(%{<title>Salut!</title>})
     assert doc.include?(%{ lang="fr"})
   end
