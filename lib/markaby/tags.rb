@@ -1,7 +1,7 @@
 module Markaby
 
   FORM_TAGS = [ :form, :input, :select, :textarea ]
-  SELF_CLOSING_TAGS = [ :base, :meta, :link, :hr, :br, :param, :img, :area, :input, :col ]
+  SELF_CLOSING_TAGS = [ :base, :meta, :link, :hr, :br, :param, :img, :area, :input, :col, :frame ]
 
   # Common sets of attributes.
   AttrCore = [:id, :class, :style, :title]
@@ -155,6 +155,21 @@ module Markaby
     }.each do |k, v|
         @tagset[k] += v
     end
+
+    @tags = @tagset.keys
+    @forms = @tags & FORM_TAGS
+    @self_closing = @tags & SELF_CLOSING_TAGS
+  end
+
+  # Additional tags found in XHTML 1.0 Frameset
+  class XHTMLFrameset
+    class << self
+      attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
+    end
+    @doctype = ['-//W3C//DTD XHTML 1.0 Frameset//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd']
+    @tagset = XHTMLTransitional.tagset.merge \
+      :frameset => AttrCore + [:rows, :cols, :onload, :onunload],
+      :frame => AttrCore + [:longdesc, :name, :src, :frameborder, :marginwidth, :marginheight, :noresize, :scrolling]
 
     @tags = @tagset.keys
     @forms = @tags & FORM_TAGS

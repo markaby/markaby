@@ -109,6 +109,13 @@ class MarkabyTest < Test::Unit::TestCase
     assert doc.include?(%{<title>OKay</title>})
   end
   
+  def test_full_doc_frameset
+    doc = mab { xhtml_frameset { head { title 'OKay' } } }
+    assert doc =~ /^<\?xml version="1.0" encoding="UTF-8"\?>/
+    assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">})
+    assert doc.include?(%{<title>OKay</title>})
+  end
+
   def test_root_attributes_can_be_changed
     doc = mab { xhtml_strict(:lang => 'fr') { head { title { 'Salut!' } } } }
     assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">})

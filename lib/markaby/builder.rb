@@ -237,6 +237,12 @@ module Markaby
       xhtml_html(attrs, &block)
     end
 
+    # Builds an html tag with XHTML 1.0 Frameset doctype instead.
+    def xhtml_frameset(attrs = {}, &block)
+      self.tagset = Markaby::XHTMLFrameset
+      xhtml_html(attrs, &block)
+    end
+
     private
 
     def xhtml_html(attrs = {}, &block)
