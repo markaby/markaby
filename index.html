@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Why's Markaby</title>
+  </head>
+  <body>
+    <h1>Why's Markaby</h1>
+    
+    You know that WebPage code I’ve been playing with lately? Tim Fletcher e-mailed me a revamped version, a plugin for Rails. We’ve gone back and forth on this and found a very satisfying resting point, which I’m calling Markaby. Markup as Ruby.
+
+    To install in your Rails app:
+
+     script/plugin install http://code.whytheluckystiff.net/svn/markaby/trunk
+
+    To use it, add templates with a .mab extension.
+    Examples
+
+    For example, an app/views/layout/application.mab could look like:
+    <pre><code>
+     html do
+       head do
+         title action_name
+         stylesheet_link_tag 'scaffold'
+       end
+
+       body do
+         p flash[:notice], :style => "color: green" 
+         self << @content_for_layout
+       end
+     end
+    </code></pre>
+    
+    As you can see all the normal helpers and variables are present. There is one caveat: in default Markaby, helper methods are automatically output when called. So, in the above, the stylesheet_link_tag gets output. (To turn that off, use @output_helpers = false.)
+
+    A scaffolding page could look like this (app/views/products/list.mab):
+    <pre><code>
+     h1 'Listing products'
+
+     table.editor.classic do 
+       tr do
+         for column in Product.content_columns
+           th column.human_name
+         end
+       end 
+
+       for product in @products
+         tr do
+           for column in Product.content_columns
+             td product.send(column.name)
+           end
+           td { link_to 'Show', :action => 'show', :id => product }
+           td { link_to 'Edit', :action => 'edit', :id => product }
+           td { link_to 'Destroy', { :action => 'destroy', :id => product }, :confirm => 'Are you sure?' }
+         end
+       end
+     end
+
+     link_to 'Previous page', { :page => @product_pages.current.previous } if @product_pages.current.previous
+     link_to 'Next page', { :page => @product_pages.current.next } if @product_pages.current.next
+
+     br
+
+     link_to 'New product', :action => 'new'
+    </code></pre>
+    As you can see classes can be assigned just like in previous experiments. The table.editor.classic gets output as &lt;table class="editor classic"&gt;.
+
+    One really wonderfully trippy thing about Markaby is that you can use capture to treat elements as strings, if you like. This satisfies one of Dgtized’s feature requests from a few days ago.
+
+    <pre><code>
+     div.menu do
+       %w[5.gets bits inspect cult -h].map do |m|
+         capture { link_to m, "/#{m}" }
+       end.join(" | ")
+     end
+    </code></pre>
+    
+    So, in the above example, the output of link_to is captured for each element of the array and then patched together with pipes between. But how does it get output to div.menu?
+
+    The rule is: each element with a block opens a new buffer. You can fill up that buffer by printing elements to it. Or by returning a string from the block.
+    Markup Shortcuts
+
+    Really, there’s not much more to this at present. For example, RedCloth support isn’t built in, nor is the auto-header and auto-body stuff from WebPage.
+
+    Just a few shortcuts:
+    <ol>
+      <li>img tags will default to :alt => '', :border => 0.</li>
+      <li>head automatically includes tag!(:meta, 'http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8').</li>
+      <li>html defaults to an xml instruction, the XHTML 1.0 Transitional doctype and :xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en" on the html element.</li>
+      <li>xhtml_transitional is an alias for html.</li>
+      <li>xhtml_strict does the same, but with the proper XHTML 1.0 Strict doctype and so on.</li>
+    </ol>
+    If you don’t like any of this, override or undef the methods. So far so good?
+  </body>
+</html>
