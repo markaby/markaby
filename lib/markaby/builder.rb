@@ -148,46 +148,6 @@ module Markaby
       f
     end
 
-    # This method is used to intercept calls to helper methods and instance
-    # variables.  Here is the order of interception:
-    #
-    # * If +sym+ is a helper method, the helper method is called
-    #   and output to the stream.
-    # * If +sym+ is a Builder::XmlMarkup method, it is passed on to the builder object.
-    # * If +sym+ is also the name of an instance variable, the
-    #   value of the instance variable is returned.
-    # * If +sym+ has come this far and no +tagset+ is found, +sym+ and its arguments are passed to tag!
-    # * If a tagset is found, though, +NoMethodError+ is raised.
-    #
-    # method_missing used to be the lynchpin in Markaby, but it's no longer used to handle
-    # HTML tags.  See html_tag for that.
-    def method_missing(sym, *args, &block)
-      if @helpers.respond_to?(sym, true) && !self.class.ignored_helpers.include?(sym)
-        r = @helpers.send(sym, *args, &block)
-        if @output_helpers and r.respond_to? :to_str
-          fragment { @builder << r }
-        else
-          r
-        end
-      elsif @assigns.has_key?(sym)
-        @assigns[sym]
-      elsif @assigns.has_key?(stringy_key = sym.to_s)
-        # Rails' ActionView assigns hash has string keys for
-        # instance variables that are defined in the controller.
-        @assigns[stringy_key]
-      elsif instance_variables.include?(ivar = "@#{sym}")
-        instance_variable_get(ivar)
-      elsif !@helpers.nil? && @helpers.instance_variables.include?(ivar)
-        @helpers.instance_variable_get(ivar)
-      elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s) 
-        @builder.__send__(sym, *args, &block)
-      elsif @tagset.nil?
-        tag!(sym, *args, &block)
-      else
-        raise NoMethodError, "no such method `#{sym}'"
-      end
-    end
-
     # Every HTML tag method goes through an html_tag call.  So, calling <tt>div</tt> is equivalent
     # to calling <tt>html_tag(:div)</tt>.  All HTML tags in Markaby's list are given generated wrappers
     # for this method.
@@ -243,7 +203,47 @@ module Markaby
       xhtml_html(attrs, &block)
     end
 
-    private
+  private
+
+    # This method is used to intercept calls to helper methods and instance
+    # variables.  Here is the order of interception:
+    #
+    # * If +sym+ is a helper method, the helper method is called
+    #   and output to the stream.
+    # * If +sym+ is a Builder::XmlMarkup method, it is passed on to the builder object.
+    # * If +sym+ is also the name of an instance variable, the
+    #   value of the instance variable is returned.
+    # * If +sym+ has come this far and no +tagset+ is found, +sym+ and its arguments are passed to tag!
+    # * If a tagset is found, though, +NoMethodError+ is raised.
+    #
+    # method_missing used to be the lynchpin in Markaby, but it's no longer used to handle
+    # HTML tags.  See html_tag for that.
+    def method_missing(sym, *args, &block)
+      if @helpers.respond_to?(sym, true) && !self.class.ignored_helpers.include?(sym)
+        r = @helpers.send(sym, *args, &block)
+        if @output_helpers and r.respond_to? :to_str
+          fragment { @builder << r }
+        else
+          r
+        end
+      elsif @assigns.has_key?(sym)
+        @assigns[sym]
+      elsif @assigns.has_key?(stringy_key = sym.to_s)
+        # Rails' ActionView assigns hash has string keys for
+        # instance variables that are defined in the controller.
+        @assigns[stringy_key]
+      elsif instance_variables.include?(ivar = "@#{sym}")
+        instance_variable_get(ivar)
+      elsif !@helpers.nil? && @helpers.instance_variables.include?(ivar)
+        @helpers.instance_variable_get(ivar)
+      elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
+        @builder.__send__(sym, *args, &block)
+      elsif @tagset.nil?
+        tag!(sym, *args, &block)
+      else
+        raise NoMethodError, "no such method `#{sym}'"
+      end
+    end
 
     def xhtml_html(attrs = {}, &block)
       instruct! if @output_xml_instruction
