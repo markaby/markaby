@@ -1,23 +1,30 @@
 require 'rake'
 require 'rake/testtask'
 require 'rake/clean'
-require 'rake/gempackagetask'
 require 'rake/rdoctask'
 require 'tools/rakehelp'
 require 'fileutils'
 include FileUtils
 
-REV = File.read(".svn/entries")[/committed-rev="(\d+)"/, 1] rescue nil
-VERS = ENV['VERSION'] || "0.5" + (REV ? ".#{REV}" : "")
-
-task :default => [:package]
+task :default => [:test]
 
 setup_tests
 setup_rdoc ['README', 'CHANGELOG', 'lib/**/*.rb']
 
-summary = "Markup as Ruby, write HTML in your native Ruby tongue"
-test_file = "test/test_markaby.rb"
-setup_gem("markaby", VERS,  "Tim Fletcher and _why", summary, [['builder', '>=2.0.0']], test_file)
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "Markaby"
+    gemspec.summary = "Markup as Ruby, write HTML in your native Ruby tongue"
+    gemspec.description = "Tim Fletcher and _why's ruby driven HTML templating system"
+    gemspec.email = "jrbarton@gmail.com"
+    gemspec.homepage = "http://joho.github.com/markaby/"
+    gemspec.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
+    gemspec.add_dependency 'builder', '>=2.0.0'
+  end
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+end
 
 desc "List any Markaby specific warnings"
 task :warnings do
