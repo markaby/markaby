@@ -19,13 +19,14 @@ end
 
 begin
   require 'jeweler'
+  
   Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "Markaby"
-    gemspec.summary = "Markup as Ruby, write HTML in your native Ruby tongue"
-    gemspec.description = "Tim Fletcher and _why's ruby driven HTML templating system"
-    gemspec.email = "jrbarton@gmail.com"
-    gemspec.homepage = "http://joho.github.com/markaby/"
-    gemspec.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
+    gemspec.name          = "Markaby"
+    gemspec.summary       = "Markup as Ruby, write HTML in your native Ruby tongue"
+    gemspec.description   = "Tim Fletcher and _why's ruby driven HTML templating system"
+    gemspec.email         = "jrbarton@gmail.com"
+    gemspec.homepage      = "http://joho.github.com/markaby/"
+    gemspec.authors       = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
     gemspec.add_dependency 'builder', '>=2.0.0'
   end
 rescue LoadError
