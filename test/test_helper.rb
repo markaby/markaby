@@ -15,17 +15,21 @@ module MarkabyTestHelpers
   module_function :link_to, :pluralize
 end
 
+module TestHelpers
+  def assert_exception(exclass, exmsg, *mab_args, &block)
+    begin
+      mab(*mab_args, &block)
+    rescue Exception => e
+      assert_equal exclass, e.class
+      assert_equal exmsg, e.message
+    end
+  end
+end
+
 module Test
   module Unit
     class TestCase
-      def assert_exception(exclass, exmsg, *mab_args, &block)
-        begin
-          mab(*mab_args, &block)
-        rescue Exception => e
-          assert_equal exclass, e.class
-          assert_equal exmsg, e.message
-        end
-      end
+      include TestHelpers
     end
   end
 end
