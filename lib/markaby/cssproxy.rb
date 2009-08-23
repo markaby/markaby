@@ -41,7 +41,7 @@ module Markaby
         @builder.tag! @sym, *args
       end
       
-      return self
+      self
     end
 
   end

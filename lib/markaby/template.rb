@@ -24,7 +24,7 @@ module Markaby
         output.instance_eval source, path
       end
       
-      return output.to_s
+      output.to_s
     end
 
   end
