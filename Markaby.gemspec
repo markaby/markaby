@@ -17,8 +17,10 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     "CHANGELOG",
+     "Markaby.gemspec",
      "README",
      "Rakefile",
+     "VERSION",
      "init.rb",
      "lib/markaby.rb",
      "lib/markaby/builder.rb",
