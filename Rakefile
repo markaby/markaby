@@ -2,8 +2,6 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/clean'
 require 'rake/rdoctask'
-require 'fileutils'
-include FileUtils
 
 task :default => [:test]
 
