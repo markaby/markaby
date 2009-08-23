@@ -21,12 +21,12 @@ module Markaby
   class Builder
 
     @@default = {
-      :indent => 0,
-      :output_helpers => true,
+      :indent                 => 0,
+      :output_helpers         => true,
       :output_xml_instruction => true,
-      :output_meta_tag => true,
-      :auto_validation => true,
-      :tagset => Markaby::XHTMLTransitional,
+      :output_meta_tag        => true,
+      :auto_validation        => true,
+      :tagset                 => Markaby::XHTMLTransitional,
       :root_attributes => {
         :xmlns => 'http://www.w3.org/1999/xhtml', :'xml:lang' => 'en', :lang => 'en'
       }
