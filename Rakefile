@@ -9,7 +9,7 @@ include FileUtils
 task :default => [:test]
 
 setup_tests
-setup_rdoc ['README', 'CHANGELOG', 'lib/**/*.rb']
+setup_rdoc ['README.rdoc', 'CHANGELOG', 'lib/**/*.rb']
 
 begin
   require 'jeweler'

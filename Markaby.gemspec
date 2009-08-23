@@ -13,12 +13,12 @@ Gem::Specification.new do |s|
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{jrbarton@gmail.com}
   s.extra_rdoc_files = [
-    "README"
+    "README.rdoc"
   ]
   s.files = [
     "CHANGELOG",
      "Markaby.gemspec",
-     "README",
+     "README.rdoc",
      "Rakefile",
      "VERSION",
      "init.rb",

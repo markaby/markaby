@@ -77,11 +77,11 @@ def setup_gem(pkg_name, pkg_version, author, summary, dependencies, test_file)
         s.summary = summary
         s.test_file = test_file
         s.has_rdoc = true
-        s.extra_rdoc_files = [ "README" ]
+        s.extra_rdoc_files = [ "README.rdoc" ]
         dependencies.each do |dep|
             s.add_dependency(*dep)
         end
-        s.files = %w(README Rakefile setup.rb) +
+        s.files = %w(README.rdoc Rakefile setup.rb) +
         Dir.glob("{bin,doc,test,lib}/**/*") + 
         Dir.glob("ext/**/*.{h,c,rb}") +
         Dir.glob("examples/**/*.rb") +
