@@ -25,7 +25,6 @@ module Markaby
 end
 
 unless defined?(Builder)
-  require 'rubygems'
   require 'builder'
 end
 
