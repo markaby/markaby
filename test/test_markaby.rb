@@ -1,31 +1,6 @@
-require 'test/unit'
-
-$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
-
-require 'markaby'
-require 'markaby/kernel_method'
-
-module MarkabyTestHelpers
-  def link_to(obj)
-    %{<a href="">#{obj}</a>}
-  end
-  def pluralize(string)
-    string + "s"
-  end
-  module_function :link_to, :pluralize
-end
+require File.expand_path(File.dirname(__FILE__) + "/test_helper")
 
 class MarkabyTest < Test::Unit::TestCase
-
-  def assert_exception(exclass, exmsg, *mab_args, &block)
-    begin
-      mab(*mab_args, &block)
-    rescue Exception => e
-      assert_equal exclass, e.class
-      assert_equal exmsg, e.message
-    end
-  end
-  
   def test_simple
     assert_equal "<hr/>", mab { hr }
     assert_equal "<hr/><br/>", mab { hr; br }
