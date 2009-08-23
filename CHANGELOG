@@ -1,6 +1,9 @@
-= SVN
-===
+= 0.6
+=== 23 August, 2009
 
+* Canonical repo changed to http://github.com/joho/markaby
+* Gem moved to Github (using jeweler)
+* Rails init process changed to work with rails > 2.1
 * Default attributes on the root (<html>) element can now be overidden
 * Reworked CssProxy, allowing attributes on hr and br
 * Added Kernel#mab convenience method (require 'markaby/kernel_method')
