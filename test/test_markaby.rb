@@ -97,5 +97,12 @@ class MarkabyTest < Test::Unit::TestCase
     assert doc.include?(%{<title>Salut!</title>})
     assert doc.include?(%{ lang="fr"})
   end
-
+  
+  def version_file
+    File.expand_path(File.dirname(__FILE__) + "/../VERSION")
+  end
+  
+  def test_markaby_should_have_correct_version
+    assert_equal Markaby::VERSION, File.read(version_file).strip
+  end
 end

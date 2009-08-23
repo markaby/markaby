@@ -19,7 +19,8 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 # * Markaby::Template: a class for hooking Markaby into Rails as a
 #   proper templating language.
 module Markaby
-  VERSION = '0.5'
+  version_file = File.expand_path(File.dirname(__FILE__) + "/../VERSION")
+  VERSION      = File.read(version_file).strip
 
   class InvalidXhtmlError < Exception; end
 end
