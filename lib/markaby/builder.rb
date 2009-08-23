@@ -172,8 +172,6 @@ module Markaby
       }
     end
 
-    remove_method :head
-    
     # Builds a head tag.  Adds a <tt>meta</tt> tag inside with Content-Type
     # set to <tt>text/html; charset=utf-8</tt>.
     def head(*args, &block)
