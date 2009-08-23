@@ -2,14 +2,22 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/clean'
 require 'rake/rdoctask'
-require 'tools/rakehelp'
 require 'fileutils'
 include FileUtils
 
 task :default => [:test]
 
-setup_tests
-setup_rdoc ['README.rdoc', 'CHANGELOG', 'lib/**/*.rb']
+Rake::TestTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/test*.rb']
+  t.verbose = true
+end
+
+Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = 'doc/rdoc'
+  rdoc.options << '--line-numbers'
+  rdoc.rdoc_files.add(['README.rdoc', 'CHANGELOG', 'lib/**/*.rb'])
+end
 
 begin
   require 'jeweler'

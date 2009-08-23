@@ -39,8 +39,7 @@ Gem::Specification.new do |s|
      "test/rails/test_helper.rb",
      "test/rails/test_preamble.rb",
      "test/rails_test.rb",
-     "test/test_markaby.rb",
-     "tools/rakehelp.rb"
+     "test/test_markaby.rb"
   ]
   s.homepage = %q{http://joho.github.com/markaby/}
   s.rdoc_options = ["--charset=UTF-8"]
