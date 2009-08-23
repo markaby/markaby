@@ -48,7 +48,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal %{<a href="">edit</a>}, mab({}, MarkabyTestHelpers) { link_to('edit') }
     assert mab({}, MarkabyTestHelpers) { @output_helpers = false; link_to('edit'); nil }.empty?
     Markaby::Builder.ignore_helpers :pluralize
-    assert_exception(NoMethodError, "no such method `pluralize'", {}, MarkabyTestHelpers) { pluralize('squirrel') }
+    assert_exception(NoMethodError, "undefined method `pluralize'", {}, MarkabyTestHelpers) { pluralize('squirrel') }
   end
 
   def test_builder_bang_methods
@@ -65,7 +65,7 @@ class MarkabyTest < Test::Unit::TestCase
   end
 
   def test_invalid_xhtml
-    assert_exception(NoMethodError, "no such method `dav'") { dav {} }
+    assert_exception(NoMethodError, "undefined method `dav'") { dav {} }
     assert_exception(Markaby::InvalidXhtmlError, "no attribute `styl' on div elements") { div(:styl => 'ok') {} }
     assert_exception(Markaby::InvalidXhtmlError, "no attribute `class' on tbody elements") { tbody.okay {} }
   end

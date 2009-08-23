@@ -22,7 +22,7 @@ module TestHelpers
       mab(*mab_args, &block)
     rescue Exception => e
       assert_equal exclass, e.class
-      assert_equal exmsg, e.message
+      assert_match /#{exmsg}/, e.message
     end
   end
 end

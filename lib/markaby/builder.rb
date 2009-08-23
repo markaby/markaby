@@ -241,7 +241,7 @@ module Markaby
       elsif @tagset.nil?
         tag!(sym, *args, &block)
       else
-        raise NoMethodError, "no such method `#{sym}'"
+        super
       end
     end
 
