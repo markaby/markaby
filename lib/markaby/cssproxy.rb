@@ -14,6 +14,8 @@ module Markaby
       @builder.tag! @sym
     end
     
+  private
+
     # Adds attributes to an element.  Bang methods set the :id attribute.
     # Other methods add to the :class attribute.
     def method_missing(id_or_class, *args, &block)
