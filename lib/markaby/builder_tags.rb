@@ -1,11 +1,11 @@
 module Markaby
   module BuilderTags
     (XHTMLTransitional.tags - [:head]).each do |k|
-      class_eval %{
+      class_eval <<-CODE, __FILE__, __LINE__
         def #{k}(*args, &block)
           html_tag(#{k.inspect}, *args, &block)
         end
-      }
+      CODE
     end
 
     # Builds a head tag.  Adds a <tt>meta</tt> tag inside with Content-Type
