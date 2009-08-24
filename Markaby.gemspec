@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
      "lib/markaby/rails.rb",
      "lib/markaby/tags.rb",
      "lib/markaby/template.rb",
-     "setup.rb",
      "test/rails/markaby/_monkeys.mab",
      "test/rails/markaby/broken.mab",
      "test/rails/markaby/create.mab",
