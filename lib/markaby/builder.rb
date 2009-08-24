@@ -28,7 +28,9 @@ module Markaby
       :auto_validation        => true,
       :tagset                 => Markaby::XHTMLTransitional,
       :root_attributes => {
-        :xmlns => 'http://www.w3.org/1999/xhtml', :'xml:lang' => 'en', :lang => 'en'
+        :xmlns      => 'http://www.w3.org/1999/xhtml',
+        :'xml:lang' => 'en',
+        :lang       => 'en'
       }
     }
 
