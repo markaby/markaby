@@ -164,7 +164,7 @@ module Markaby
       end
     end
 
-    XHTMLTransitional.tags.each do |k|
+    (XHTMLTransitional.tags - [:head]).each do |k|
       class_eval %{
         def #{k}(*args, &block)
           html_tag(#{k.inspect}, *args, &block)
