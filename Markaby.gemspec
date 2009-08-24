@@ -16,7 +16,8 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
-    "CHANGELOG",
+    ".gitignore",
+     "CHANGELOG",
      "Markaby.gemspec",
      "README.rdoc",
      "Rakefile",
@@ -24,9 +25,9 @@ Gem::Specification.new do |s|
      "init.rb",
      "lib/markaby.rb",
      "lib/markaby/builder.rb",
+     "lib/markaby/builder_tags.rb",
      "lib/markaby/cssproxy.rb",
      "lib/markaby/kernel_method.rb",
-     "lib/markaby/metaid.rb",
      "lib/markaby/rails.rb",
      "lib/markaby/tags.rb",
      "lib/markaby/template.rb",
@@ -38,23 +39,30 @@ Gem::Specification.new do |s|
      "test/rails/test_helper.rb",
      "test/rails/test_preamble.rb",
      "test/rails_test.rb",
+     "test/test_builder.rb",
+     "test/test_css_proxy.rb",
+     "test/test_helper.rb",
      "test/test_markaby.rb"
   ]
+  s.has_rdoc = true
   s.homepage = %q{http://joho.github.com/markaby/}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.4}
+  s.rubygems_version = %q{1.3.1}
   s.summary = %q{Markup as Ruby, write HTML in your native Ruby tongue}
   s.test_files = [
     "test/rails/test_helper.rb",
      "test/rails/test_preamble.rb",
      "test/rails_test.rb",
+     "test/test_builder.rb",
+     "test/test_css_proxy.rb",
+     "test/test_helper.rb",
      "test/test_markaby.rb"
   ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 3
+    s.specification_version = 2
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<builder>, [">= 2.0.0"])
