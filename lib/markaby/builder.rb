@@ -117,29 +117,30 @@ module Markaby
     def tag!(tag, *args, &block)
       ele_id = nil
       if @auto_validation and @tagset
-          if !@tagset.tagset.has_key?(tag)
-              raise InvalidXhtmlError, "no element `#{tag}' for #{tagset.doctype}"
-          elsif args.last.respond_to?(:to_hash)
-              attrs = args.last.to_hash
-              
-              if @tagset.forms.include?(tag) and attrs[:id]
-                attrs[:name] ||= attrs[:id]
-              end
-              
-              attrs.each do |k, v|
-                  atname = k.to_s.downcase.intern
-                  unless k =~ /:/ or @tagset.tagset[tag].include? atname
-                      raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
-                  end
-                  if atname == :id
-                      ele_id = v.to_s
-                      if @elements.has_key? ele_id
-                          raise InvalidXhtmlError, "id `#{ele_id}' already used (id's must be unique)."
-                      end
-                  end
-              end
+        if !@tagset.tagset.has_key?(tag)
+          raise InvalidXhtmlError, "no element `#{tag}' for #{tagset.doctype}"
+        elsif args.last.respond_to?(:to_hash)
+          attrs = args.last.to_hash
+
+          if @tagset.forms.include?(tag) and attrs[:id]
+            attrs[:name] ||= attrs[:id]
           end
+              
+          attrs.each do |k, v|
+            atname = k.to_s.downcase.intern
+            unless k =~ /:/ or @tagset.tagset[tag].include? atname
+              raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
+            end
+            if atname == :id
+              ele_id = v.to_s
+              if @elements.has_key? ele_id
+                raise InvalidXhtmlError, "id `#{ele_id}' already used (id's must be unique)."
+              end
+            end
+          end
+        end
       end
+      
       if block
         str = capture(&block)
         block = proc { text(str) }
@@ -258,7 +259,6 @@ module Markaby
       length = stream.length - start
       Fragment.new(stream, start, length)
     end
-
   end
 
   # Every tag method in Markaby returns a Fragment.  If any method gets called on the Fragment,
@@ -285,5 +285,4 @@ module Markaby
   class XmlMarkup < ::Builder::XmlMarkup
     attr_accessor :target, :level
   end
-  
 end
