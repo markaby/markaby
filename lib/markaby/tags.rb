@@ -135,7 +135,7 @@ module Markaby
     })
 
     # Additional attributes found in XHTML 1.0 Transitional
-    {
+    additional_tags = {
       :script => [:language],
       :a      => [:target],
       :td     => [:bgcolor, :nowrap, :width, :height],
@@ -163,7 +163,9 @@ module Markaby
       :form   => [:name, :target],
       :area   => [:target],
       :h1     => [:align]
-    }.each do |k, v|
+    }
+    
+    additional_tags.each do |k, v|
       @tagset[k] += v
     end
 
