@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Markaby::Builder</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Markaby::Builder</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/markaby/builder_rb.html">
+                lib/markaby/builder.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="Builder.html">Markaby::Builder</a> class is the central gear
+in the system. When using from Ruby code, this is the only class you need
+to instantiate directly.
+</p>
+<pre>
+  mab = Markaby::Builder.new
+  mab.html do
+    head { title &quot;Boats.com&quot; }
+    body do
+      h1 &quot;Boats.com has great deals&quot;
+      ul do
+        li &quot;$49 for a canoe&quot;
+        li &quot;$39 for a raft&quot;
+        li &quot;$29 for a huge boot that floats and can fit 5 people&quot;
+      end
+    end
+  end
+  puts mab.to_s
+</pre>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000014">&lt;&lt;</a>&nbsp;&nbsp;
+      <a href="#M000016">capture</a>&nbsp;&nbsp;
+      <a href="#M000015">concat</a>&nbsp;&nbsp;
+      <a href="#M000018">html_tag</a>&nbsp;&nbsp;
+      <a href="#M000010">ignore_helpers</a>&nbsp;&nbsp;
+      <a href="#M000009">ignored_helpers</a>&nbsp;&nbsp;
+      <a href="#M000011">new</a>&nbsp;&nbsp;
+      <a href="#M000008">set</a>&nbsp;&nbsp;
+      <a href="#M000017">tag!</a>&nbsp;&nbsp;
+      <a href="#M000013">text</a>&nbsp;&nbsp;
+      <a href="#M000012">to_s</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name"><a href="BuilderTags.html">Markaby::BuilderTags</a></span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">output_helpers</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">tagset</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="#M000010" class="method-signature">
+          <span class="method-name">ignore_helpers</span><span class="method-args">(*helpers)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000010-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000010-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 47</span>
+47:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">ignore_helpers</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">helpers</span>) 
+48:       <span class="ruby-identifier">ignored_helpers</span>.<span class="ruby-identifier">concat</span> <span class="ruby-identifier">helpers</span> 
+49:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="#M000009" class="method-signature">
+          <span class="method-name">ignored_helpers</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000009-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000009-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 43</span>
+43:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">ignored_helpers</span> 
+44:       <span class="ruby-ivar">@@ignored_helpers</span> <span class="ruby-operator">||=</span> [] 
+45:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="#M000011" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(assigns = {}, helpers = nil, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a <a href="../Markaby.html">Markaby</a> builder object. Pass in a
+hash of variable assignments to <tt>assigns</tt> which will be available as
+instance variables inside tag construction blocks. If an object is passed
+in to <tt>helpers</tt>, its methods will be available from those same
+blocks.
+</p>
+<p>
+Pass in a <tt>block</tt> to <a href="Builder.html#M000011">new</a> and the
+block will be evaluated.
+</p>
+<pre>
+  mab = Markaby::Builder.new {
+    html do
+      body do
+        h1 &quot;Matching Mole&quot;
+      end
+    end
+  }
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000011-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000011-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 68</span>
+68:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">assigns</span> = {}, <span class="ruby-identifier">helpers</span> = <span class="ruby-keyword kw">nil</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+69:       <span class="ruby-ivar">@streams</span> = [[]]
+70:       <span class="ruby-ivar">@assigns</span> = <span class="ruby-identifier">assigns</span>.<span class="ruby-identifier">dup</span>
+71:       <span class="ruby-ivar">@helpers</span> = <span class="ruby-identifier">helpers</span>
+72:       <span class="ruby-ivar">@elements</span> = {}
+73: 
+74:       <span class="ruby-ivar">@@default</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+75:         <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{k}&quot;</span>, <span class="ruby-ivar">@assigns</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">k</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">v</span>)
+76:       <span class="ruby-keyword kw">end</span>
+77:       
+78:       <span class="ruby-ivar">@assigns</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+79:         <span class="ruby-identifier">instance_variable_set</span>(<span class="ruby-node">&quot;@#{k}&quot;</span>, <span class="ruby-identifier">v</span>)
+80:       <span class="ruby-keyword kw">end</span>
+81: 
+82:       <span class="ruby-ivar">@builder</span> = <span class="ruby-constant">XmlMarkup</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">:indent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@indent</span>, <span class="ruby-identifier">:target</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>)
+83: 
+84:       <span class="ruby-identifier">text</span>(<span class="ruby-identifier">capture</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+85:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="#M000008" class="method-signature">
+          <span class="method-name">set</span><span class="method-args">(option, value)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 39</span>
+39:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">set</span>(<span class="ruby-identifier">option</span>, <span class="ruby-identifier">value</span>)
+40:       <span class="ruby-ivar">@@default</span>[<span class="ruby-identifier">option</span>] = <span class="ruby-identifier">value</span>
+41:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <span class="method-name">&lt;&lt;</span><span class="method-args">(string)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="Builder.html#M000013">text</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="#M000016" class="method-signature">
+          <span class="method-name">capture</span><span class="method-args">(&amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Captures the HTML code built inside the <tt>block</tt>. This is done by
+creating a <a href="Builder.html#M000011">new</a> stream for the builder
+object, running the block and passing back its stream as a string.
+</p>
+<pre>
+  &gt;&gt; Markaby::Builder.new.capture { h1 &quot;TEST&quot;; h2 &quot;CAPTURE ME&quot; }
+  =&gt; &quot;&lt;h1&gt;TITLE&lt;/h1&gt;\n&lt;h2&gt;CAPTURE ME&lt;/h2&gt;\n&quot;
+</pre>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000016-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000016-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 106</span>
+106:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">capture</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+107:       <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">push</span>(<span class="ruby-ivar">@builder</span>.<span class="ruby-identifier">target</span> = [])
+108:       <span class="ruby-ivar">@builder</span>.<span class="ruby-identifier">level</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+109:       <span class="ruby-identifier">str</span> = <span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+110:       <span class="ruby-identifier">str</span> = <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">join</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">any?</span>
+111:       <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">pop</span>
+112:       <span class="ruby-ivar">@builder</span>.<span class="ruby-identifier">level</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
+113:       <span class="ruby-ivar">@builder</span>.<span class="ruby-identifier">target</span> = <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>
+114:       <span class="ruby-identifier">str</span>
+115:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <span class="method-name">concat</span><span class="method-args">(string)</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="Builder.html#M000013">text</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="#M000018" class="method-signature">
+          <span class="method-name">html_tag</span><span class="method-args">(sym, *args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Every HTML tag method goes through an <a
+href="Builder.html#M000018">html_tag</a> call. So, calling <tt>div</tt> is
+equivalent to calling <tt><a
+href="Builder.html#M000018">html_tag</a>(:div)</tt>. All HTML tags in <a
+href="../Markaby.html">Markaby</a>&#8216;s list are given generated
+wrappers for this method.
+</p>
+<p>
+If the @auto_validation setting is on, this method will check for many
+common mistakes which could lead to invalid XHTML.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000018-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000018-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 162</span>
+162:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">html_tag</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+163:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@auto_validation</span> <span class="ruby-keyword kw">and</span> <span class="ruby-ivar">@tagset</span>.<span class="ruby-identifier">self_closing</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">sym</span>) <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">block</span>
+164:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidXhtmlError</span>, <span class="ruby-node">&quot;the `#{sym}' element is self-closing, please remove the block&quot;</span>
+165:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">block</span>.<span class="ruby-identifier">nil?</span>
+166:         <span class="ruby-constant">CssProxy</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>, <span class="ruby-identifier">sym</span>)
+167:       <span class="ruby-keyword kw">else</span>
+168:         <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+169:       <span class="ruby-keyword kw">end</span>
+170:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="#M000017" class="method-signature">
+          <span class="method-name">tag!</span><span class="method-args">(tag, *args, &amp;block)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Create a tag named <tt>tag</tt>. Other than the first argument which is the
+tag name, the arguments are the same as the tags implemented via
+method_missing.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000017-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000017-source">
+<pre>
+     <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 119</span>
+119:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">tag</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+120:       <span class="ruby-identifier">ele_id</span> = <span class="ruby-keyword kw">nil</span>
+121:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@auto_validation</span> <span class="ruby-keyword kw">and</span> <span class="ruby-ivar">@tagset</span>
+122:         <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@tagset</span>.<span class="ruby-identifier">tagset</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">tag</span>)
+123:           <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidXhtmlError</span>, <span class="ruby-node">&quot;no element `#{tag}' for #{tagset.doctype}&quot;</span>
+124:         <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:to_hash</span>)
+125:           <span class="ruby-identifier">attrs</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">to_hash</span>
+126: 
+127:           <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@tagset</span>.<span class="ruby-identifier">forms</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">tag</span>) <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">:id</span>]
+128:             <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">:name</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">attrs</span>[<span class="ruby-identifier">:id</span>]
+129:           <span class="ruby-keyword kw">end</span>
+130:               
+131:           <span class="ruby-identifier">attrs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span><span class="ruby-operator">|</span>
+132:             <span class="ruby-identifier">atname</span> = <span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">intern</span>
+133:             <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">k</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/:/</span> <span class="ruby-keyword kw">or</span> <span class="ruby-ivar">@tagset</span>.<span class="ruby-identifier">tagset</span>[<span class="ruby-identifier">tag</span>].<span class="ruby-identifier">include?</span> <span class="ruby-identifier">atname</span>
+134:               <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidXhtmlError</span>, <span class="ruby-node">&quot;no attribute `#{k}' on #{tag} elements&quot;</span>
+135:             <span class="ruby-keyword kw">end</span>
+136:             <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">atname</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:id</span>
+137:               <span class="ruby-identifier">ele_id</span> = <span class="ruby-identifier">v</span>.<span class="ruby-identifier">to_s</span>
+138:               <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@elements</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-identifier">ele_id</span>
+139:                 <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidXhtmlError</span>, <span class="ruby-node">&quot;id `#{ele_id}' already used (id's must be unique).&quot;</span>
+140:               <span class="ruby-keyword kw">end</span>
+141:             <span class="ruby-keyword kw">end</span>
+142:           <span class="ruby-keyword kw">end</span>
+143:         <span class="ruby-keyword kw">end</span>
+144:       <span class="ruby-keyword kw">end</span>
+145:       
+146:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block</span>
+147:         <span class="ruby-identifier">str</span> = <span class="ruby-identifier">capture</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+148:         <span class="ruby-identifier">block</span> = <span class="ruby-identifier">proc</span> { <span class="ruby-identifier">text</span>(<span class="ruby-identifier">str</span>) }
+149:       <span class="ruby-keyword kw">end</span>
+150: 
+151:       <span class="ruby-identifier">f</span> = <span class="ruby-identifier">fragment</span> { <span class="ruby-ivar">@builder</span>.<span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">tag</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) }
+152:       <span class="ruby-ivar">@elements</span>[<span class="ruby-identifier">ele_id</span>] = <span class="ruby-identifier">f</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">ele_id</span>
+153:       <span class="ruby-identifier">f</span>
+154:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="#M000013" class="method-signature">
+          <span class="method-name">text</span><span class="method-args">(string)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Write a <tt>string</tt> to the HTML stream without escaping it.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000013-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000013-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 93</span>
+93:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">text</span>(<span class="ruby-identifier">string</span>)
+94:       <span class="ruby-ivar">@builder</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">to_s</span>
+95:       <span class="ruby-keyword kw">nil</span>
+96:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="#M000012" class="method-signature">
+          <span class="method-name">to_s</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns a string containing the HTML stream. Internally, the stream is
+stored as an Array.
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000012-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000012-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 88</span>
+88:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_s</span>
+89:       <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">to_s</span>
+90:     <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
