@@ -139,4 +139,14 @@ class MarkabyTest < Test::Unit::TestCase
     
     assert_equal :a_value, builder.variable
   end
+
+  def test_local_assignment_with_strings
+    builder = Markaby::Builder.new("variable" => :a_value)
+    assert_equal :a_value, builder.variable
+  end
+
+  def test_local_assignment_prefers_symbols_to_strings
+    builder = Markaby::Builder.new("variable" => "string_value", :variable => :symbol_value)
+    assert_equal :symbol_value, builder.variable
+  end
 end
