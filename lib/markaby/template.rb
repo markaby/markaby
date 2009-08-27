@@ -1,5 +1,8 @@
 module Markaby
   class Template
+    def self.reset_builder_class!
+      @@builder_class = Builder
+    end
 
     def self.builder_class=(builder)
       @@builder_class = builder
@@ -26,6 +29,5 @@ module Markaby
       
       output.to_s
     end
-
   end
 end
