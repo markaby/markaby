@@ -246,6 +246,8 @@ module Markaby
       @stream, @start, @length = args
     end
     
+  private
+
     def method_missing(*args, &block)
       # We can't do @stream.slice!(@start, @length),
       # as it would invalidate the @starts and @lengths of other Fragment instances.
