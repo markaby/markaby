@@ -50,6 +50,15 @@ class MarkabyTest < Test::Unit::TestCase
     Markaby::Builder.ignore_helpers :pluralize
     assert_exception(NoMethodError, "undefined method `pluralize'", {}, MarkabyTestHelpers) { pluralize('squirrel') }
   end
+  
+  def test_uses_helper_instance_variable
+    helper = Module.new do
+      @some_ivar = :ivar_value
+    end
+    
+    builder = Markaby::Builder.new({}, helper)
+    assert_equal :ivar_value, builder.some_ivar
+  end
 
   def test_builder_bang_methods
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", mab { instruct! }
