@@ -114,4 +114,14 @@ class MarkabyTest < Test::Unit::TestCase
       end
     end
   end
+  
+  # auto validation
+  
+  def test_tagging_with_invalid_tag_should_raise_error
+    assert_raises Markaby::InvalidXhtmlError do
+      mab do
+        tag! :an_invalid_tag
+      end
+    end
+  end
 end
