@@ -1,6 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + "/test_helper")
 
 class MarkabyTest < Test::Unit::TestCase
+  def teardown
+    Markaby::Builder.restore_defaults!
+  end
+
   def test_simple
     assert_equal "<hr/>", mab { hr }
     assert_equal "<hr/><br/>", mab { hr; br }
@@ -157,5 +161,12 @@ class MarkabyTest < Test::Unit::TestCase
   def test_local_assignment_prefers_symbols_to_strings
     builder = Markaby::Builder.new("variable" => "string_value", :variable => :symbol_value)
     assert_equal :symbol_value, builder.variable
+  end
+
+  def test_method_missing_should_call_tag_if_no_tagset_present
+    Markaby::Builder.set(:tagset, nil)
+
+    builder = Markaby::Builder.new
+    assert_equal "<something/>", builder.something
   end
 end
