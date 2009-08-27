@@ -204,7 +204,7 @@ module Markaby
         @_helpers.instance_variable_get(ivar)
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
         @builder.__send__(sym, *args, &block)
-      elsif @tagset.nil?
+      elsif !@tagset
         tag!(sym, *args, &block)
       else
         super
