@@ -105,4 +105,13 @@ class MarkabyTest < Test::Unit::TestCase
   def test_markaby_should_have_correct_version
     assert_equal Markaby::VERSION, File.read(version_file).strip
   end
+
+  def test_duplicate_usage_of_same_idf
+    assert_raises Markaby::InvalidXhtmlError do
+      mab do
+        p.one!
+        p.one!
+      end
+    end
+  end
 end
