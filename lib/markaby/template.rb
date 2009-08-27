@@ -1,15 +1,17 @@
 module Markaby
   class Template
-    def self.reset_builder_class!
-      @@builder_class = Builder
-    end
-
-    def self.builder_class=(builder)
-      @@builder_class = builder
-    end
+    class << self
+      def reset_builder_class!
+        self.builder_class = Builder
+      end
       
-    def self.builder_class
-      @@builder_class ||= Builder
+      def builder_class=(builder)
+        @builder_class = builder
+      end
+      
+      def builder_class
+        @builder_class ||= Builder
+      end
     end
     
     attr_accessor :source, :path
@@ -19,15 +21,23 @@ module Markaby
     end
 
     def render(*args)
-      output = self.class.builder_class.new(*args)
+      output = new_builder(*args)
 
-      if path.nil?
-        output.instance_eval source
-      else
-        output.instance_eval source, path
-      end
+      path ?
+        output.instance_eval(source, path) :
+        output.instance_eval(source)
       
       output.to_s
+    end
+    
+  private
+  
+    def new_builder(*args)
+      builder_class.new(*args)
+    end
+  
+    def builder_class
+      self.class.builder_class
     end
   end
 end
