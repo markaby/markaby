@@ -124,4 +124,13 @@ class MarkabyTest < Test::Unit::TestCase
       end
     end
   end
+  
+  def test_self_closing_html_tag_with_block_throws_errors
+    assert_raises Markaby::InvalidXhtmlError do
+      mab do
+        html_tag :img do
+        end
+      end
+    end
+  end
 end
