@@ -119,7 +119,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal Markaby::VERSION, File.read(version_file).strip
   end
 
-  def test_duplicate_usage_of_same_idf
+  def test_duplicate_usage_of_same_id
     assert_raises Markaby::InvalidXhtmlError do
       mab do
         p.one!
