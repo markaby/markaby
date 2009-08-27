@@ -21,8 +21,8 @@ module Markaby
   #
   class Builder
     include Markaby::BuilderTags
-
-    @@default = {
+    
+    DEFAULT_OPTIONS = {
       :indent                 => 0,
       :output_helpers         => true,
       :output_xml_instruction => true,
@@ -35,9 +35,19 @@ module Markaby
         :lang       => 'en'
       }
     }
-
+    
+    @@default = DEFAULT_OPTIONS.dup
+    
+    def self.restore_defaults!
+      @@default = DEFAULT_OPTIONS.dup
+    end
+    
     def self.set(option, value)
       @@default[option] = value
+    end
+    
+    def self.get(option)
+      @@default[option]
     end
 
     def self.ignored_helpers 
