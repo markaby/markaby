@@ -235,14 +235,17 @@ module Markaby
     def initialize(*args)
       @stream, @start, @length = args
     end
+    
     def method_missing(*args, &block)
       # We can't do @stream.slice!(@start, @length),
       # as it would invalidate the @starts and @lengths of other Fragment instances.
       @str = @stream[@start, @length].to_s
       @stream[@start, @length] = [nil] * @length
+      
       def self.method_missing(*args, &block)
         @str.send(*args, &block)
       end
+      
       @str.send(*args, &block)
     end
   end
