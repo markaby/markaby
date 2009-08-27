@@ -133,4 +133,10 @@ class MarkabyTest < Test::Unit::TestCase
       end
     end
   end
+  
+  def test_local_assigning
+    builder = Markaby::Builder.new(:variable => :a_value)
+    
+    assert_equal :a_value, builder.variable
+  end
 end
