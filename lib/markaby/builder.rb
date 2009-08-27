@@ -36,18 +36,18 @@ module Markaby
       }
     }
     
-    @@default = DEFAULT_OPTIONS.dup
+    @@options = DEFAULT_OPTIONS.dup
     
     def self.restore_defaults!
-      @@default = DEFAULT_OPTIONS.dup
+      @@options = DEFAULT_OPTIONS.dup
     end
     
     def self.set(option, value)
-      @@default[option] = value
+      @@options[option] = value
     end
     
     def self.get(option)
-      @@default[option]
+      @@options[option]
     end
 
     def self.ignored_helpers 
@@ -81,7 +81,7 @@ module Markaby
       @_helpers = helpers
       @elements = {}
 
-      @@default.each do |k, v|
+      @@options.each do |k, v|
         instance_variable_set("@#{k}", @assigns.delete(k) || v)
       end
       
