@@ -14,7 +14,7 @@ end
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'doc/rdoc'
   rdoc.options << '--line-numbers'
-  rdoc.rdoc_files.add(['README.rdoc', 'CHANGELOG', 'lib/**/*.rb'])
+  rdoc.rdoc_files.add(['README.rdoc', 'CHANGELOG.rdoc', 'lib/**/*.rb'])
 end
 
 begin
