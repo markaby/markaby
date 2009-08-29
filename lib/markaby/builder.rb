@@ -50,7 +50,7 @@ module Markaby
       @@options[option]
     end
 
-    def self.ignored_helpers 
+    def self.ignored_helpers
       @@ignored_helpers ||= [] 
     end 
  
