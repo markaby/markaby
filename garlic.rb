@@ -10,7 +10,7 @@ garlic do
   # target railses
   RAILS_TAREGETS = [
     "v1.2.6",
-    # "v2.0.0",
+    "v2.0.0",
     # "v2.0.1",
     # "v2.0.2",
     # "v2.0.3",

@@ -43,7 +43,13 @@ if RUNNING_RAILS
       @request = ActionController::TestRequest.new
       @response = ActionController::TestResponse.new
       @controller = MarkabyController.new
-      @controller.template_root = File.join(File.dirname(__FILE__), 'rails')
+      
+      if @controller.respond_to?(:template_root=)
+        @controller.template_root = File.join(File.dirname(__FILE__), 'rails')
+      else
+        @controller.view_paths << File.join(File.dirname(__FILE__), 'rails')
+      end
+      
       @expected_monkey_names = '<ul><li>Frank</li><li>Benny</li><li>Paul</li></ul>'
     end
 
