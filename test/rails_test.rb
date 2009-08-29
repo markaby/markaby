@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'rails', 'test_preamble')
+require File.join(File.dirname(__FILE__), 'rails', 'preamble')
 
 class MarkabyController < ActionController::Base
 
