@@ -5,12 +5,12 @@ require 'rake/rdoctask'
 
 task :default => [:test]
 
-TEST_FILES = FileList['test/test*.rb']
+TEST_FILES = FileList['test/**/*test*.rb']
 
 Rake::TestTask.new do |t|
   t.libs << "test"
   t.test_files = TEST_FILES
-  t.verbose = true
+  t.verbose    = true
 end
 
 task :rcov do
