@@ -2,7 +2,6 @@ require File.join(File.dirname(__FILE__), 'rails', 'preamble')
 
 if RUNNING_RAILS
   class MarkabyController < ActionController::Base
-
     helper :test
   
     @@locals = { :monkeys => Monkey.find(:all) }
@@ -35,18 +34,23 @@ if RUNNING_RAILS
     def basic_inline_rendering
       render :inline => mab { ul { Monkey.find(:all).each { |m| li m.name } } }
     end
-
   end
 
   class MarkabyOnRailsTest < Test::Unit::TestCase
     def setup
+      Markaby::Builder.restore_defaults!
+
       @request = ActionController::TestRequest.new
       @response = ActionController::TestResponse.new
       @controller = MarkabyController.new
       @controller.template_root = File.join(File.dirname(__FILE__), 'rails')
       @expected_monkey_names = '<ul><li>Frank</li><li>Benny</li><li>Paul</li></ul>'
     end
-  
+
+    def teardown
+      Markaby::Builder.restore_defaults!
+    end
+
     def test_index
       process :index
       assert_response :success
