@@ -26,4 +26,6 @@ if RUNNING_RAILS
       @@monkeys ||= ['Frank', 'Benny', 'Paul'].map { |name| Monkey.new name }
     end
   end
+else
+  warn "Skipping rails specific tests"
 end
