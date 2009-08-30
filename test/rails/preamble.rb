@@ -2,7 +2,7 @@ require 'test/unit'
 
 MARKABY_ROOT    = File.join(File.dirname(__FILE__), "..", "..")
 rails_root      = File.join(MARKABY_ROOT, "..", "..", "..")
-RAILS_BOOT_FILE = File.join(rails_root, "config", "boot")
+RAILS_BOOT_FILE = File.join(rails_root, "config", "boot.rb")
 
 RUNNING_RAILS = File.exists?(RAILS_BOOT_FILE) ? true : false
 
@@ -15,7 +15,7 @@ if RUNNING_RAILS
 
   Dependencies.load_paths.unshift File.dirname(__FILE__)
 
-  $:.unshift markaby_root
+  $:.unshift MARKABY_ROOT
 
   require 'init'
 
