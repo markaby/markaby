@@ -27,10 +27,6 @@ if RUNNING_RAILS
       render :partial => 'monkeys', :locals => { 'monkeys' => Monkey.find(:all) }
     end
 
-    def inline_helper_rendering
-      render_markaby(:locals => @@locals) { ul { monkeys.each { |m| li m.name } } }
-    end
-  
     def basic_inline_rendering
       render :inline => mab { ul { Monkey.find(:all).each { |m| li m.name } } }
     end
@@ -79,12 +75,6 @@ if RUNNING_RAILS
         process :partial_rendering_with_stringy_keys_in_local_assigns
       end
     end
-
-    def test_inline_helper_rendering
-      process :inline_helper_rendering
-      assert_response :success
-      assert_equal @expected_monkey_names, @response.body
-    end  
 
     def test_basic_inline_rendering
       process :basic_inline_rendering
