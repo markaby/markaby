@@ -70,8 +70,6 @@ module Markaby
       end
     end
 
-
-    
     Template.builder_class = Builder
     
     class FauxErbout < ::Builder::BlankSlate # :nodoc:
@@ -85,6 +83,5 @@ module Markaby
         @builder.send *args, &block
       end
     end
-
   end
 end
