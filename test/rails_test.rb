@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'rails', 'preamble')
 if RUNNING_RAILS
   class MarkabyOnRailsTest < ActionController::TestCase
     class TestController < ActionController::Base
-      VIEW_PATH = File.expand_path(File.join(File.dirname(__FILE__), '..', 'rails', 'markaby'))
+      VIEW_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'rails', 'markaby'))
 
       # Rails will by default look for a directory named "markaby_on_rails_test/markaby -
       # because this controller is named MarkabyOnRailsTest::MarkabyController.  Override
