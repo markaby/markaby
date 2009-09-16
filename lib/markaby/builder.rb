@@ -210,7 +210,7 @@ module Markaby
         @assigns[stringy_key]
       elsif instance_variables.include?(ivar = "@#{sym}")
         instance_variable_get(ivar)
-      elsif !@_helpers.nil? && @_helpers.instance_variables.include?(ivar)
+      elsif @_helpers && @_helpers.instance_variables.include?(ivar)
         @_helpers.instance_variable_get(ivar)
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
         @builder.__send__(sym, *args, &block)
