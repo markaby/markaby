@@ -1,0 +1,1 @@
+render :partial => "a_partial.mab"

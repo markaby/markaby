@@ -1,0 +1,7 @@
+ul do
+  authors = ["smtlaissezfaire"]
+  
+  authors.each do |author|
+    render :partial => "partial_child_with_locals.mab", :locals => {:author => author}
+  end
+end
