@@ -28,4 +28,3 @@ end
 require 'builder' unless defined?(Builder)
 require 'markaby/builder'
 require 'markaby/cssproxy'
-require 'markaby/template'
