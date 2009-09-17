@@ -49,6 +49,5 @@ module Markaby
       
       self
     end
-
   end
 end
