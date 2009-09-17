@@ -16,9 +16,7 @@ if RUNNING_RAILS
   require 'action_controller/test_process'
 
   $:.unshift MARKABY_ROOT
-
   require 'init'
-  require 'markaby/kernel_method'
 else
   warn "Skipping rails specific tests"
 end
