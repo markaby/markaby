@@ -10,7 +10,7 @@ if defined?(Rails)
           CODE
         end
 
-        def render(template, local_assigns={})
+        def render(template, local_assigns = (template.respond_to?(:locals) ? template.locals : {}))
           builder = Markaby::Builder.new(instance_variables.merge(local_assigns), @view)
 
           template.is_a?(Proc) ?
