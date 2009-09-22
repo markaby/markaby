@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'test/unit'
+require 'spec'
+require 'spec/interop/test'
 
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
