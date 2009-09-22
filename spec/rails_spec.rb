@@ -1,91 +1,84 @@
 require File.join(File.dirname(__FILE__), 'rails', 'spec_helper')
 
+class TestController < ActionController::Base
+  VIEW_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'rails', 'views'))
+  append_view_path(VIEW_PATH)
+
+  around_filter :catch_exceptions
+
+  attr_reader :last_exception
+
+  def catch_exceptions
+    yield
+  rescue Exception => @last_exception
+    raise @last_exception
+  end
+end
+
+class MarkabyController < TestController
+  def renders_nothing
+    render :text => ""
+  end
+
+  def renders_erb_with_explicit_template
+    render :template => "markaby/renders_erb"
+  end
+
+  def render_inline_content
+    mab_content = mab do
+      ul do
+        li "Scott"
+      end
+    end
+
+    render :inline => mab_content
+  end
+
+  def render_explicit_but_empty_markaby_layout
+    render :template => "markaby/render_explicit_but_empty_markaby_layout.mab"
+  end
+
+  def no_values_passed
+    render :template => "markaby/no_values_passed"
+  end
+
+  def correct_template_values
+    render :template => "markaby/correct_template_values"
+  end
+
+  def render_erb_without_explicit_render_call
+  end
+
+  # TODO: See test below
+  # def render_without_explicit_render_call
+  # end
+
+  def render_with_ivar
+    @user = "smtlaissezfaire"
+    render :template => "markaby/render_with_ivar"
+  end
+
+  def access_to_helpers
+    render :template => "markaby/access_to_helpers"
+  end
+
+  def renders_partial
+    render :template => "markaby/partial_parent"
+  end
+
+  def renders_partial_with_locals
+    render :template => "markaby/partial_parent_with_locals"
+  end
+
+  def render_which_raises_error
+    render :template => "markaby/broken"
+  end
+end
+
 if RUNNING_RAILS
   class MarkabyOnRailsTest < ActionController::TestCase
-    class TestController < ActionController::Base
-      VIEW_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'rails', 'markaby'))
-
-      # Rails will by default look for a directory named "markaby_on_rails_test/markaby -
-      # because this controller is named MarkabyOnRailsTest::MarkabyController.  Override
-      # this so that we can just use the regular view path in our tests
-      def self.controller_path
-        VIEW_PATH
-      end
-
-      around_filter :catch_exceptions
-
-      attr_reader :last_exception
-
-      def catch_exceptions
-        yield
-      rescue Exception => @last_exception
-        raise @last_exception
-      end
-    end
-
-    class MarkabyController < TestController
-      def renders_nothing
-        render :text => ""
-      end
-
-      def renders_erb_with_explicit_template
-        render :template => "renders_erb"
-      end
-
-      def render_inline_content
-        mab_content = mab do
-          ul do
-            li "Scott"
-          end
-        end
-
-        render :inline => mab_content
-      end
-
-      def render_explicit_but_empty_markaby_layout
-        render :template => "render_explicit_but_empty_markaby_layout.mab"
-      end
-
-      def no_values_passed
-        render :template => "no_values_passed"
-      end
-
-      def correct_template_values
-        render :template => "correct_template_values"
-      end
-
-      def render_erb_without_explicit_render_call
-      end
-
-      # TODO: See test below
-      # def render_without_explicit_render_call
-      # end
-
-      def render_with_ivar
-        @user = "smtlaissezfaire"
-        render :template => "render_with_ivar"
-      end
-
-      def access_to_helpers
-        render :template => "access_to_helpers"
-      end
-
-      def renders_partial
-        render :template => "partial_parent"
-      end
-
-      def renders_partial_with_locals
-        render :template => "partial_parent_with_locals"
-      end
-
-      def render_which_raises_error
-        render :template => "broken"
-      end
-    end
-
     def setup
       Markaby::Builder.restore_defaults!
-      MarkabyController.view_paths = MarkabyController::VIEW_PATH
 
       @request = ActionController::TestRequest.new
       @response = ActionController::TestResponse.new
