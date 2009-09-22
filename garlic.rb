@@ -23,7 +23,6 @@ garlic do
     "v2.3.2",
     "v2.3.3",
     "v2.3.4"
-    # "origin/master"
   ]
 
   RAILS_TAREGETS.each do |rails|
