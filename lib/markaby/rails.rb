@@ -2,11 +2,21 @@ if defined?(Rails)
   module Markaby
     module Rails
       class TemplateHandler < ::ActionView::TemplateHandler
+        def compile(template, local_assigns={})
+          <<-CODE
+            handler = Markaby::Rails::TemplateHandler.new
+            handler.view = self
+            handler.render(template, local_assigns)
+          CODE
+        end
+        
         def render(template, local_assigns={})
           builder = Markaby::Builder.new(instance_variables.merge(local_assigns), @view)
           builder.instance_eval(template.source)
           builder.to_s
         end
+        
+        attr_accessor :view
 
       private
 
