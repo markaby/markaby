@@ -1,20 +1,14 @@
 require 'rake'
-require 'rake/testtask'
+require 'spec/rake/spectask'
 require 'rake/clean'
 require 'rake/rdoctask'
 
-task :default => [:test]
+task :default => :spec
 
-TEST_FILES = FileList['test/**/*test*.rb']
-
-Rake::TestTask.new do |t|
-  t.libs << "test"
-  t.test_files = TEST_FILES
-  t.verbose    = true
-end
-
-task :rcov do
-  `rcov #{TEST_FILES}`
+desc 'Run the specs'
+Spec::Rake::SpecTask.new do |t|
+  t.warning = false
+  t.spec_opts = ["--color"]
 end
 
 Rake::RDocTask.new do |rdoc|
