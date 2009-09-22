@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'rails', 'test_helper')
+require File.join(File.dirname(__FILE__), 'rails', 'spec_helper')
 
 if RUNNING_RAILS
   class MarkabyOnRailsTest < ActionController::TestCase

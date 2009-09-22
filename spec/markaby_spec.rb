@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + "/test_helper")
+require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
 
 class MarkabyTest < Test::Unit::TestCase
   def teardown
@@ -46,7 +46,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal "<h1>Hello World</h1>", mab { @message = 'Hello World'; h1 message } 
   end 
   
-  def test_helpers
+  def spec_helpers
     Markaby::Builder.ignored_helpers.clear
     assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }
     assert_equal %{<a href="">edit</a>}, mab({}, MarkabyTestHelpers) { link_to('edit') }
