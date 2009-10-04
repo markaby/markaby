@@ -1,7 +1,6 @@
 module Markaby
   module Rails
     DEPRECATED_RAILS_VERSIONS = [
-      "1.2.1",
       "1.2.2",
       "1.2.3",
       "1.2.4",
