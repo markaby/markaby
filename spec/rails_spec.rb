@@ -15,7 +15,7 @@ if RUNNING_RAILS
     end
   end
   
-  if Markaby::Rails::DETECTED_RAILS_VERSION == 126
+  if Markaby::Rails.rails_version_integer == 126
     class ActionController::TestCase < Test::Unit::TestCase; end
     
     class TestController < NonSpecificTestController
@@ -179,6 +179,12 @@ if RUNNING_RAILS
       assert_equal ActionView::TemplateError, @controller.last_exception.class
       assert %r(undefined local variable or method `supercalifragilisticexpialidocious' for #<Markaby::.*Builder.*) =~
              @controller.last_exception.message.to_s
+    end
+  end
+  
+  describe "rails version" do
+    it "should support the current rails version" do
+      Markaby::Rails::SUPPORTED_RAILS_VERSIONS.should include(::Rails::VERSION::STRING)
     end
   end
 end

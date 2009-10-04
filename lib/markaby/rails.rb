@@ -54,19 +54,37 @@ module Markaby
       "2.3.3.1",
       "2.3.4"
     ]
-  end
-end
-
-if defined?(Rails)
-  module Markaby
-    module Rails
-      DETECTED_RAILS_VERSION = ::Rails::VERSION::STRING.gsub(".", "").to_i
-    end
-  end
   
-  if Markaby::Rails::DETECTED_RAILS_VERSION == 126
-    require File.dirname(__FILE__) + "/rails/deprecated"
-  else
-    require File.dirname(__FILE__) + "/rails/current"
+    class << self
+      def load
+        check_rails_version
+
+        if rails_version_integer == 126
+          require File.dirname(__FILE__) + "/rails/deprecated"
+        else
+          require File.dirname(__FILE__) + "/rails/current"
+        end
+      end
+
+      def check_rails_version
+        unless SUPPORTED_RAILS_VERSIONS.include?(detected_rails_version)
+          error_message = "Cannot load markaby under rails version #{detected_rails_version}.  "
+          error_message << "See Markaby::Rails::SUPPORTED_RAILS_VERSIONS for exactly that, or redefine this constant."
+          raise LoadError, error_message
+        end
+      end
+
+      def rails_version_integer
+        detected_rails_version.gsub(".", "").to_i
+      end
+    
+    private
+
+      def detected_rails_version
+        if defined?(::Rails)
+          ::Rails::VERSION::STRING
+        end
+      end
+    end
   end
 end
