@@ -15,7 +15,7 @@ if RUNNING_RAILS
     end
   end
   
-  if Markaby::Rails.rails_version_integer == 126
+  if Markaby::Rails.deprecated_rails_version?
     class ActionController::TestCase < Test::Unit::TestCase; end
     
     class TestController < NonSpecificTestController
