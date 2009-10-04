@@ -1,10 +1,9 @@
 require File.join(File.dirname(__FILE__), 'rails', 'spec_helper')
 
 if RUNNING_RAILS
-  class TestController < ActionController::Base
+  class NonSpecificTestController < ActionController::Base
     VIEW_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'rails', 'views'))
-    append_view_path(VIEW_PATH)
-
+    
     around_filter :catch_exceptions
 
     attr_reader :last_exception
@@ -15,7 +14,19 @@ if RUNNING_RAILS
       raise @last_exception
     end
   end
-
+  
+  if Markaby::Rails::DETECTED_RAILS_VERSION == 126
+    class ActionController::TestCase < Test::Unit::TestCase; end
+    
+    class TestController < NonSpecificTestController
+      self.template_root = VIEW_PATH
+    end
+  else
+    class TestController < NonSpecificTestController
+      append_view_path(VIEW_PATH)
+    end
+  end
+  
   class MarkabyController < TestController
     def renders_nothing
       render :text => ""
@@ -74,7 +85,7 @@ if RUNNING_RAILS
       render :template => "markaby/broken"
     end
   end
-
+  
   class MarkabyOnRailsTest < ActionController::TestCase
     def setup
       Markaby::Builder.restore_defaults!
@@ -125,13 +136,6 @@ if RUNNING_RAILS
       assert_equal "<ul><li>smt</li><li>joho</li><li>spox</li></ul>", @response.body
     end
 
-    def test_renders_default_erb_without_explicit_render_call
-      get :render_erb_without_explicit_render_call
-      assert_response :success
-      
-      assert_equal @response.body, "hello, from erb"
-    end
-    
     def test_renders_without_explicit_render_call
       get :render_mab_without_explicit_render_call
       assert_response :success
@@ -173,8 +177,8 @@ if RUNNING_RAILS
       assert_response :error
 
       assert_equal ActionView::TemplateError, @controller.last_exception.class
-      assert %r(undefined local variable or method `supercalifragilisticexpialidocious' for #<Markaby::Builder.*) =~
-             @controller.last_exception.message
+      assert %r(undefined local variable or method `supercalifragilisticexpialidocious' for #<Markaby::.*Builder.*) =~
+             @controller.last_exception.message.to_s
     end
   end
 end

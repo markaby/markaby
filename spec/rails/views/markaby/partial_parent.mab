@@ -1,1 +1,1 @@
-render :partial => "a_partial.mab"
+render :partial => "a_partial"
