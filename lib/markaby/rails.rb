@@ -57,10 +57,6 @@ module Markaby
         end
       end
 
-      def rails_version_integer
-        detected_rails_version.gsub(".", "").to_i
-      end
-    
     private
 
       def detected_rails_version
