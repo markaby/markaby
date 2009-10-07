@@ -98,6 +98,23 @@ module Markaby
       @_helper = helper
     end
 
+    def metaclass(&block)
+      metaclass = class << self; self; end
+      metaclass.class_eval(&block)
+    end
+
+    private :metaclass
+
+    def locals=(locals)
+      locals.each do |key, value|
+        metaclass do
+          define_method key do
+            value
+          end
+        end
+      end
+    end
+
     # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
     def to_s
       @streams.last.to_s

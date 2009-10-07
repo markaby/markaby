@@ -72,6 +72,33 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal :bar, builder.foo
   end
 
+  it "should be able to set a local" do
+    builder = Markaby::Builder.new
+    builder.locals = { :foo => "bar" }
+    builder.foo.should == "bar"
+  end
+
+  it "should be able to set a different local value" do
+    builder = Markaby::Builder.new
+    builder.locals = { :foo => "baz" }
+    builder.foo.should == "baz"
+  end
+
+  it "should assign the correct key" do
+    builder = Markaby::Builder.new
+    builder.locals = { :key => :value }
+    builder.key.should == :value
+  end
+
+  it "should be able to assign multiple locals" do
+    builder = Markaby::Builder.new
+
+    builder.locals = { :one => "two", :three => "four" }
+
+    builder.one.should == "two"
+    builder.three.should == "four"
+  end
+
   def test_builder_bang_methods
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", mab { instruct! }
   end
