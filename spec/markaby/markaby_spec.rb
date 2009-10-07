@@ -64,6 +64,14 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal :ivar_value, builder.some_ivar
   end
 
+  it "can assign helpers after instantiation" do
+    helper = mock 'helper', :foo => :bar
+
+    builder = Markaby::Builder.new
+    builder.helper = helper
+    assert_equal :bar, builder.foo
+  end
+
   def test_builder_bang_methods
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", mab { instruct! }
   end
