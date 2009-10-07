@@ -1,7 +1,7 @@
 require 'test/unit'
 
 unless defined?(RUNNING_RAILS)
-  MARKABY_ROOT    = File.join(File.dirname(__FILE__), "..", "..")
+  MARKABY_ROOT    = File.join(File.dirname(__FILE__), "..", "..", "..")
   rails_root      = File.join(MARKABY_ROOT, "..", "..", "..")
   RAILS_BOOT_FILE = File.join(rails_root, "config", "boot.rb")
 

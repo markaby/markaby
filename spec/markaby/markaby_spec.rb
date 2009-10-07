@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 class MarkabyTest < Test::Unit::TestCase
   def teardown
@@ -112,7 +112,7 @@ class MarkabyTest < Test::Unit::TestCase
   end
   
   def version_file
-    File.expand_path(File.dirname(__FILE__) + "/../VERSION")
+    File.expand_path(File.dirname(__FILE__) + "/../../VERSION")
   end
   
   def test_markaby_should_have_correct_version

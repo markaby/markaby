@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + "/spec_helper")
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 class FragmentTest < Test::Unit::TestCase
   def test_method_missing_is_private

@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), 'rails', 'spec_helper')
 
 unless RUNNING_RAILS
-  require File.join(File.dirname(__FILE__), 'spec_helper')
+  require File.join(File.dirname(__FILE__), '..', 'spec_helper')
   
   describe "when rails is loaded, but is not a supported version" do
     module MockRails
