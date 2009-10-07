@@ -249,6 +249,7 @@ a method and its value will be returned, nothing will be output.
 = Credits
 
 Markaby is a work of immense hope by Tim Fletcher and why the lucky stiff.
+It is maintained by joho, spox, and smtlaissezfaire.
 Thankyou for giving it a whirl.
 
 Markaby is inspired by the HTML library within cgi.rb.  Hopefully it will
