@@ -99,9 +99,7 @@ For a more practical explanation, check out the README.
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000025">method_missing</a>&nbsp;&nbsp;
-      <a href="#M000024">method_missing</a>&nbsp;&nbsp;
-      <a href="#M000023">new</a>&nbsp;&nbsp;
+      <a href="#M000030">new</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -123,78 +121,23 @@ For a more practical explanation, check out the README.
     <div id="methods">
       <h3 class="section-bar">Public Class methods</h3>
 
-      <div id="method-M000025" class="method-detail">
-        <a name="M000025"></a>
+      <div id="method-M000030" class="method-detail">
+        <a name="M000030"></a>
 
         <div class="method-heading">
-          <a href="#M000025" class="method-signature">
-          <span class="method-name">method_missing</span><span class="method-args">(*args, &amp;block)</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000025-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000025-source">
-<pre>
-     <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 243</span>
-243:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">method_missing</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-244:         <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">send</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-245:       <span class="ruby-keyword kw">end</span>
-</pre>
-          </div>
-        </div>
-      </div>
-
-      <div id="method-M000023" class="method-detail">
-        <a name="M000023"></a>
-
-        <div class="method-heading">
-          <a href="#M000023" class="method-signature">
+          <a href="#M000030" class="method-signature">
           <span class="method-name">new</span><span class="method-args">(*args)</span>
           </a>
         </div>
       
         <div class="method-description">
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000023-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000023-source">
+            onclick="toggleCode('M000030-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000030-source">
 <pre>
-     <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 235</span>
-235:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
-236:       <span class="ruby-ivar">@stream</span>, <span class="ruby-ivar">@start</span>, <span class="ruby-ivar">@length</span> = <span class="ruby-identifier">args</span>
-237:     <span class="ruby-keyword kw">end</span>
-</pre>
-          </div>
-        </div>
-      </div>
-
-      <h3 class="section-bar">Public Instance methods</h3>
-
-      <div id="method-M000024" class="method-detail">
-        <a name="M000024"></a>
-
-        <div class="method-heading">
-          <a href="#M000024" class="method-signature">
-          <span class="method-name">method_missing</span><span class="method-args">(*args, &amp;block)</span>
-          </a>
-        </div>
-      
-        <div class="method-description">
-          <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000024-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000024-source">
-<pre>
-     <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 238</span>
-238:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-239:       <span class="ruby-comment cmt"># We can't do @stream.slice!(@start, @length),</span>
-240:       <span class="ruby-comment cmt"># as it would invalidate the @starts and @lengths of other Fragment instances.</span>
-241:       <span class="ruby-ivar">@str</span> = <span class="ruby-ivar">@stream</span>[<span class="ruby-ivar">@start</span>, <span class="ruby-ivar">@length</span>].<span class="ruby-identifier">to_s</span>
-242:       <span class="ruby-ivar">@stream</span>[<span class="ruby-ivar">@start</span>, <span class="ruby-ivar">@length</span>] = [<span class="ruby-keyword kw">nil</span>] <span class="ruby-operator">*</span> <span class="ruby-ivar">@length</span>
-243:       <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">method_missing</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-244:         <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">send</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-245:       <span class="ruby-keyword kw">end</span>
-246:       <span class="ruby-ivar">@str</span>.<span class="ruby-identifier">send</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+     <span class="ruby-comment cmt"># File lib/markaby/builder.rb, line 245</span>
+245:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
+246:       <span class="ruby-ivar">@stream</span>, <span class="ruby-ivar">@start</span>, <span class="ruby-ivar">@length</span> = <span class="ruby-identifier">args</span>
 247:     <span class="ruby-keyword kw">end</span>
 </pre>
           </div>

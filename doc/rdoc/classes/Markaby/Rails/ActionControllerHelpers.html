@@ -55,8 +55,8 @@
         <tr class="top-aligned-row">
             <td><strong>In:</strong></td>
             <td>
-                <a href="../../../files/lib/markaby/rails_rb.html">
-                lib/markaby/rails.rb
+                <a href="../../../files/lib/markaby/rails/deprecated_rb.html">
+                lib/markaby/rails/deprecated.rb
                 </a>
         <br />
             </td>
@@ -87,7 +87,7 @@ href="../Rails.html">Rails</a>.
       <h3 class="section-bar">Methods</h3>
 
       <div class="name-list">
-      <a href="#M000005">render_markaby</a>&nbsp;&nbsp;
+      <a href="#M000008">render_markaby</a>&nbsp;&nbsp;
       </div>
     </div>
 
@@ -109,11 +109,11 @@ href="../Rails.html">Rails</a>.
     <div id="methods">
       <h3 class="section-bar">Public Instance methods</h3>
 
-      <div id="method-M000005" class="method-detail">
-        <a name="M000005"></a>
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
 
         <div class="method-heading">
-          <a href="#M000005" class="method-signature">
+          <a href="#M000008" class="method-signature">
           <span class="method-name">render_markaby</span><span class="method-args">(options = {}, &amp;block)</span>
           </a>
         </div>
@@ -128,13 +128,13 @@ Use this method in your controllers to output <a
 href="../../Markaby.html">Markaby</a> directly from inside.
 </p>
           <p><a class="source-toggle" href="#"
-            onclick="toggleCode('M000005-source');return false;">[Source]</a></p>
-          <div class="method-source-code" id="M000005-source">
+            onclick="toggleCode('M000008-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000008-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/markaby/rails.rb, line 22</span>
-22:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_markaby</span>(<span class="ruby-identifier">options</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
-23:         <span class="ruby-identifier">render</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-identifier">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Builder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:locals</span>], <span class="ruby-keyword kw">self</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>).<span class="ruby-identifier">to_s</span> })
-24:       <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># File lib/markaby/rails/deprecated.rb, line 51</span>
+51:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_markaby</span>(<span class="ruby-identifier">options</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+52:         <span class="ruby-identifier">render</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-identifier">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Builder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:locals</span>], <span class="ruby-keyword kw">self</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>).<span class="ruby-identifier">to_s</span> })
+53:       <span class="ruby-keyword kw">end</span>
 </pre>
           </div>
         </div>
