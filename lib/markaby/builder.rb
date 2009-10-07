@@ -75,10 +75,10 @@ module Markaby
     #     end
     #   }
     #
-    def initialize(assigns = {}, helpers = nil, &block)
+    def initialize(assigns = {}, helper = nil, &block)
       @streams = [[]]
       @assigns = assigns.dup
-      @_helpers = helpers
+      @_helper = helper
       @elements = {}
 
       @@options.each do |k, v|
@@ -95,7 +95,7 @@ module Markaby
     end
 
     def helper=(helper)
-      @_helpers = helper
+      @_helper = helper
     end
 
     # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
@@ -199,8 +199,8 @@ module Markaby
     # method_missing used to be the lynchpin in Markaby, but it's no longer used to handle
     # HTML tags.  See html_tag for that.
     def method_missing(sym, *args, &block)
-      if @_helpers.respond_to?(sym, true) && !self.class.ignored_helpers.include?(sym)
-        r = @_helpers.send(sym, *args, &block)
+      if @_helper.respond_to?(sym, true) && !self.class.ignored_helpers.include?(sym)
+        r = @_helper.send(sym, *args, &block)
         if @output_helpers and r.respond_to? :to_str
           fragment { @builder << r }
         else
@@ -214,8 +214,8 @@ module Markaby
         @assigns[stringy_key]
       elsif instance_variables.include?(ivar = "@#{sym}")
         instance_variable_get(ivar)
-      elsif @_helpers && @_helpers.instance_variables.include?(ivar)
-        @_helpers.instance_variable_get(ivar)
+      elsif @_helper && @_helper.instance_variables.include?(ivar)
+        @_helper.instance_variable_get(ivar)
       elsif ::Builder::XmlMarkup.instance_methods.include?(sym.to_s)
         @builder.__send__(sym, *args, &block)
       elsif !@tagset
