@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{Markaby}
-  s.version = "0.6.0"
+  s.version = "0.6.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
-  s.date = %q{2009-08-23}
+  s.date = %q{2009-10-07}
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{jrbarton@gmail.com}
   s.extra_rdoc_files = [
@@ -17,11 +17,12 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".gitignore",
-     "CHANGELOG",
+     "CHANGELOG.rdoc",
      "Markaby.gemspec",
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "garlic.rb",
      "init.rb",
      "lib/markaby.rb",
      "lib/markaby/builder.rb",
@@ -29,40 +30,51 @@ Gem::Specification.new do |s|
      "lib/markaby/cssproxy.rb",
      "lib/markaby/kernel_method.rb",
      "lib/markaby/rails.rb",
+     "lib/markaby/rails/current.rb",
+     "lib/markaby/rails/deprecated.rb",
      "lib/markaby/tags.rb",
-     "lib/markaby/template.rb",
-     "test/rails/markaby/_monkeys.mab",
-     "test/rails/markaby/broken.mab",
-     "test/rails/markaby/create.mab",
-     "test/rails/markaby/index.mab",
-     "test/rails/monkeys.html",
-     "test/rails/test_helper.rb",
-     "test/rails/test_preamble.rb",
-     "test/rails_test.rb",
-     "test/test_builder.rb",
-     "test/test_css_proxy.rb",
-     "test/test_helper.rb",
-     "test/test_markaby.rb"
+     "spec/markaby/builder_spec.rb",
+     "spec/markaby/css_proxy_spec.rb",
+     "spec/markaby/fragment_spec.rb",
+     "spec/markaby/markaby_spec.rb",
+     "spec/markaby/rails/spec_helper.rb",
+     "spec/markaby/rails/views/markaby/_a_partial.mab",
+     "spec/markaby/rails/views/markaby/_partial_child_with_locals.mab",
+     "spec/markaby/rails/views/markaby/access_to_helpers.mab",
+     "spec/markaby/rails/views/markaby/broken.mab",
+     "spec/markaby/rails/views/markaby/correct_template_values.mab",
+     "spec/markaby/rails/views/markaby/no_values_passed.mab",
+     "spec/markaby/rails/views/markaby/partial_parent.mab",
+     "spec/markaby/rails/views/markaby/partial_parent_with_locals.mab",
+     "spec/markaby/rails/views/markaby/render_erb_without_explicit_render_call.erb",
+     "spec/markaby/rails/views/markaby/render_explicit_but_empty_markaby_layout.mab",
+     "spec/markaby/rails/views/markaby/render_mab_without_explicit_render_call.mab",
+     "spec/markaby/rails/views/markaby/render_with_ivar.mab",
+     "spec/markaby/rails/views/markaby/renders_erb.rhtml",
+     "spec/markaby/rails_spec.rb",
+     "spec/markaby/rails_version_spec.rb",
+     "spec/spec.opts",
+     "spec/spec_helper.rb"
   ]
-  s.has_rdoc = true
   s.homepage = %q{http://joho.github.com/markaby/}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.1}
+  s.rubygems_version = %q{1.3.5}
   s.summary = %q{Markup as Ruby, write HTML in your native Ruby tongue}
   s.test_files = [
-    "test/rails/test_helper.rb",
-     "test/rails/test_preamble.rb",
-     "test/rails_test.rb",
-     "test/test_builder.rb",
-     "test/test_css_proxy.rb",
-     "test/test_helper.rb",
-     "test/test_markaby.rb"
+    "spec/markaby/builder_spec.rb",
+     "spec/markaby/css_proxy_spec.rb",
+     "spec/markaby/fragment_spec.rb",
+     "spec/markaby/markaby_spec.rb",
+     "spec/markaby/rails/spec_helper.rb",
+     "spec/markaby/rails_spec.rb",
+     "spec/markaby/rails_version_spec.rb",
+     "spec/spec_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 2
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<builder>, [">= 2.0.0"])
