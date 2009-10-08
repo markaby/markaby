@@ -37,7 +37,7 @@ module Markaby
     end
 
     it "should evaluate a block in the scope given" do
-      pending 'todo' do
+      pending do
         scope = mock 'scope object', :foo => "bar"
 
         tilt = ::Tilt::MarkabyTemplate.new { li foo }
@@ -65,6 +65,17 @@ module Markaby
         end
 
         output.should == "Hey Joe"
+      end
+    end
+    
+    it "should be able to render two templates in a row" do
+      pending do
+        tilt = ::Tilt::MarkabyTemplate.new do
+          text "foo"
+        end
+      
+        tilt.render.should == "foo"
+        tilt.render.should == "foo"
       end
     end
 
