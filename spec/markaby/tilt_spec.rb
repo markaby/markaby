@@ -69,14 +69,10 @@ module Markaby
     end
     
     it "should be able to render two templates in a row" do
-      pending do
-        tilt = ::Tilt::MarkabyTemplate.new do
-          text "foo"
-        end
-      
-        tilt.render.should == "foo"
-        tilt.render.should == "foo"
-      end
+      tilt = ::Tilt::MarkabyTemplate.new("tilt/render_twice.mab", &@block)
+    
+      tilt.render.should == "foo"
+      tilt.render.should == "foo"
     end
 
     it "should retrieve a Tilt::MarkabyTemplate when calling Tilt['hello.mab']" do
