@@ -18,6 +18,6 @@ module Markaby
 end
 
 module Tilt
-  MarkabyTemplate = ::Markaby::Tilt::Template
+  MarkabyTemplate = Markaby::Tilt::Template
   register "mab", MarkabyTemplate
 end
