@@ -24,10 +24,11 @@ module Markaby
     # Adds attributes to an element.  Bang methods set the :id attribute.
     # Other methods add to the :class attribute.
     def method_missing(id_or_class, *args, &block)
-      if (idc = id_or_class.to_s) =~ /!$/
-        @attrs[:id] = $`
+      if id_or_class.to_s =~ /(.*)!$/
+        @attrs[:id] = $1
       else
-        @attrs[:class] = @attrs[:class] ? "#{@attrs[:class]} #{idc}".strip : idc
+        id = id_or_class
+        @attrs[:class] = @attrs[:class] ? "#{@attrs[:class]} #{id}".strip : id
       end
 
       unless args.empty?
