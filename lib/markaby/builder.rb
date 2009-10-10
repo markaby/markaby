@@ -62,7 +62,7 @@ module Markaby
 
     # Create a Markaby builder object.  Pass in a hash of variable assignments to
     # +assigns+ which will be available as instance variables inside tag construction
-    # blocks.  If an object is passed in to +helpers+, its methods will be available
+    # blocks.  If an object is passed in to +helper+, its methods will be available
     # from those same blocks.
     #
     # Pass in a +block+ to new and the block will be evaluated.
