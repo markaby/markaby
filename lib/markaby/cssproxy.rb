@@ -4,8 +4,6 @@ module Markaby
   #
   # See the README for examples.
   class CssProxy
-
-    # Creates a CssProxy object.
     def initialize(builder, stream, sym)
       @builder, @stream, @sym, @attrs = builder, stream, sym, {}
       
