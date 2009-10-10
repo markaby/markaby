@@ -36,5 +36,13 @@ module Markaby
       self.tagset = Markaby::XHTMLFrameset
       xhtml_html(attrs, &block)
     end
+    
+  private
+    
+    def xhtml_html(attrs = {}, &block)
+      instruct! if @output_xml_instruction
+      declare!(:DOCTYPE, :html, :PUBLIC, *tagset.doctype)
+      tag!(:html, @root_attributes.merge(attrs), &block)
+    end
   end
 end

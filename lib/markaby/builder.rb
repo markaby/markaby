@@ -225,12 +225,6 @@ module Markaby
       end
     end
 
-    def xhtml_html(attrs = {}, &block)
-      instruct! if @output_xml_instruction
-      declare!(:DOCTYPE, :html, :PUBLIC, *tagset.doctype)
-      tag!(:html, @root_attributes.merge(attrs), &block)
-    end
-
     def fragment
       stream = @streams.last
       start = stream.length
