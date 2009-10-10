@@ -79,7 +79,7 @@ module Markaby
       @streams = [[]]
       @assigns = assigns.dup
       @_helper = helper
-      @elements = {}
+      @used_ids = {}
 
       @@options.each do |k, v|
         instance_variable_set("@#{k}", @assigns.delete(k) || v)
@@ -149,7 +149,7 @@ module Markaby
             end
             if atname == :id
               ele_id = v.to_s
-              if @elements.has_key? ele_id
+              if @used_ids.has_key? ele_id
                 raise InvalidXhtmlError, "id `#{ele_id}' already used (id's must be unique)."
               end
             end
@@ -163,7 +163,7 @@ module Markaby
       end
 
       f = fragment { @builder.method_missing(tag, *args, &block) }
-      @elements[ele_id] = f if ele_id
+      @used_ids[ele_id] = f if ele_id
       f
     end
 
