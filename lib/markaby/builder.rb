@@ -132,13 +132,13 @@ module Markaby
     # the arguments are the same as the tags implemented via method_missing.
     def tag!(tag, *args, &block)
       ele_id = nil
-      if @auto_validation and @tagset
+      if @auto_validation && @tagset
         if !@tagset.tagset.has_key?(tag)
           raise InvalidXhtmlError, "no element `#{tag}' for #{tagset.doctype}"
         elsif args.last.respond_to?(:to_hash)
           attrs = args.last.to_hash
 
-          if @tagset.forms.include?(tag) and attrs[:id]
+          if @tagset.forms.include?(tag) && attrs[:id]
             attrs[:name] ||= attrs[:id]
           end
               
@@ -185,7 +185,7 @@ module Markaby
     def method_missing(sym, *args, &block)
       if @_helper.respond_to?(sym, true) && !self.class.ignored_helpers.include?(sym)
         r = @_helper.send(sym, *args, &block)
-        if @output_helpers and r.respond_to? :to_str
+        if @output_helpers && r.respond_to?(:to_str)
           fragment { @builder << r }
         else
           r

@@ -15,9 +15,9 @@ module Markaby
     # If the @auto_validation setting is on, this method will check for many common mistakes which
     # could lead to invalid XHTML.
     def html_tag(sym, *args, &block)
-      if @auto_validation and @tagset.self_closing.include?(sym) and block
+      if @auto_validation && @tagset.self_closing.include?(sym) && block
         raise InvalidXhtmlError, "the `#{sym}' element is self-closing, please remove the block"
-      elsif args.empty? and block.nil?
+      elsif args.empty? && block.nil?
         CssProxy.new(self, @streams.last, sym)
       else
         tag!(sym, *args, &block)
