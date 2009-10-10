@@ -5,7 +5,10 @@ module Markaby
   # See the README for examples.
   class CssProxy
     def initialize(builder, stream, sym)
-      @builder, @stream, @sym, @attrs = builder, stream, sym, {}
+      @builder = builder
+      @stream  = stream
+      @sym     = sym
+      @attrs   = {}
       
       @original_stream_length = @stream.length
       
