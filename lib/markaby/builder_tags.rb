@@ -7,6 +7,22 @@ module Markaby
         end
       CODE
     end
+    
+    # Every HTML tag method goes through an html_tag call.  So, calling <tt>div</tt> is equivalent
+    # to calling <tt>html_tag(:div)</tt>.  All HTML tags in Markaby's list are given generated wrappers
+    # for this method.
+    #
+    # If the @auto_validation setting is on, this method will check for many common mistakes which
+    # could lead to invalid XHTML.
+    def html_tag(sym, *args, &block)
+      if @auto_validation and @tagset.self_closing.include?(sym) and block
+        raise InvalidXhtmlError, "the `#{sym}' element is self-closing, please remove the block"
+      elsif args.empty? and block.nil?
+        CssProxy.new(self, @streams.last, sym)
+      else
+        tag!(sym, *args, &block)
+      end
+    end
 
     # Builds a head tag.  Adds a <tt>meta</tt> tag inside with Content-Type
     # set to <tt>text/html; charset=utf-8</tt>.
