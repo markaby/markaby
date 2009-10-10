@@ -91,7 +91,7 @@ module Markaby
 
       @builder = XmlMarkup.new(:indent => @indent, :target => @streams.last)
 
-      text(capture(&block)) if block
+      instance_eval(&block) if block
     end
 
     def helper=(helper)
