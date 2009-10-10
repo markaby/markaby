@@ -221,6 +221,7 @@ module Markaby
       elsif !@tagset
         tag!(sym, *args, &block)
       else
+
         super
       end
     end
@@ -268,5 +269,7 @@ module Markaby
 
   class XmlMarkup < ::Builder::XmlMarkup
     attr_accessor :target, :level
+
+    private :method_missing
   end
 end
