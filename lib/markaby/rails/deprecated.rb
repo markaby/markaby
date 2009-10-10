@@ -32,10 +32,10 @@ module Markaby
       def render(*args)
         output = self.class.builder_class.new(*args)
 
-        if path.nil?
-          output.instance_eval source
-        else
+        if path
           output.instance_eval source, path
+        else
+          output.instance_eval source
         end
 
         output.to_s

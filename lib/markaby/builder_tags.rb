@@ -17,7 +17,7 @@ module Markaby
     def html_tag(sym, *args, &block)
       if @auto_validation && @tagset.self_closing.include?(sym) && block
         raise InvalidXhtmlError, "the `#{sym}' element is self-closing, please remove the block"
-      elsif args.empty? && block.nil?
+      elsif args.empty? && !block
         CssProxy.new(self, @streams.last, sym)
       else
         tag!(sym, *args, &block)

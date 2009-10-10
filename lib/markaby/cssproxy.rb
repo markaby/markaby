@@ -27,7 +27,7 @@ module Markaby
       if (idc = id_or_class.to_s) =~ /!$/
         @attrs[:id] = $`
       else
-        @attrs[:class] = @attrs[:class].nil? ? idc : "#{@attrs[:class]} #{idc}".strip
+        @attrs[:class] = @attrs[:class] ? "#{@attrs[:class]} #{idc}".strip : idc
       end
 
       unless args.empty?
