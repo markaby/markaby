@@ -221,7 +221,6 @@ module Markaby
       elsif !@tagset
         tag!(sym, *args, &block)
       else
-
         super
       end
     end
