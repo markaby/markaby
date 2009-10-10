@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{Markaby}
-  s.version = "0.6.1"
+  s.version = "0.6.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
-  s.date = %q{2009-10-07}
+  s.date = %q{2009-10-10}
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{jrbarton@gmail.com}
   s.extra_rdoc_files = [
@@ -33,9 +33,11 @@ Gem::Specification.new do |s|
      "lib/markaby/rails/current.rb",
      "lib/markaby/rails/deprecated.rb",
      "lib/markaby/tags.rb",
+     "lib/markaby/tilt.rb",
      "spec/markaby/builder_spec.rb",
      "spec/markaby/css_proxy_spec.rb",
      "spec/markaby/fragment_spec.rb",
+     "spec/markaby/markaby_other_static.mab",
      "spec/markaby/markaby_spec.rb",
      "spec/markaby/rails/spec_helper.rb",
      "spec/markaby/rails/views/markaby/_a_partial.mab",
@@ -53,6 +55,15 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/views/markaby/renders_erb.rhtml",
      "spec/markaby/rails_spec.rb",
      "spec/markaby/rails_version_spec.rb",
+     "spec/markaby/tilt/erb.erb",
+     "spec/markaby/tilt/locals.mab",
+     "spec/markaby/tilt/markaby.mab",
+     "spec/markaby/tilt/markaby_other_static.mab",
+     "spec/markaby/tilt/render_twice.mab",
+     "spec/markaby/tilt/scope.mab",
+     "spec/markaby/tilt/yielding.mab",
+     "spec/markaby/tilt_spec.rb",
+     "spec/markaby/xml_markup_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
@@ -69,6 +80,8 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/spec_helper.rb",
      "spec/markaby/rails_spec.rb",
      "spec/markaby/rails_version_spec.rb",
+     "spec/markaby/tilt_spec.rb",
+     "spec/markaby/xml_markup_spec.rb",
      "spec/spec_helper.rb"
   ]
 
