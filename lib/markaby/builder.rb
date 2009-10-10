@@ -226,21 +226,27 @@ module Markaby
   class Fragment < ::Builder::BlankSlate
     def initialize(*args)
       @stream, @start, @length = args
+      @transformed_stream = false
     end
     
   private
 
     def method_missing(*args, &block)
+      transform_stream unless transformed_stream?
+      @str.__send__(*args, &block)
+    end
+    
+    def transform_stream
+      @transformed_stream = true
+      
       # We can't do @stream.slice!(@start, @length),
       # as it would invalidate the @starts and @lengths of other Fragment instances.
       @str = @stream[@start, @length].to_s
       @stream[@start, @length] = [nil] * @length
-      
-      def self.method_missing(*args, &block)
-        @str.__send__(*args, &block)
-      end
-      
-      @str.__send__(*args, &block)
+    end
+    
+    def transformed_stream?
+      @transformed_stream
     end
   end
 
