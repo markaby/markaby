@@ -259,10 +259,10 @@ module Markaby
       @stream[@start, @length] = [nil] * @length
       
       def self.method_missing(*args, &block)
-        @str.send(*args, &block)
+        @str.__send__(*args, &block)
       end
       
-      @str.send(*args, &block)
+      @str.__send__(*args, &block)
     end
   end
 
