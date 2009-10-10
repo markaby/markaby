@@ -1,3 +1,19 @@
+== 0.6.2 / 0.6.3
+
+* Add basic support for the Tilt templating engine (used with Sinatra):
+
+  require 'markaby'
+  require 'markaby/tilt'
+
+== 0.6.1
+
+* Support the following rails versions:
+    1.2.2, 1.2.3, 1.2.4, 1.2.5, 1.2.6, 2.1.0, 2.1.1, 2.1.2, 2.2.0,
+    2.2.1, 2.2.2, 2.2.3, 2.3.1, 2.3.2, 2.3.2.1, 2.3.3, 2.3.3.1, 2.3.4
+* Only run rails tests when inside a rails plugins
+* Run tests of the various versions of rails with garlic
+* Start conversion to rspec.  Use test/spec temporarily until conversion is done.
+
 = 0.6
 === 23 August, 2009
 
