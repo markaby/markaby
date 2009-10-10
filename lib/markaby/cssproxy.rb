@@ -12,7 +12,7 @@ module Markaby
       
       @original_stream_length = @stream.length
       
-      @builder.tag! @sym
+      @builder.tag! sym
     end
     
     def respond_to?(sym, include_private = false)
