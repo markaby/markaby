@@ -9,6 +9,7 @@ unless defined?(RUNNING_RAILS)
 end
 
 if RUNNING_RAILS
+  ENV["RAILS_ENV"] ||= "test"
   require RAILS_BOOT_FILE
   Rails::Initializer.run
   require 'action_controller/test_process'
