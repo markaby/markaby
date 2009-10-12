@@ -41,5 +41,15 @@ module Markaby
         builder.some_method.should == "a value"
       end
     end
+    
+    describe "evaluating blocks" do
+      it "should evaluate a pure-string block (without requiring a call to the text method)" do
+        b = Builder.new do
+          "foo"
+        end
+        
+        b.to_s.should == "foo"
+      end
+    end
   end
 end
