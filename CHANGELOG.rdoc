@@ -12,6 +12,8 @@
       f.text_field :baz
     end
 
+* Remove support for rails 2.1.x series.  We'll accept patches for them, if anyone cares enough.
+
 == 0.6.2 / 0.6.3
 
 * Add basic support for the Tilt templating engine (used with Sinatra):
