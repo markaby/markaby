@@ -4,6 +4,15 @@
 
   Markaby::Builder.new { 'foo' }.to_s #=> "foo"
 
+- Fix critical bug with form_for, which was raising an error
+- Introduct proxy object for the object which form_for uses, so that we can write
+  templates like the following:
+
+    form_for :foo do |f|
+      f.text_field :bar
+      f.text_field :baz
+    end
+
 == 0.6.2 / 0.6.3
 
 * Add basic support for the Tilt templating engine (used with Sinatra):
