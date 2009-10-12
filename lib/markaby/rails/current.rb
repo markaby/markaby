@@ -1,6 +1,8 @@
 module Markaby
   module Rails
     class TemplateHandler < ::ActionView::TemplateHandler
+      include ActionView::TemplateHandlers::Compilable
+      
       def compile(template, local_assigns={})
         <<-CODE
           handler = Markaby::Rails::TemplateHandler.new
@@ -10,8 +12,9 @@ module Markaby
       end
 
       def render(template, local_assigns = (template.respond_to?(:locals) ? template.locals : {}))
-        builder = Markaby::Builder.new(instance_variables.merge(local_assigns), @view)
-
+        builder = RailsBuilder.new(instance_variables.merge(local_assigns), @view)
+        @view.output_buffer = builder
+        
         template.is_a?(Proc) ?
           builder.instance_eval(&template) :
           builder.instance_eval(template.source)
@@ -32,6 +35,14 @@ module Markaby
           object.instance_variables.each do |var_name|
             hash[var_name.gsub("@", "")] = object.instance_variable_get(var_name)
           end
+        end
+      end
+    end
+    
+    class RailsBuilder < Markaby::Builder
+      def form_for(*args, &block)
+        @template.form_for(*args) do |__x|
+          yield(__x)
         end
       end
     end

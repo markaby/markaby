@@ -84,6 +84,34 @@ if RUNNING_RAILS
     def render_which_raises_error
       render :template => "markaby/broken"
     end
+    
+    def renders_form_for
+      @obj = Object.new
+      render :template => "markaby/form_for"
+    end
+    
+    def render_form_for_with_fields
+      @obj = Object.new
+      def @obj.foo
+        "bar"
+      end
+      
+      render :template => "markaby/form_for_with_fields"
+    end
+    
+    def render_form_for_with_multiple_fields
+      @obj = Object.new
+      
+      def @obj.foo
+        "bar"
+      end
+      
+      def @obj.baz
+        "quxx"
+      end
+      
+      render :template => "markaby/form_for_with_multiple_fields"
+    end
   end
   
   class MarkabyOnRailsTest < ActionController::TestCase
@@ -179,6 +207,37 @@ if RUNNING_RAILS
       assert_equal ActionView::TemplateError, @controller.last_exception.class
       assert %r(undefined local variable or method `supercalifragilisticexpialidocious' for #<Markaby::.*Builder.*) =~
              @controller.last_exception.message.to_s
+    end
+    
+    def test_renders_form_for_properly
+      get :renders_form_for
+      
+      assert_response :success
+      
+      assert %r(<form.*></form>) =~ @response.body
+    end
+    
+    def test_renders_form_for_with_fields_for
+      get :render_form_for_with_fields
+      
+      assert_response :success
+      
+      assert_equal "<form action=\"/markaby/render_form_for_with_fields\" method=\"post\"><input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" /></form>",
+                   @response.body
+    end
+    
+    def test_renders_form_for_with_multiple_fields
+      get :render_form_for_with_multiple_fields
+      
+      assert_response :success
+      
+      expected_output =  "<form action=\"/markaby/render_form_for_with_multiple_fields\" method=\"post\">"
+      expected_output << "<input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" />"
+      expected_output << "<input id=\"foo_baz\" name=\"foo[baz]\" size=\"30\" type=\"text\" />"
+      expected_output << "</form>"
+      
+      assert_equal expected_output,
+                   @response.body
     end
   end
   
