@@ -6,7 +6,7 @@ unless RUNNING_RAILS
   describe "when rails is loaded, but is not a supported version" do
     module MockRails
       module VERSION
-        STRING = "0.0.0"
+        STRING = ::Markaby::Rails::UNSUPPORTED_RAILS_VERSIONS.first
       end
     end
     
@@ -31,7 +31,7 @@ unless RUNNING_RAILS
     it "should raise" do
       lambda {
         ::Markaby::Rails.load
-      }.should raise_error(LoadError, "Cannot load markaby under rails version 0.0.0.  See Markaby::Rails::SUPPORTED_RAILS_VERSIONS for exactly that, or redefine this constant.")
+      }.should raise_error(LoadError, "Cannot load markaby under rails version 2.0.0.  See Markaby::Rails::SUPPORTED_RAILS_VERSIONS for exactly that, or redefine this constant.")
     end
   end
 end

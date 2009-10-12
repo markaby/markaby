@@ -1,6 +1,6 @@
 module Markaby
   module Rails
-    UNSUPPORTED_VERSIONS = [
+    UNSUPPORTED_RAILS_VERSIONS = [
       "2.0.0",
       "2.0.1",
       "2.0.2",
@@ -52,7 +52,7 @@ module Markaby
       end
 
       def check_rails_version
-        unless SUPPORTED_RAILS_VERSIONS.include?(detected_rails_version)
+        if UNSUPPORTED_RAILS_VERSIONS.include?(detected_rails_version)
           error_message = "Cannot load markaby under rails version #{detected_rails_version}.  "
           error_message << "See Markaby::Rails::SUPPORTED_RAILS_VERSIONS for exactly that, or redefine this constant."
           raise LoadError, error_message
