@@ -132,7 +132,7 @@ module Markaby
     # stream for the builder object, running the block and passing back its stream as a string.
     #
     #   >> Markaby::Builder.new.capture { h1 "TEST"; h2 "CAPTURE ME" }
-    #   => "<h1>TITLE</h1>\n<h2>CAPTURE ME</h2>\n"
+    #   => "<h1>TEST</h1><h2>CAPTURE ME</h2>"
     #
     def capture(&block)
       @streams.push(@builder.target = [])

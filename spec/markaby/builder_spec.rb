@@ -50,6 +50,67 @@ module Markaby
         
         b.to_s.should == "foo"
       end
+      
+      it "should only evaluate the last argument in a pure-string block" do
+        b = Builder.new do
+          "foo"
+          "bar"
+        end
+        
+        b.to_s.should == "bar"
+      end
+      
+      it "should evaluate pure-strings inside an tag" do
+        b = Builder.new do
+          h1 do
+            "foo"
+          end
+        end
+        
+        b.to_s.should == "<h1>foo</h1>"
+      end
+      
+      it "should ignore a pure string in the block, even if comes last, if there has been any markup whatsoever" do
+        b = Builder.new do
+          h1
+          "foo"
+        end
+        
+        b.to_s.should == "<h1/>"
+      end
+    end
+    
+    describe "capture" do
+      before do
+        @builder = Builder.new
+      end
+      
+      it "should return the string captured" do
+        out = @builder.capture do
+          h1 "TEST"
+          h2 "CAPTURE ME"
+        end
+        
+        out.should == "<h1>TEST</h1><h2>CAPTURE ME</h2>"
+      end
+      
+      it "should not change the output buffer" do
+        lambda {
+          @builder.capture do
+            h1 "FOO!"
+          end
+        }.should_not change { @builder.to_s }
+      end
+      
+      it "should be able to capture inside a capture" do
+        out = @builder.capture do
+          capture do
+            h1 "foo"
+          end
+        end
+        
+        out.should == "<h1>foo</h1>"
+      end
     end
   end
 end
