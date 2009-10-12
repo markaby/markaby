@@ -1,3 +1,5 @@
+require 'markaby/rails/rails_builder'
+
 module ActionView # :nodoc:
   class Base # :nodoc:
     def render_template(template_extension, template, file_path = nil, local_assigns = {})
@@ -64,7 +66,7 @@ module Markaby
       end
     end
 
-    class Builder < ::Markaby::Builder # :nodoc:
+    class Builder < RailsBuilder # :nodoc:
       def initialize(*args, &block)
         super *args, &block
 
