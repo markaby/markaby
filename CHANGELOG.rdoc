@@ -2,7 +2,7 @@
 
 - Fixed a bug in which direct string values to Markaby::Builder wouldn't evaluate:
 
-  Markaby::Builder.new { 'foo' }.to_s #=> "foo"
+    Markaby::Builder.new { 'foo' }.to_s #=> "foo"
 
 - Fix critical bug with form_for, which was raising an error
 - Introduct proxy object for the object which form_for uses, so that we can write
