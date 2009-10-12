@@ -1,40 +1,45 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-class BuilderTest < Test::Unit::TestCase
-  def setup
-    Markaby::Builder.restore_defaults!
-  end
+module Markaby
+  describe Builder do
+    before do
+      Markaby::Builder.restore_defaults!
+    end
 
-  def teardown
-    Markaby::Builder.restore_defaults!
-  end
+    after do
+      Markaby::Builder.restore_defaults!
+    end
 
-  def test_method_missing_is_private
-    assert Markaby::Builder.private_instance_methods.include?("method_missing")
-  end
-  
-  # setting options
-  def test_should_be_able_to_restore_defaults_after_setting
-    Markaby::Builder.set :indent, 2
-    Markaby::Builder.restore_defaults!
+    it "should have method missing as a private method" do
+      Markaby::Builder.private_instance_methods.should include("method_missing")
+    end
     
-    assert_equal 0, Markaby::Builder.get(:indent)
-  end
+    describe "setting options" do
+      it "should be able to restore defaults after setting" do
+        Markaby::Builder.set :indent, 2
+        Markaby::Builder.restore_defaults!
   
-  def test_should_be_able_set_global_options
-    Markaby::Builder.set :indent, 2
-    assert_equal 2, Markaby::Builder.get(:indent)
-  end
-  
-  # internal clobbering by passed in assigns
-  def test_internal_helpers_ivar_should_not_be_overwritten_by_assigns
-    helper = Class.new do
-      def some_method
-        "a value"
+        Markaby::Builder.get(:indent).should == 0
       end
-    end.new
+
+      it "should be able to set global options" do
+        Markaby::Builder.set :indent, 2
+        Markaby::Builder.get(:indent).should == 2
+      end
+    end
     
-    builder = Markaby::Builder.new({:helpers => nil}, helper)
-    assert_equal "a value", builder.some_method
+    describe "hidden internal variables" do
+      # internal clobbering by passed in assigns
+      it "should not overwrite internal helpers ivar when assigning a :helpers key" do
+        helper = Class.new do
+          def some_method
+            "a value"
+          end
+        end.new
+
+        builder = Markaby::Builder.new({:helpers => nil}, helper)
+        builder.some_method.should == "a value"
+      end
+    end
   end
 end
