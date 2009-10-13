@@ -1,4 +1,4 @@
-= HEAD
+= 0.6.4
 
 * Fixed a bug in which direct string values to Markaby::Builder wouldn't evaluate:
     Markaby::Builder.new { 'foo' }.to_s #=> "foo"
