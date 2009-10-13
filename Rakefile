@@ -51,3 +51,23 @@ desc "Start a Markaby-aware IRB session"
 task :irb do
   sh 'irb -I lib -r markaby -r markaby/kernel_method'
 end
+
+namespace :gemspec do
+  task :commit do
+    sh "git add ."
+    sh "git commit -m 'Update gemspec'"
+  end
+end
+
+namespace :release do
+  task :patch => [:spec, "version:bump:patch", :update_gemspec, :rerdoc, :tag_release]
+  
+  task :update_gemspec => ["gemspec:generate", "gemspec:validate", "gemspec:commit"]
+  task :tag_release do
+    require File.dirname(__FILE__) + "/lib/markaby"
+    version = "v#{Markaby::VERSION}"
+    sh "git tag #{version}"
+  end
+end
+
+task :release => "release:patch"
