@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{Markaby}
-  s.version = "0.6.3"
+  s.version = "0.6.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
-  s.date = %q{2009-10-10}
+  s.date = %q{2009-10-12}
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{jrbarton@gmail.com}
   s.extra_rdoc_files = [
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
      "lib/markaby/rails.rb",
      "lib/markaby/rails/current.rb",
      "lib/markaby/rails/deprecated.rb",
+     "lib/markaby/rails/rails_builder.rb",
      "lib/markaby/tags.rb",
      "lib/markaby/tilt.rb",
      "spec/markaby/builder_spec.rb",
@@ -45,6 +46,9 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/views/markaby/access_to_helpers.mab",
      "spec/markaby/rails/views/markaby/broken.mab",
      "spec/markaby/rails/views/markaby/correct_template_values.mab",
+     "spec/markaby/rails/views/markaby/form_for.mab",
+     "spec/markaby/rails/views/markaby/form_for_with_fields.mab",
+     "spec/markaby/rails/views/markaby/form_for_with_multiple_fields.mab",
      "spec/markaby/rails/views/markaby/no_values_passed.mab",
      "spec/markaby/rails/views/markaby/partial_parent.mab",
      "spec/markaby/rails/views/markaby/partial_parent_with_locals.mab",
