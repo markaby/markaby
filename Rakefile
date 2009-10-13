@@ -60,7 +60,7 @@ namespace :gemspec do
 end
 
 namespace :release do
-  task :patch => [:spec, "version:bump:patch", :update_gemspec, :rerdoc, :tag_release]
+  task :patch => [:spec, "version:bump:patch", :update_gemspec, :rerdoc, :tag_release, :build]
   
   task :update_gemspec => ["gemspec:generate", "gemspec:validate", "gemspec:commit"]
   task :tag_release do
