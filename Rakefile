@@ -1,7 +1,18 @@
 require 'rake'
 require 'spec/rake/spectask'
 require 'rake/clean'
-require 'rake/rdoctask'
+
+begin
+  require 'hanna/rdoctask'
+  
+  Rake::RDocTask.new do |rdoc|
+    rdoc.rdoc_dir = 'doc/rdoc'
+    rdoc.options << '--line-numbers'
+    rdoc.rdoc_files.add(['README.rdoc', 'CHANGELOG.rdoc', 'lib/**/*.rb'])
+  end
+rescue LoadError
+  puts "Could not load hanna-rdoc.  Please install with mislav-hanna package"
+end
 
 task :default => :spec
 
@@ -9,12 +20,6 @@ desc 'Run the specs'
 Spec::Rake::SpecTask.new do |t|
   t.warning = false
   t.spec_opts = ["--color"]
-end
-
-Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = 'doc/rdoc'
-  rdoc.options << '--line-numbers'
-  rdoc.rdoc_files.add(['README.rdoc', 'CHANGELOG.rdoc', 'lib/**/*.rb'])
 end
 
 begin
