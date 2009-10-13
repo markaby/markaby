@@ -60,13 +60,17 @@ namespace :gemspec do
 end
 
 namespace :release do
-  task :patch => [:spec, "version:bump:patch", :update_gemspec, :rerdoc, :tag_release, :build]
+  task :patch => [:spec, "version:bump:patch", :update_gemspec, :rerdoc, :tag_release, :build, :push_tags]
   
   task :update_gemspec => ["gemspec:generate", "gemspec:validate", "gemspec:commit"]
   task :tag_release do
     require File.dirname(__FILE__) + "/lib/markaby"
     version = "v#{Markaby::VERSION}"
     sh "git tag #{version}"
+  end
+
+  task :push_tags do
+    sh "git push --tags"
   end
 end
 
