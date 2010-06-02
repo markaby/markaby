@@ -1,0 +1,4 @@
+form_for :foo do |f|
+  f.text_field :foo
+  f.text_field :baz
+end
