@@ -16,7 +16,7 @@ module Markaby
     end
 
     def respond_to?(sym, include_private = false)
-      include_private || !private_methods.include?(sym.to_s) ? true : false
+      include_private || !private_methods.map { |m| m.to_sym }.include?(sym.to_sym) ? true : false
     end
 
   private

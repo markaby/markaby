@@ -11,7 +11,9 @@ module Markaby
     end
 
     it "should have method missing as a private method" do
-      Markaby::Builder.private_instance_methods.should include("method_missing")
+      private_methods = Markaby::Builder.private_instance_methods.dup
+      private_methods.map! { |m| m.to_sym }
+      private_methods.should include(:method_missing)
     end
 
     describe "setting options" do

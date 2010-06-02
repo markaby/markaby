@@ -1,8 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 class CssProxyTest < Test::Unit::TestCase
-  def test_method_missing_is_private
-    assert Markaby::CssProxy.private_instance_methods.include?("method_missing")
+  it "should have method_missing as private" do
+    methods = Markaby::CssProxy.private_instance_methods.dup
+    methods.map! { |m| m.to_sym }
+
+    methods.should include(:method_missing)
   end
 
   def mock_builder

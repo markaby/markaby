@@ -13,11 +13,14 @@ class MarkabyTest < Test::Unit::TestCase
   end
 
   def test_classes_and_ids
-    assert_equal %{<div class="one"></div>}, mab { div.one '' }
+    assert_equal %{<div class="one"></div>},     mab { div.one '' }
     assert_equal %{<div class="one two"></div>}, mab { div.one.two '' }
-    assert_equal %{<div id="three"></div>}, mab { div.three! '' }
-    assert_equal %{<hr class="hidden"/>}, mab { hr.hidden }
-    assert_equal %{<input class="foo" name="bar" id="bar"/>}, mab { input.foo :id => 'bar' }
+    assert_equal %{<div id="three"></div>},      mab { div.three! '' }
+    assert_equal %{<hr class="hidden"/>},        mab { hr.hidden }
+
+    out = mab { input.foo :id => 'bar' }
+    out.should match("<input.*class=\"foo\".*/>")
+    out.should match("<input.*name=\"bar\".*/>")
   end
 
   def test_escaping
@@ -103,11 +106,33 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", mab { instruct! }
   end
 
+  it "should be able to produce the correct html from a fragment" do
+    str = ""
+    str += "<div>"
+    str += "<h1>Monkeys</h1>"
+    str += "<h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2>"
+    str += "<h3>Donkeys</h3>"
+    str += "<h4>Parakeet <b><i>Innocent IV</i></b> in Classic Chartreuse</h4>"
+    str += "</div>"
+
+    generated = mab {
+      div {
+        h1 "Monkeys"
+        h2 {
+          "Giraffes #{small('Miniature')} and #{strong 'Large'}"
+        }
+        h3 "Donkeys"
+        h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse" }
+      }
+    }
+
+    generated.should == str
+  end
+
   def test_fragments
-    assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2><h3>Donkeys</h3><h4>Parakeet <b><i>Innocent IV</i></b> in Classic Chartreuse</h4></div>},
-        mab { div { h1 "Monkeys"; h2 { "Giraffes #{small 'Miniature' } and #{strong 'Large'}" }; h3 "Donkeys"; h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse" } } }
     assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <strong>Miniature</strong></h2><h3>Donkeys</h3></div>},
         mab { div { h1 "Monkeys"; h2 { "Giraffes #{strong 'Miniature' }" }; h3 "Donkeys" } }
+
     assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2><h3>Donkeys</h3><h4>Parakeet <strong>Large</strong> as well...</h4></div>},
         mab { div { @a = small 'Miniature'; @b = strong 'Large'; h1 "Monkeys"; h2 { "Giraffes #{@a} and #{@b}" }; h3 "Donkeys"; h4 { "Parakeet #{@b} as well..." } } }
   end
@@ -202,6 +227,6 @@ class MarkabyTest < Test::Unit::TestCase
     Markaby::Builder.set(:tagset, nil)
 
     builder = Markaby::Builder.new
-    assert_equal "<something/>", builder.something
+    builder.something.should == "<something/>"
   end
 end
