@@ -1,3 +1,8 @@
+= 0.6.6
+
+* ruby 1.9.1 support.  Closes Github Issues #10 & #11.
+* Removed Tilt deprecation warnings
+
 = 0.6.4
 
 * Fixed a bug in which direct string values to Markaby::Builder wouldn't evaluate:
