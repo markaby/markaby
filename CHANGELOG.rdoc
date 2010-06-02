@@ -1,6 +1,7 @@
-= HEAD
+= 0.6.7
 
-* Add rails support for 2.3.5-2.3.8
+* Add rails support for 2.3.5 - 2.3.8
+* Improved rails documentation
 
 = 0.6.6
 
