@@ -1,9 +1,9 @@
-= 0.6.7
+= 0.6.7 (2010-06-02)
 
 * Add rails support for 2.3.5 - 2.3.8
 * Improved rails documentation
 
-= 0.6.6
+= 0.6.6 (2010-06-01)
 
 * ruby 1.9.1 support.  Closes Github Issues #10 & #11.
 * Removed Tilt deprecation warnings
