@@ -7,6 +7,8 @@ module Markaby
         end
       end
 
+      alias_method :safe_concat, :concat
+
       # This is used for the block variable given to form_for.  Typically, an erb template looks as so:
       #
       #   <% form_for :foo do |f|
