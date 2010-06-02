@@ -25,7 +25,7 @@ module Markaby
     class << self
       attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
     end
-    
+
     @doctype = ['-//W3C//DTD XHTML 1.0 Strict//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd']
     @tagset  = {
       :html       => AttrI18n + [:id, :xmlns],
@@ -117,14 +117,14 @@ module Markaby
     class << self
       attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
     end
-    
+
     @doctype = ['-//W3C//DTD XHTML 1.0 Transitional//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd']
     @tagset = XHTMLStrict.tagset.merge({
       :strike   => Attrs,
       :center   => Attrs,
       :dir      => Attrs + [:compact],
       :noframes => Attrs,
-      :basefont => [:id, :size, :color, :face], 
+      :basefont => [:id, :size, :color, :face],
       :u        => Attrs,
       :menu     => Attrs + [:compact],
       :iframe   => AttrCore + [:longdesc, :name, :src, :frameborder, :marginwidth, :marginheight, :scrolling, :align, :height, :width],
@@ -164,7 +164,7 @@ module Markaby
       :area   => [:target],
       :h1     => [:align]
     }
-    
+
     additional_tags.each do |k, v|
       @tagset[k] += v
     end
@@ -179,7 +179,7 @@ module Markaby
     class << self
       attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
     end
-    
+
     @doctype = ['-//W3C//DTD XHTML 1.0 Frameset//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd']
     @tagset = XHTMLTransitional.tagset.merge({
       :frameset => AttrCore + [:rows, :cols, :onload, :onunload],

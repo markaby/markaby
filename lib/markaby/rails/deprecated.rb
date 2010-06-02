@@ -43,7 +43,7 @@ module Markaby
         output.to_s
       end
     end
-    
+
     # Markaby helpers for Rails.
     module ActionControllerHelpers
       # Returns a string of HTML built from the attached +block+.  Any +options+ are
@@ -82,10 +82,10 @@ module Markaby
         @_erbout ||= FauxErbout.new(self)
       end
 
-      # Content_for will store the given block in an instance variable for later use 
+      # Content_for will store the given block in an instance variable for later use
       # in another template or in the layout.
       #
-      # The name of the instance variable is content_for_<name> to stay consistent 
+      # The name of the instance variable is content_for_<name> to stay consistent
       # with @content_for_layout which is used by ActionView's layouts.
       #
       # Example:
@@ -115,7 +115,7 @@ module Markaby
       end
     end
   end
-  
+
   if defined? ActionView::Template and ActionView::Template.respond_to? :register_template_handler
     ActionView::Template
   else

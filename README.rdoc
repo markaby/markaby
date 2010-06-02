@@ -14,10 +14,10 @@ Write Rails templates in pure Ruby.  Example layout:
       title 'Products: ' + action_name
       stylesheet_link_tag 'scaffold'
     end
-  
+
     body do
       p flash[:notice], :style => "color: green"
-  
+
       self << content_for_layout
     end
   end
@@ -121,7 +121,7 @@ Which results in:
     </div>
   </div>
 
-== 3. Validate Your XHTML 1.0 Output 
+== 3. Validate Your XHTML 1.0 Output
 
 If you'd like Markaby to help you assemble valid XHTML documents,
 you can use the <tt>xhtml_transitional</tt> or <tt>xhtml_strict</tt>
@@ -215,7 +215,7 @@ won't work with this technique.
 
 = A Note About Rails Helpers
 
-When used in Rails templates, the Rails helper object is passed into 
+When used in Rails templates, the Rails helper object is passed into
 Markaby::Builder.  When you call helper methods inside Markaby, the output
 from those methods will be output to the stream.  This is incredibly
 handy, since most Rails helpers output HTML tags.

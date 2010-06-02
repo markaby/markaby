@@ -13,7 +13,7 @@ if RUNNING_RAILS
   require RAILS_BOOT_FILE
   Rails::Initializer.run
   require 'action_controller/test_process'
-  
+
   $:.unshift MARKABY_ROOT
   require 'init'
 else

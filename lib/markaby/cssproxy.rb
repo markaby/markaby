@@ -9,12 +9,12 @@ module Markaby
       @stream  = stream
       @sym     = sym
       @attrs   = {}
-      
+
       @original_stream_length = @stream.length
-      
+
       @builder.tag! sym
     end
-    
+
     def respond_to?(sym, include_private = false)
       include_private || !private_methods.include?(sym.to_s) ? true : false
     end
@@ -36,19 +36,19 @@ module Markaby
           @attrs.merge! args.pop.to_hash
         end
       end
-      
+
       args.push(@attrs)
-      
+
       while @stream.length > @original_stream_length
         @stream.pop
       end
-      
+
       if block
         @builder.tag! @sym, *args, &block
       else
         @builder.tag! @sym, *args
       end
-      
+
       self
     end
   end

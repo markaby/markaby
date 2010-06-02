@@ -1,6 +1,6 @@
 ul do
   authors = ["smtlaissezfaire"]
-  
+
   authors.each do |author|
     render :partial => "partial_child_with_locals", :locals => {:author => author}
   end

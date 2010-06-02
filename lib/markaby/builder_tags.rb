@@ -7,7 +7,7 @@ module Markaby
         end
       CODE
     end
-    
+
     # Every HTML tag method goes through an html_tag call.  So, calling <tt>div</tt> is equivalent
     # to calling <tt>html_tag(:div)</tt>.  All HTML tags in Markaby's list are given generated wrappers
     # for this method.
@@ -52,9 +52,9 @@ module Markaby
       self.tagset = Markaby::XHTMLFrameset
       xhtml_html(attrs, &block)
     end
-    
+
   private
-    
+
     def xhtml_html(attrs = {}, &block)
       instruct! if @output_xml_instruction
       declare!(:DOCTYPE, :html, :PUBLIC, *tagset.doctype)

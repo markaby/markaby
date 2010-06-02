@@ -2,32 +2,32 @@ require File.join(File.dirname(__FILE__), 'rails', 'spec_helper')
 
 unless RUNNING_RAILS
   require File.join(File.dirname(__FILE__), '..', 'spec_helper')
-  
+
   describe "when rails is loaded, but is not a supported version" do
     module MockRails
       module VERSION
         STRING = ::Markaby::Rails::UNSUPPORTED_RAILS_VERSIONS.first
       end
     end
-    
+
     def install_mock_rails
       Object.const_set(:Rails, MockRails)
     end
-    
+
     def remove_mock_rails
       Object.class_eval do
         remove_const(:Rails)
       end
     end
-    
+
     before do
       install_mock_rails
     end
-    
+
     after do
       remove_mock_rails
     end
-    
+
     it "should raise" do
       lambda {
         ::Markaby::Rails.load

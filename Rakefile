@@ -4,7 +4,7 @@ require 'rake/clean'
 
 begin
   require 'hanna/rdoctask'
-  
+
   Rake::RDocTask.new do |rdoc|
     rdoc.rdoc_dir = 'doc/rdoc'
     rdoc.options << '--line-numbers'
@@ -24,7 +24,7 @@ end
 
 begin
   require 'jeweler'
-  
+
   Jeweler::Tasks.new do |gemspec|
     gemspec.name          = "Markaby"
     gemspec.summary       = "Markup as Ruby, write HTML in your native Ruby tongue"
@@ -61,7 +61,7 @@ end
 
 namespace :release do
   task :patch => [:spec, "version:bump:patch", :update_gemspec, :rerdoc, :tag_release, :build, :push_tags]
-  
+
   task :update_gemspec => ["gemspec:generate", "gemspec:validate", "gemspec:commit"]
   task :tag_release do
     require File.dirname(__FILE__) + "/lib/markaby"

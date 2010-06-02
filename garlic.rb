@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + "/lib/markaby/rails")
 garlic do
   # this plugin
   repo "markaby", :path => '.'
-  
+
   # other repos
   repo "rails", :url => "git://github.com/rails/rails"
 
@@ -18,7 +18,7 @@ garlic do
       prepare do
         plugin "markaby", :clone => true # so we can work in targets
       end
-    
+
       run do
         cd "vendor/plugins/markaby" do
           sh "rake"

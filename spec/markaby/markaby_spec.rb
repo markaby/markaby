@@ -11,7 +11,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal "<p>foo</p>", mab { p 'foo' }
     assert_equal "<p>foo</p>", mab { p { 'foo' } }
   end
-  
+
   def test_classes_and_ids
     assert_equal %{<div class="one"></div>}, mab { div.one '' }
     assert_equal %{<div class="one two"></div>}, mab { div.one.two '' }
@@ -19,7 +19,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal %{<hr class="hidden"/>}, mab { hr.hidden }
     assert_equal %{<input class="foo" name="bar" id="bar"/>}, mab { input.foo :id => 'bar' }
   end
-  
+
   def test_escaping
     assert_equal "<h1>Apples &amp; Oranges</h1>", mab { h1 'Apples & Oranges' }
     assert_equal "<h1>Apples & Oranges</h1>", mab { h1 { 'Apples & Oranges' } }
@@ -42,10 +42,10 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal html, mab(:name => 'Steve') { div { h1 @name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name } }
   end
 
-  def test_ivars_without_at_symbol 
-    assert_equal "<h1>Hello World</h1>", mab { @message = 'Hello World'; h1 message } 
-  end 
-  
+  def test_ivars_without_at_symbol
+    assert_equal "<h1>Hello World</h1>", mab { @message = 'Hello World'; h1 message }
+  end
+
   def spec_helpers
     Markaby::Builder.ignored_helpers.clear
     assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }
@@ -54,12 +54,12 @@ class MarkabyTest < Test::Unit::TestCase
     Markaby::Builder.ignore_helpers :pluralize
     assert_exception(NoMethodError, "undefined method `pluralize'", {}, MarkabyTestHelpers) { pluralize('squirrel') }
   end
-  
+
   def test_uses_helper_instance_variable
     helper = Module.new do
       @some_ivar = :ivar_value
     end
-    
+
     builder = Markaby::Builder.new({}, helper)
     assert_equal :ivar_value, builder.some_ivar
   end
@@ -104,11 +104,11 @@ class MarkabyTest < Test::Unit::TestCase
   end
 
   def test_fragments
-    assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2><h3>Donkeys</h3><h4>Parakeet <b><i>Innocent IV</i></b> in Classic Chartreuse</h4></div>}, 
+    assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2><h3>Donkeys</h3><h4>Parakeet <b><i>Innocent IV</i></b> in Classic Chartreuse</h4></div>},
         mab { div { h1 "Monkeys"; h2 { "Giraffes #{small 'Miniature' } and #{strong 'Large'}" }; h3 "Donkeys"; h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse" } } }
-    assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <strong>Miniature</strong></h2><h3>Donkeys</h3></div>}, 
+    assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <strong>Miniature</strong></h2><h3>Donkeys</h3></div>},
         mab { div { h1 "Monkeys"; h2 { "Giraffes #{strong 'Miniature' }" }; h3 "Donkeys" } }
-    assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2><h3>Donkeys</h3><h4>Parakeet <strong>Large</strong> as well...</h4></div>}, 
+    assert_equal %{<div><h1>Monkeys</h1><h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2><h3>Donkeys</h3><h4>Parakeet <strong>Large</strong> as well...</h4></div>},
         mab { div { @a = small 'Miniature'; @b = strong 'Large'; h1 "Monkeys"; h2 { "Giraffes #{@a} and #{@b}" }; h3 "Donkeys"; h4 { "Parakeet #{@b} as well..." } } }
   end
 
@@ -119,7 +119,7 @@ class MarkabyTest < Test::Unit::TestCase
   end
 
   def test_full_doc_transitional
-    doc = mab { xhtml_transitional { head { title 'OKay' } } }    
+    doc = mab { xhtml_transitional { head { title 'OKay' } } }
     assert doc =~ /^<\?xml version="1.0" encoding="UTF-8"\?>/
     assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">})
     assert doc.include?(%{<title>OKay</title>})
@@ -131,7 +131,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert doc.include?(%{"-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">})
     assert doc.include?(%{<title>OKay</title>})
   end
-  
+
   def test_full_doc_frameset
     doc = mab { xhtml_frameset { head { title 'OKay' } } }
     assert doc =~ /^<\?xml version="1.0" encoding="UTF-8"\?>/
@@ -145,11 +145,11 @@ class MarkabyTest < Test::Unit::TestCase
     assert doc.include?(%{<title>Salut!</title>})
     assert doc.include?(%{ lang="fr"})
   end
-  
+
   def version_file
     File.expand_path(File.dirname(__FILE__) + "/../../VERSION")
   end
-  
+
   def test_markaby_should_have_correct_version
     assert_equal Markaby::VERSION, File.read(version_file).strip
   end
@@ -162,9 +162,9 @@ class MarkabyTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   # auto validation
-  
+
   def test_tagging_with_invalid_tag_should_raise_error
     assert_raises Markaby::InvalidXhtmlError do
       mab do
@@ -172,7 +172,7 @@ class MarkabyTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_self_closing_html_tag_with_block_throws_errors
     assert_raises Markaby::InvalidXhtmlError do
       mab do
@@ -181,10 +181,10 @@ class MarkabyTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_local_assigning
     builder = Markaby::Builder.new(:variable => :a_value)
-    
+
     assert_equal :a_value, builder.variable
   end
 

@@ -4,7 +4,7 @@ module Markaby
   module Rails
     class TemplateHandler < ::ActionView::TemplateHandler
       include ActionView::TemplateHandlers::Compilable
-      
+
       def compile(template, local_assigns={})
         <<-CODE
           handler = Markaby::Rails::TemplateHandler.new
@@ -16,7 +16,7 @@ module Markaby
       def render(template, local_assigns = (template.respond_to?(:locals) ? template.locals : {}))
         builder = RailsBuilder.new(instance_variables.merge(local_assigns), @view)
         @view.output_buffer = builder
-        
+
         template.is_a?(Proc) ?
           builder.instance_eval(&template) :
           builder.instance_eval(template.source)

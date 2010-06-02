@@ -12,7 +12,7 @@ module Markaby
       "2.1.2",
       "2.3.0"
     ]
-    
+
     DEPRECATED_RAILS_VERSIONS = [
       "1.2.2",
       "1.2.3",
@@ -20,7 +20,7 @@ module Markaby
       "1.2.5",
       "1.2.6"
     ]
-    
+
     FULLY_SUPPORTED_RAILS_VERSIONS = [
       "2.2.0",
       "2.2.1",
@@ -35,7 +35,7 @@ module Markaby
     ]
 
     SUPPORTED_RAILS_VERSIONS = DEPRECATED_RAILS_VERSIONS + FULLY_SUPPORTED_RAILS_VERSIONS
-  
+
     class << self
       def load
         check_rails_version
@@ -46,7 +46,7 @@ module Markaby
           require File.dirname(__FILE__) + "/rails/current"
         end
       end
-      
+
       def deprecated_rails_version?
         DEPRECATED_RAILS_VERSIONS.include?(detected_rails_version)
       end

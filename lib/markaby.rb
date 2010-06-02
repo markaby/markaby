@@ -8,7 +8,7 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 
 # Markaby is a module containing all of the great Markaby classes that
 # do such an excellent job.
-# 
+#
 # * Markaby::Builder: the class for actually calling the Ruby methods
 #   which write the HTML.
 # * Markaby::CSSProxy: a class which adds element classes and IDs to

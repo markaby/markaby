@@ -21,7 +21,7 @@ module Markaby
   #
   class Builder
     include Markaby::BuilderTags
-    
+
     DEFAULT_OPTIONS = {
       :indent                 => 0,
       :output_helpers         => true,
@@ -35,28 +35,28 @@ module Markaby
         :lang       => 'en'
       }
     }
-    
+
     @@options = DEFAULT_OPTIONS.dup
-    
+
     def self.restore_defaults!
       @@options = DEFAULT_OPTIONS.dup
     end
-    
+
     def self.set(option, value)
       @@options[option] = value
     end
-    
+
     def self.get(option)
       @@options[option]
     end
 
     def self.ignored_helpers
-      @@ignored_helpers ||= [] 
-    end 
- 
-    def self.ignore_helpers(*helpers) 
-      ignored_helpers.concat helpers 
-    end 
+      @@ignored_helpers ||= []
+    end
+
+    def self.ignore_helpers(*helpers)
+      ignored_helpers.concat helpers
+    end
 
     attr_accessor :output_helpers, :tagset
 
@@ -84,7 +84,7 @@ module Markaby
       @@options.each do |k, v|
         instance_variable_set("@#{k}", @assigns.delete(k) || v)
       end
-      
+
       @assigns.each do |k, v|
         instance_variable_set("@#{k}", v)
       end
@@ -158,7 +158,7 @@ module Markaby
           if @tagset.forms.include?(tag) && attrs[:id]
             attrs[:name] ||= attrs[:id]
           end
-              
+
           attrs.each do |k, v|
             atname = k.to_s.downcase.intern
             unless k =~ /:/ or @tagset.tagset[tag].include? atname
@@ -173,7 +173,7 @@ module Markaby
           end
         end
       end
-      
+
       if block
         str = capture(&block)
         block = proc { text(str) }
@@ -245,23 +245,23 @@ module Markaby
       @stream, @start, @length = args
       @transformed_stream = false
     end
-    
+
   private
 
     def method_missing(*args, &block)
       transform_stream unless transformed_stream?
       @str.__send__(*args, &block)
     end
-    
+
     def transform_stream
       @transformed_stream = true
-      
+
       # We can't do @stream.slice!(@start, @length),
       # as it would invalidate the @starts and @lengths of other Fragment instances.
       @str = @stream[@start, @length].to_s
       @stream[@start, @length] = [nil] * @length
     end
-    
+
     def transformed_stream?
       @transformed_stream
     end
