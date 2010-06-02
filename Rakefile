@@ -26,7 +26,7 @@ begin
   require 'jeweler'
 
   Jeweler::Tasks.new do |gemspec|
-    gemspec.name          = "Markaby"
+    gemspec.name          = "markaby"
     gemspec.summary       = "Markup as Ruby, write HTML in your native Ruby tongue"
     gemspec.description   = "Tim Fletcher and _why's ruby driven HTML templating system"
     gemspec.email         = "jrbarton@gmail.com"
