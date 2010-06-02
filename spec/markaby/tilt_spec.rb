@@ -67,20 +67,20 @@ module Markaby
         output.should == "Hey Joe"
       end
     end
-    
+
     it "should be able to render two templates in a row" do
       tilt = ::Tilt::MarkabyTemplate.new("tilt/render_twice.mab", &@block)
-    
+
       tilt.render.should == "foo"
       tilt.render.should == "foo"
     end
 
     it "should retrieve a Tilt::MarkabyTemplate when calling Tilt['hello.mab']" do
-      ::Tilt['hello.mab'].should == Markaby::Tilt::Template
+      ::Tilt['./tilt/markaby.mab'].should == Markaby::Tilt::Template
     end
 
     it "should return a new instance of the implementation class (when calling Tilt.new)" do
-      ::Tilt.new("hello.mab").should be_a_kind_of(Markaby::Tilt::Template)
+      ::Tilt.new(File.dirname(__FILE__) + "/tilt/markaby.mab").should be_a_kind_of(Markaby::Tilt::Template)
     end
   end
 end
