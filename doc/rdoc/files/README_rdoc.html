@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>File: README.rdoc [RDoc Documentation]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <div class='name'>README.rdoc</div>
+        <div class='paths'>
+          README.rdoc
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>2010-06-02 18:57:39 -0400</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <h1><a href="../classes/Markaby.html">Markaby</a> (Markup as Ruby)</h1>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> is a very short bit of code
+            for writing HTML pages in pure Ruby. It is an alternative to ERb which
+            weaves the two languages together. Also a replacement for templating
+            languages which use primitive languages that blend with HTML.
+            </p>
+            <h2>Using <a href="../classes/Markaby.html">Markaby</a> as a Rails plugin</h2>
+            <p>
+            Write Rails templates in pure Ruby. Example layout:
+            </p>
+            <pre>html do&#x000A;  head do&#x000A;    title 'Products: ' + action_name&#x000A;    stylesheet_link_tag 'scaffold'&#x000A;  end&#x000A;&#x000A;  body do&#x000A;    p flash[:notice], :style =&gt; &quot;color: green&quot;&#x000A;&#x000A;    self &lt;&lt; content_for_layout&#x000A;  end&#x000A;end</pre>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> supports many versions of
+            rails:
+            </p>
+            <pre>1.2.2, 1.2.3, 1.2.4, 1.2.5, 1.2.6, 2.2.0,&#x000A;2.2.1, 2.2.2, 2.2.3, 2.3.1, 2.3.2, 2.3.2.1,&#x000A;2.3.3, 2.3.3.1, 2.3.4, 2.3.5, 2.3.6, 2.3.7,&#x000A;2.3.8</pre>
+            <p>
+            Install it as a plugin:
+            </p>
+            <pre>script/plugin install git://github.com/markaby/markaby.git</pre>
+            <p>
+            If you are loading it in a different way (from a gem), make sure it&#8217;s
+            on the LOAD_PATH, and add the following (in environment.rb):
+            </p>
+            <pre>require 'markaby'&#x000A;require 'markaby/rails'&#x000A;&#x000A;Markaby::Rails.load</pre>
+            <h2>Using <a href="../classes/Markaby.html">Markaby</a> as a Ruby class</h2>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> is flaming easy to call from
+            your Ruby classes.
+            </p>
+            <pre>require 'markaby'&#x000A;&#x000A;mab = Markaby::Builder.new&#x000A;mab.html do&#x000A;  head { title &quot;Boats.com&quot; }&#x000A;  body do&#x000A;    h1 &quot;Boats.com has great deals&quot;&#x000A;    ul do&#x000A;      li &quot;$49 for a canoe&quot;&#x000A;      li &quot;$39 for a raft&quot;&#x000A;      li &quot;$29 for a huge boot that floats and can fit 5 people&quot;&#x000A;    end&#x000A;  end&#x000A;end&#x000A;puts mab.to_s</pre>
+            <p>
+            <a href="../classes/Markaby/Builder.html#M000026">Markaby::Builder.new</a>
+            does take two arguments for passing in variables and a helper object. You
+            can also affix the block right on to the class.
+            </p>
+            <p>
+            See <a href="../classes/Markaby/Builder.html">Markaby::Builder</a> for all
+            of that.
+            </p>
+            <h1>A Note About <tt>instance_eval</tt></h1>
+            <p>
+            The <a href="../classes/Markaby/Builder.html">Markaby::Builder</a> class is
+            different from the normal Builder class, since it uses
+            <tt>instance_eval</tt> when running blocks. This cleans up the appearance
+            of the <a href="../classes/Markaby.html">Markaby</a> code you write. If
+            <tt>instance_eval</tt> was not used, the code would look like this:
+            </p>
+            <pre>mab = Markaby::Builder.new&#x000A;mab.html do&#x000A;  mab.head { mab.title &quot;Boats.com&quot; }&#x000A;  mab.body do&#x000A;    mab.h1 &quot;Boats.com has great deals&quot;&#x000A;  end&#x000A;end&#x000A;puts mab.to_s</pre>
+            <p>
+            So, the advantage is the cleanliness of your code. The disadvantage is that
+            the block will run inside the <a
+            href="../classes/Markaby/Builder.html">Markaby::Builder</a> object&#8217;s
+            scope. This means that inside these blocks, <tt>self</tt> will be your <a
+            href="../classes/Markaby/Builder.html">Markaby::Builder</a> object. When
+            you use instance variables in these blocks, they will be instance variables
+            of the <a href="../classes/Markaby/Builder.html">Markaby::Builder</a>
+            object.
+            </p>
+            <p>
+            This doesn&#8217;t affect Rails users, but when used in regular Ruby code,
+            it can be a bit disorienting. You are recommended to put your <a
+            href="../classes/Markaby.html">Markaby</a> code in a module where it
+            won&#8217;t mix with anything.
+            </p>
+            <h1>The Six Steps of <a href="../classes/Markaby.html">Markaby</a></h1>
+            <p>
+            If you dive right into <a href="../classes/Markaby.html">Markaby</a>,
+            it&#8217;ll probably make good sense, but you&#8217;re likely to run into a
+            few kinks. Why not review these six steps and commit them memory so you can
+            really <b>know</b> what you&#8217;re doing?
+            </p>
+            <h2>1. Element Classes</h2>
+            <p>
+            Element classes may be added by hooking methods onto container elements:
+            </p>
+            <pre>div.entry do&#x000A;  h2.entryTitle 'Son of WebPage'&#x000A;  div.entrySection %{by Anthony}&#x000A;  div.entryContent 'Okay, once again, the idea here is ...'&#x000A;end</pre>
+            <p>
+            Which results in:
+            </p>
+            <pre>&lt;div class=&quot;entry&quot;&gt;&#x000A;  &lt;h2 class=&quot;entryTitle&quot;&gt;Son of WebPage&lt;/h2&gt;&#x000A;  &lt;div class=&quot;entrySection&quot;&gt;by Anthony&lt;/div&gt;&#x000A;  &lt;div class=&quot;entryContent&quot;&gt;Okay, once again, the idea here is ...&lt;/div&gt;&#x000A;&lt;/div&gt;</pre>
+            <h2>2. Element IDs</h2>
+            <p>
+            IDs may be added by the use of bang methods:
+            </p>
+            <pre>div.page! {&#x000A;  div.content! {&#x000A;    h1 &quot;A Short Short Saintly Dog&quot;&#x000A;  }&#x000A;}</pre>
+            <p>
+            Which results in:
+            </p>
+            <pre>&lt;div id=&quot;page&quot;&gt;&#x000A;  &lt;div id=&quot;content&quot;&gt;&#x000A;    &lt;h1&gt;A Short Short Saintly Dog&lt;/h1&gt;&#x000A;  &lt;/div&gt;&#x000A;&lt;/div&gt;</pre>
+            <h2>3. Validate Your XHTML 1.0 Output</h2>
+            <p>
+            If you&#8217;d like <a href="../classes/Markaby.html">Markaby</a> to help
+            you assemble valid XHTML documents, you can use the
+            <tt>xhtml_transitional</tt> or <tt>xhtml_strict</tt> methods in place of
+            the normal <tt>html</tt> tag.
+            </p>
+            <pre>xhtml_strict do&#x000A;  head { ... }&#x000A;  body { ... }&#x000A;end</pre>
+            <p>
+            This will add the XML instruction and the doctype tag to your document.
+            Also, a character set meta tag will be placed inside your <tt>head</tt>
+            tag.
+            </p>
+            <p>
+            Now, since <a href="../classes/Markaby.html">Markaby</a> knows which
+            doctype you&#8217;re using, it checks a big list of valid tags and
+            attributes before printing anything.
+            </p>
+            <pre>&gt;&gt; div :styl =&gt; &quot;padding: 10px&quot; do&#x000A;&gt;&gt;   img :src =&gt; &quot;samorost.jpg&quot;&#x000A;&gt;&gt; end&#x000A;InvalidHtmlError: no such attribute `styl'</pre>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> will also make sure you
+            don&#8217;t use the same element ID twice!
+            </p>
+            <h2>4. Escape or No Escape?</h2>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> uses a simple convention for
+            escaping stuff: if a string is an argument, it gets escaped. If the string
+            is in a block, it doesn&#8217;t.
+            </p>
+            <p>
+            This is handy if you&#8217;re using something like RedCloth or RDoc inside
+            an element. Pass the string back through the block and it&#8217;ll skip out
+            of escaping.
+            </p>
+            <pre>div.comment { RedCloth.new(str).to_html }</pre>
+            <p>
+            But, if we have some raw text that needs escaping, pass it in as an
+            argument:
+            </p>
+            <pre>div.comment raw_str</pre>
+            <p>
+            One caveat: if you have other tags inside a block, the string passed back
+            will be ignored.
+            </p>
+            <pre>div.comment {&#x000A;  div.author &quot;_why&quot;&#x000A;  div.says &quot;Torpedoooooes!&quot;&#x000A;  &quot;&lt;div&gt;Silence.&lt;/div&gt;&quot;&#x000A;}</pre>
+            <p>
+            The final div above won&#8217;t appear in the output. You can&#8217;t mix
+            tag modes like that, friend.
+            </p>
+            <h2>5. Auto-stringification</h2>
+            <p>
+            If you end up using any of your <a
+            href="../classes/Markaby.html">Markaby</a> &#8220;tags&#8221; as a string,
+            the tag won&#8217;t be output. It&#8217;ll be up to you to add the new
+            string back into the HTML output.
+            </p>
+            <p>
+            This means if you call <tt>to_s</tt>, you&#8217;ll get a string back.
+            </p>
+            <pre>div.title { &quot;Rock Bottom&quot; + span(&quot; by Robert Wyatt&quot;).to_s }</pre>
+            <p>
+            But, when you&#8217;re adding strings in Ruby, <tt>to_s</tt> happens
+            automatically.
+            </p>
+            <pre>div.title { &quot;Rock Bottom&quot; + span(&quot; by Robert Wyatt&quot;) }</pre>
+            <p>
+            Interpolation works fine.
+            </p>
+            <pre>div.title { &quot;Rock Bottom #{span(&quot; by Robert Wyatt&quot;)}&quot; }</pre>
+            <p>
+            And any other operation you might perform on a string.
+            </p>
+            <pre>div.menu! \&#x000A;  ['5.gets', 'bits', 'cult', 'inspect', '-h'].map do |category|&#x000A;    link_to category&#x000A;  end.&#x000A;  join( &quot; | &quot; )</pre>
+            <h2>6. The <tt>tag!</tt> Method</h2>
+            <p>
+            If you need to force a tag at any time, call <tt>tag!</tt> with the tag
+            name followed by the possible arguments and block. The CssProxy won&#8217;t
+            work with this technique.
+            </p>
+            <pre>tag! :select, :id =&gt; &quot;country_list&quot; do&#x000A;  countries.each do |country|&#x000A;    tag! :option, country&#x000A;  end&#x000A;end</pre>
+            <h1>A Note About Rails Helpers</h1>
+            <p>
+            When used in Rails templates, the Rails helper object is passed into <a
+            href="../classes/Markaby/Builder.html">Markaby::Builder</a>. When you call
+            helper methods inside <a href="../classes/Markaby.html">Markaby</a>, the
+            output from those methods will be output to the stream. This is incredibly
+            handy, since most Rails helpers output HTML tags.
+            </p>
+            <pre>head do&#x000A;  javascript_include_tag 'prototype'&#x000A;  autodiscovery_link_tag&#x000A;end</pre>
+            <p>
+            However, some methods are designed to give back a String which you can use
+            elsewhere. That&#8217;s okay! Every method returns a Fragment object, which
+            can be used as a string.
+            </p>
+            <pre>p { &quot;Total is: #{number_to_human_size @file_bytes}&quot; }</pre>
+            <p>
+            Also see the Quick Tour above, specifically the stuff about
+            auto-stringification.
+            </p>
+            <p>
+            If for any reason you have trouble with fragments, you can just call the
+            <tt>@helpers</tt> object with the method and you&#8217;ll get the String
+            back and nothing will be output.
+            </p>
+            <pre>p { &quot;Total is: #{@helpers.number_to_human_size @file_bytes}&quot; }</pre>
+            <p>
+            Conversely, you may call instance variables from your controller by using a
+            method and its value will be returned, nothing will be output.
+            </p>
+            <pre># Inside imaginary ProductController&#x000A;def list&#x000A;  @products = Product.find :all&#x000A;end&#x000A;&#x000A;# Inside app/views/product/list.mab&#x000A;products.each do |product|&#x000A;  p product.title&#x000A;end</pre>
+            <h1>Credits</h1>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> is a work of immense hope by
+            Tim Fletcher and why the lucky stiff. It is maintained by joho, spox, and
+            smtlaissezfaire. Thankyou for giving it a whirl.
+            </p>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> is inspired by the HTML
+            library within cgi.rb. Hopefully it will turn around and take some cues.
+            </p>
+          </div>
+          <div id='section'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

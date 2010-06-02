@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: Markaby::Rails::RailsBuilder::FormHelperProxy [RDoc Documentation]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>Class</span>
+          Markaby::Rails::RailsBuilder::FormHelperProxy
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a href="../../../../files/lib/markaby/rails/rails_builder_rb.html">lib/markaby/rails/rails_builder.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong>Object</strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <p>
+            This is used for the block variable given to form_for. Typically, an erb
+            template looks as so:
+            </p>
+            <pre>&lt;% form_for :foo do |f|&#x000A;  &lt;%= f.text_field :bar %&gt;&#x000A;&lt;% end %&gt;</pre>
+            <p>
+            form_for adds the form tag to the input stream, and assumes that later the
+            user will append the <input> tag to the input stream himself (in erb, this
+            is done with the <%= %> tags).
+            </p>
+            <p>
+            We could do the following in Markaby:
+            </p>
+            <pre>form_for :foo do |f|&#x000A;  text f.text_field(:bar)&#x000A;end</pre>
+            <p>
+            But this is ugly. This is prettier:
+            </p>
+            <pre>form_for :foo do |f|&#x000A;  f.text_field :bar&#x000A;end</pre>
+          </div>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public class</h3>
+            <ol>
+              <li><a href="#M000017">new</a></li>
+            </ol>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000018">respond_to?</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='methods'>
+              <h2>Public class methods</h2>
+              <div class='method public-class' id='method-M000017'>
+                <a name='M000017'></a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>(builder, proxied_object)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000017-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000017-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/rails_builder.rb, line 33</span>&#x000A;33:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">builder</span>, <span class="ruby-identifier">proxied_object</span>)&#x000A;34:           <span class="ruby-ivar">@builder</span> = <span class="ruby-identifier">builder</span>&#x000A;35:           <span class="ruby-ivar">@proxied_object</span> = <span class="ruby-identifier">proxied_object</span>&#x000A;36:         <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <h2>Public instance methods</h2>
+              <div class='method public-instance' id='method-M000018'>
+                <a name='M000018'></a>
+                <div class='synopsis'>
+                  <span class='name'>respond_to?</span>
+                  <span class='arguments'>(sym, include_private = false)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000018-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000018-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/rails_builder.rb, line 38</span>&#x000A;38:         <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-identifier">include_private</span> = <span class="ruby-keyword kw">false</span>)&#x000A;39:           <span class="ruby-ivar">@proxied_object</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-identifier">include_private</span>) <span class="ruby-operator">||</span> <span class="ruby-keyword kw">super</span>&#x000A;40:         <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
