@@ -1,3 +1,7 @@
+= HEAD
+
+* Add rails support for 2.3.5-2.3.8
+
 = 0.6.6
 
 * ruby 1.9.1 support.  Closes Github Issues #10 & #11.
