@@ -31,7 +31,11 @@ module Markaby
       "2.3.2.1",
       "2.3.3",
       "2.3.3.1",
-      "2.3.4"
+      "2.3.4",
+      "2.3.5",
+      "2.3.6",
+      "2.3.7",
+      "2.3.8"
     ]
 
     SUPPORTED_RAILS_VERSIONS = DEPRECATED_RAILS_VERSIONS + FULLY_SUPPORTED_RAILS_VERSIONS
