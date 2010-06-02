@@ -29,6 +29,18 @@ Markaby supports many versions of rails:
   2.3.3, 2.3.3.1, 2.3.4, 2.3.5, 2.3.6, 2.3.7,
   2.3.8
 
+Install it as a plugin:
+
+  script/plugin install git://github.com/markaby/markaby.git
+
+If you are loading it in a different way (from a gem), make sure it's on the LOAD_PATH, and add the following (in environment.rb):
+
+  require 'markaby'
+  require 'markaby/rails'
+
+  Markaby::Rails.load
+
+
 == Using Markaby as a Ruby class
 
 Markaby is flaming easy to call from your Ruby classes.
