@@ -10,7 +10,7 @@ module Markaby
         builder.to_s
       end
 
-      def compile!; end
+      def prepare; end
     end
   end
 end
