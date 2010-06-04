@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{markaby}
-  s.version = "0.6.7"
+  s.version = "0.6.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
-  s.date = %q{2010-06-02}
+  s.date = %q{2010-06-03}
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{scott@railsnewbie.com}
   s.extra_rdoc_files = [
