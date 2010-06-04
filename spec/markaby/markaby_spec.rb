@@ -229,4 +229,15 @@ class MarkabyTest < Test::Unit::TestCase
     builder = Markaby::Builder.new
     builder.something.should == "<something/>"
   end
+
+  it "should copy instance variables from a helper object" do
+    klass = Class.new do
+      def initialize
+        @hello = "hello there"
+      end
+    end
+
+    builder = Markaby::Builder.new({}, klass.new)
+    builder.capture { @hello }.should == "hello there"
+  end
 end

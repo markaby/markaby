@@ -91,6 +91,12 @@ module Markaby
         instance_variable_set("@#{k}", v)
       end
 
+      if helper
+        helper.instance_variables.each do |iv|
+          instance_variable_set(iv, helper.instance_variable_get(iv))
+        end
+      end
+
       @builder = XmlMarkup.new(:indent => @indent, :target => @streams.last)
 
       text(capture(&block)) if block
