@@ -33,7 +33,9 @@ Install it as a plugin:
 
   script/plugin install git://github.com/markaby/markaby.git
 
-If you are loading it in a different way (from a gem), make sure it's on the LOAD_PATH, and add the following (in environment.rb):
+If you are loading it in a different way (from a gem), make sure
+it's on the LOAD_PATH, and add the following in
+an initializer (config/initializers/markaby.rb will work):
 
   require 'markaby'
   require 'markaby/rails'
