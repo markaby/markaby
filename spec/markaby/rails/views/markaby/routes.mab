@@ -1,0 +1,1 @@
+link_to "Foo", new_user_path

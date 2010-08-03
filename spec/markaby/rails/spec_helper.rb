@@ -16,6 +16,10 @@ if RUNNING_RAILS
 
   $:.unshift MARKABY_ROOT
   require 'init'
+
+  ActionController::Routing::Routes.draw do |map|
+    map.new_user "/users/new", :controller => "users", :action => "new"
+  end
 else
   warn "Skipping rails specific tests"
 end
