@@ -1,3 +1,12 @@
+= 0.6.9
+
+* Bug fix for url_for.  Previously, you'd need to capture { *_path } instead of
+  using the named route directly.  Only affected rails 2.3.4+.
+
+= 0.6.8 (2010-06-03)
+
+* Add a regression for issue Github #17 (for judofyr / Camping)
+
 = 0.6.7 (2010-06-02)
 
 * Add rails support for 2.3.5 - 2.3.8

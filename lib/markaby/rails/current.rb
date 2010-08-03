@@ -43,4 +43,32 @@ module Markaby
   end
 end
 
+# allow fragments to act as strings.  url_for has a
+# nasty case statment in it:
+#
+# case options
+# when String
+#   ...
+#
+# which essential is doing the following:
+#
+# String === options
+#
+# We prefer to override url_for rather than String#===
+#
+ActionView::Helpers::UrlHelper.class_eval do
+  alias_method :url_for_aliased_by_markaby, :url_for
+
+  def url_for(options={})
+    options ||= {}
+
+    url = case options
+    when Markaby::Fragment
+      url_for_aliased_by_markaby(options.to_s)
+    else
+      url_for_aliased_by_markaby(options)
+    end
+  end
+end
+
 ActionView::Template.register_template_handler(:mab, Markaby::Rails::TemplateHandler)

@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{markaby}
-  s.version = "0.6.7"
+  s.version = "0.6.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
-  s.date = %q{2010-06-02}
+  s.date = %q{2010-08-03}
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{scott@railsnewbie.com}
   s.extra_rdoc_files = [
@@ -57,6 +57,7 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/views/markaby/render_mab_without_explicit_render_call.mab",
      "spec/markaby/rails/views/markaby/render_with_ivar.mab",
      "spec/markaby/rails/views/markaby/renders_erb.rhtml",
+     "spec/markaby/rails/views/markaby/routes.mab",
      "spec/markaby/rails_spec.rb",
      "spec/markaby/rails_version_spec.rb",
      "spec/markaby/tilt/erb.erb",

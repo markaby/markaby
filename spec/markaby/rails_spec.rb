@@ -112,6 +112,9 @@ if RUNNING_RAILS
 
       render :template => "markaby/form_for_with_multiple_fields"
     end
+
+    def routes
+    end
   end
 
   class MarkabyOnRailsTest < ActionController::TestCase
@@ -238,6 +241,14 @@ if RUNNING_RAILS
 
       assert_equal expected_output,
                    @response.body
+    end
+
+    def test_routes_work
+      get :routes
+      assert_response :success
+
+      expected_output = "<a href=\"/users/new\">Foo</a>"
+      assert_equal expected_output, @response.body
     end
   end
 
