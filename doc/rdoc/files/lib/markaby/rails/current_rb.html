@@ -31,11 +31,18 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>Wed Jun 02 18:57:39 -0400 2010</span>
+          <span class='datetime'>Tue Aug 03 03:21:23 -0400 2010</span>
         </div>
       </div>
       <div id='content'>
         <div id='text'>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000001">url_for</a></li>
+            </ol>
+          </div>
           <div id='context'>
             <div id='requires'>
               <h2>Required files</h2>
@@ -45,6 +52,22 @@
             </div>
           </div>
           <div id='section'>
+            <div id='methods'>
+              <h2>Public instance methods</h2>
+              <div class='method public-instance' id='method-M000001'>
+                <a name='M000001'></a>
+                <div class='synopsis'>
+                  <span class='name'>url_for</span>
+                  <span class='arguments'>(options={})</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000001-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000001-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/current.rb, line 63</span>&#x000A;63:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">url_for</span>(<span class="ruby-identifier">options</span>={})&#x000A;64:     <span class="ruby-identifier">options</span> <span class="ruby-operator">||=</span> {}&#x000A;65: &#x000A;66:     <span class="ruby-identifier">url</span> = <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">options</span>&#x000A;67:     <span class="ruby-keyword kw">when</span> <span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">Fragment</span>&#x000A;68:       <span class="ruby-identifier">url_for_aliased_by_markaby</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">to_s</span>)&#x000A;69:     <span class="ruby-keyword kw">else</span>&#x000A;70:       <span class="ruby-identifier">url_for_aliased_by_markaby</span>(<span class="ruby-identifier">options</span>)&#x000A;71:     <span class="ruby-keyword kw">end</span>&#x000A;72:   <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
