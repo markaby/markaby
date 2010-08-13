@@ -9,7 +9,9 @@ module Markaby
         <<-CODE
           handler = Markaby::Rails::TemplateHandler.new
           handler.view = self
-          handler.render(lambda { #{template.source} }, local_assigns)
+          handler.render(lambda {
+            #{template.source}
+          }, local_assigns)
         CODE
       end
 

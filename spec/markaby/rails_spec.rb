@@ -116,6 +116,9 @@ if RUNNING_RAILS
     def routes
     end
 
+    def commented_out_template
+    end
+
     def render_with_yielding
       render :layout   => "layout.mab",
              :template => "markaby/yielding"
@@ -252,6 +255,14 @@ if RUNNING_RAILS
       assert_response :success
 
       expected_output = "<a href=\"/users/new\">Foo</a>"
+      assert_equal expected_output, @response.body
+    end
+
+    def test_commented_out_template_cant_raise_errors
+      get :commented_out_template
+      assert_response :success
+
+      expected_output = ""
       assert_equal expected_output, @response.body
     end
 
