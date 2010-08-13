@@ -1,0 +1,11 @@
+div :id => "main" do
+  yield
+end
+
+str = yield(:foo)
+
+unless str.blank?
+  div :id => "foo" do
+    str
+  end
+end

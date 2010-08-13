@@ -1,0 +1,8 @@
+content_for :foo do
+  form_for :foo do |f|
+    p :class => "foo" do
+      f.text_field :foo
+      f.submit "foo"
+    end
+  end
+end

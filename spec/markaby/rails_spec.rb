@@ -115,6 +115,41 @@ if RUNNING_RAILS
 
     def routes
     end
+
+    def render_with_yielding
+      render :layout   => "layout.mab",
+             :template => "markaby/yielding"
+    end
+
+    def render_with_yielding_where_template_has_two_elements
+      render :layout   => "layout.mab",
+             :template => "markaby/yielding_two"
+    end
+
+    def render_with_yielding_content_for_block
+      render :layout   => "layout.mab",
+             :template => "markaby/yielding_with_content_for"
+    end
+
+    def render_content_for_with_block_helper
+      @obj = Object.new
+      def @obj.foo
+        "bar"
+      end
+
+      render :layout   => "layout.mab",
+             :template => "markaby/yielding_content_for_with_block_helper"
+    end
+
+    def renders_content_for_with_form_for_without_double_render
+      @obj = Object.new
+      def @obj.foo
+        "bar"
+      end
+
+      render :layout   => "layout.mab",
+             :template => "markaby/double_output"
+    end
   end
 
   class MarkabyOnRailsTest < ActionController::TestCase
@@ -212,43 +247,98 @@ if RUNNING_RAILS
              @controller.last_exception.message.to_s
     end
 
-    def test_renders_form_for_properly
-      get :renders_form_for
-
-      assert_response :success
-
-      assert %r(<form.*></form>) =~ @response.body
-    end
-
-    def test_renders_form_for_with_fields_for
-      get :render_form_for_with_fields
-
-      assert_response :success
-
-      assert_equal "<form action=\"/markaby/render_form_for_with_fields\" method=\"post\"><input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" /></form>",
-                   @response.body
-    end
-
-    def test_renders_form_for_with_multiple_fields
-      get :render_form_for_with_multiple_fields
-
-      assert_response :success
-
-      expected_output =  "<form action=\"/markaby/render_form_for_with_multiple_fields\" method=\"post\">"
-      expected_output << "<input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" />"
-      expected_output << "<input id=\"foo_baz\" name=\"foo[baz]\" size=\"30\" type=\"text\" />"
-      expected_output << "</form>"
-
-      assert_equal expected_output,
-                   @response.body
-    end
-
     def test_routes_work
       get :routes
       assert_response :success
 
       expected_output = "<a href=\"/users/new\">Foo</a>"
       assert_equal expected_output, @response.body
+    end
+
+    if Rails::VERSION::MAJOR >= 2
+      def test_renders_form_for_properly
+        get :renders_form_for
+
+        assert_response :success
+
+        assert %r(<form.*></form>) =~ @response.body
+      end
+
+      def test_renders_form_for_with_fields_for
+        get :render_form_for_with_fields
+
+        assert_response :success
+
+        assert_equal "<form action=\"/markaby/render_form_for_with_fields\" method=\"post\"><input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" /></form>",
+                     @response.body
+      end
+
+      def test_renders_form_for_with_multiple_fields
+        get :render_form_for_with_multiple_fields
+
+        assert_response :success
+
+        expected_output =  "<form action=\"/markaby/render_form_for_with_multiple_fields\" method=\"post\">"
+        expected_output << "<input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" />"
+        expected_output << "<input id=\"foo_baz\" name=\"foo[baz]\" size=\"30\" type=\"text\" />"
+        expected_output << "</form>"
+
+        assert_equal expected_output,
+                     @response.body
+      end
+
+      def test_rendering_with_yield_works
+        get :render_with_yielding
+        assert_response :success
+
+        expected_output = '<div id="main"><p class="hey">hi there</p></div>'
+        assert_equal expected_output, @response.body
+      end
+
+      def test_render_with_yielding_where_template_has_two_elements
+        get :render_with_yielding_where_template_has_two_elements
+        assert_response :success
+
+        expected_output = '<div id="main"><p class="hi">hi there</p><p class="hi">hi again</p></div>'
+        assert_equal expected_output, @response.body
+      end
+
+      def test_render_with_yielding_content_for_block
+        get :render_with_yielding_content_for_block
+        assert_response :success
+
+        expected_output = '<div id="main"></div><div id="foo"><p>in foo content_for</p></div>'
+        assert_equal expected_output, @response.body
+      end
+
+      def test_render_content_for_with_block_helper
+        get :render_content_for_with_block_helper
+        assert_response :success
+
+        expected_output = '<div id="main"></div><div id="foo">'
+        expected_output << '<form action="/markaby/render_content_for_with_block_helper" method="post">'
+        expected_output << '<input id="foo_foo" name="foo[foo]" size="30" type="text" />'
+        expected_output << '</form>'
+        expected_output << '</div>'
+
+        assert_equal expected_output, @response.body
+      end
+
+      def test_renders_content_for_with_form_for_without_double_render
+        get :renders_content_for_with_form_for_without_double_render
+        assert_response :success
+
+        expected_output  = '<div id="main"></div><div id="foo">'
+        expected_output << '<form action="/markaby/renders_content_for_with_form_for_without_double_render" method="post">'
+        expected_output << '<p class="foo">'
+        expected_output << '<input id="foo_foo" name="foo[foo]" size="30" type="text" />'
+        expected_output << '<input id="foo_submit" name="commit" type="submit" value="foo" />'
+        expected_output << '</p>'
+        expected_output << '</form>'
+        expected_output << '</div>'
+
+        assert_equal expected_output, @response.body
+      end
     end
   end
 

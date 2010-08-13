@@ -40,6 +40,16 @@ module Markaby
         end
       end
     end
+
+    module CaptureHelper
+      def capture(*args, &block)
+        if output_buffer.kind_of?(Markaby::Builder)
+          output_buffer.capture(&block)
+        else
+          super
+        end
+      end
+    end
   end
 end
 
@@ -54,8 +64,6 @@ end
 #
 # String === options
 #
-# We prefer to override url_for rather than String#===
-#
 ActionView::Helpers::UrlHelper.class_eval do
   alias_method :url_for_aliased_by_markaby, :url_for
 
@@ -69,6 +77,10 @@ ActionView::Helpers::UrlHelper.class_eval do
       url_for_aliased_by_markaby(options)
     end
   end
+end
+
+ActionView::Base.class_eval do
+  include Markaby::Rails::CaptureHelper
 end
 
 ActionView::Template.register_template_handler(:mab, Markaby::Rails::TemplateHandler)

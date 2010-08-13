@@ -1,3 +1,7 @@
+= 0.6.10
+
+* Rails fixes for form_for + content_for
+
 = 0.6.9
 
 * Bug fix for url_for.  Previously, you'd need to capture { *_path } instead of
