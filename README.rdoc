@@ -18,7 +18,7 @@ Write Rails templates in pure Ruby.  Example layout:
     body do
       p flash[:notice], :style => "color: green"
 
-      self << content_for_layout
+      yield
     end
   end
 
