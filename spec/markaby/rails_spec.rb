@@ -131,7 +131,7 @@ if RUNNING_RAILS
              :template => "markaby/yielding_with_content_for"
     end
 
-    def test_render_content_for_with_block_helper
+    def render_content_for_with_block_helper
       @obj = Object.new
       def @obj.foo
         "bar"
@@ -139,6 +139,16 @@ if RUNNING_RAILS
 
       render :layout   => "layout.mab",
              :template => "markaby/yielding_content_for_with_block_helper"
+    end
+
+    def renders_content_for_with_form_for_without_double_render
+      @obj = Object.new
+      def @obj.foo
+        "bar"
+      end
+
+      render :layout   => "layout.mab",
+             :template => "markaby/double_output"
     end
   end
 
@@ -302,12 +312,30 @@ if RUNNING_RAILS
       end
 
       def test_render_content_for_with_block_helper
-        get :test_render_content_for_with_block_helper
+        get :render_content_for_with_block_helper
         assert_response :success
 
         expected_output = '<div id="main"></div><div id="foo">'
-        expected_output << "<form action=\"/markaby/test_render_content_for_with_block_helper\" method=\"post\"><input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" /></form>"
-        expected_output << "</div>"
+        expected_output << '<form action="/markaby/render_content_for_with_block_helper" method="post">'
+        expected_output << '<input id="foo_foo" name="foo[foo]" size="30" type="text" />'
+        expected_output << '</form>'
+        expected_output << '</div>'
+
+        assert_equal expected_output, @response.body
+      end
+
+      def test_renders_content_for_with_form_for_without_double_render
+        get :renders_content_for_with_form_for_without_double_render
+        assert_response :success
+
+        expected_output  = '<div id="main"></div><div id="foo">'
+        expected_output << '<form action="/markaby/renders_content_for_with_form_for_without_double_render" method="post">'
+        expected_output << '<p class="foo">'
+        expected_output << '<input id="foo_foo" name="foo[foo]" size="30" type="text" />'
+        expected_output << '<input id="foo_submit" name="commit" type="submit" value="foo" />'
+        expected_output << '</p>'
+        expected_output << '</form>'
+        expected_output << '</div>'
 
         assert_equal expected_output, @response.body
       end

@@ -5,10 +5,20 @@ module Markaby
         @_helper.output_buffer = OutputBuffer.new
 
         @template.form_for(*args) do |__form_for_variable|
-          yield FormHelperProxy.new(@_helper, __form_for_variable)
-        end
+          # flush <form tags> + switch back to markaby
+          text(@_helper.output_buffer)
+          @_helper.output_buffer = self
 
+          yield FormHelperProxy.new(@_helper, __form_for_variable)
+
+          # switch back to output string output buffer and flush
+          # final </form> tag
+          @_helper.output_buffer = OutputBuffer.new
+        end
         text(@_helper.output_buffer)
+
+        # finally, switch back to our regular buffer
+        @_helper.output_buffer = self
       end
 
       alias_method :safe_concat, :concat
@@ -57,7 +67,6 @@ module Markaby
         def method_missing(sym, *args, &block)
           result = @proxied_object.__send__(sym, *args, &block)
           @view.concat(result)
-          result
         end
       end
     end
