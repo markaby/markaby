@@ -1,0 +1,5 @@
+content_for :foo do
+  form_for :foo do |f|
+    f.text_field :foo
+  end
+end

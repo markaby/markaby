@@ -2,12 +2,25 @@ module Markaby
   module Rails
     class RailsBuilder < Markaby::Builder
       def form_for(*args, &block)
+        @_helper.output_buffer = OutputBuffer.new
+
         @template.form_for(*args) do |__form_for_variable|
-          yield(FormHelperProxy.new(self, __form_for_variable))
+          yield FormHelperProxy.new(@_helper, __form_for_variable)
         end
+
+        text(@_helper.output_buffer)
       end
 
       alias_method :safe_concat, :concat
+
+      # Rails 2.3.6 calls safe_concat on the output buffer.
+      # Future versions of rails alias safe_concat to concat on the core
+      # class String.
+      #
+      # Obviously, that's a bad idea.  Thanks a ton, Rails.
+      class OutputBuffer < String
+        alias_method :safe_concat, :concat
+      end
 
       # This is used for the block variable given to form_for.  Typically, an erb template looks as so:
       #
@@ -30,8 +43,8 @@ module Markaby
       #     f.text_field :bar
       #   end
       class FormHelperProxy
-        def initialize(builder, proxied_object)
-          @builder = builder
+        def initialize(view, proxied_object)
+          @view           = view
           @proxied_object = proxied_object
         end
 
@@ -43,7 +56,7 @@ module Markaby
 
         def method_missing(sym, *args, &block)
           result = @proxied_object.__send__(sym, *args, &block)
-          @builder.text(result) if result.is_a?(String)
+          @view.concat(result)
           result
         end
       end
