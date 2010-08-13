@@ -5,7 +5,7 @@ It is an alternative to ERb which weaves the two languages together.
 Also a replacement for templating languages which use primitive languages
 that blend with HTML.
 
-== Using Markaby as a Rails plugin
+== Using Markaby as a Rails plugin / gem
 
 Write Rails templates in pure Ruby.  Example layout:
 
@@ -18,6 +18,12 @@ Write Rails templates in pure Ruby.  Example layout:
     body do
       p flash[:notice], :style => "color: green"
 
+      div.signup! do
+        form_for @user do |f|
+          f.text_field :email
+        end
+      end
+
       yield
     end
   end
@@ -29,18 +35,24 @@ Markaby supports many versions of rails:
   2.3.3, 2.3.3.1, 2.3.4, 2.3.5, 2.3.6, 2.3.7,
   2.3.8
 
-Install it as a plugin:
+=== Install it as a plugin
 
   script/plugin install git://github.com/markaby/markaby.git
 
+=== Install it as a gem
+
+  gem install markaby
+
 If you are loading it in a different way (from a gem), make sure
-it's on the LOAD_PATH, and add the following in
+it's on the $LOAD_PATH, and add the following in
 an initializer (config/initializers/markaby.rb will work):
 
   require 'markaby'
   require 'markaby/rails'
 
   Markaby::Rails.load
+
+Or, you could try config.gem, but that's now known as a bad idea.
 
 
 == Using Markaby as a Ruby class
