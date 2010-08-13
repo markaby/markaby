@@ -55,41 +55,41 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000022">new</a></li>
+              <li><a href="#M000023">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000023">respond_to?</a></li>
+              <li><a href="#M000024">respond_to?</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='method public-class' id='method-M000022'>
-                <a name='M000022'></a>
+              <div class='method public-class' id='method-M000023'>
+                <a name='M000023'></a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>(builder, stream, sym)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000022-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000023-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000022-source'>    <span class="ruby-comment cmt"># File lib/markaby/cssproxy.rb, line 7</span>&#x000A; 7:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">builder</span>, <span class="ruby-identifier">stream</span>, <span class="ruby-identifier">sym</span>)&#x000A; 8:       <span class="ruby-ivar">@builder</span> = <span class="ruby-identifier">builder</span>&#x000A; 9:       <span class="ruby-ivar">@stream</span>  = <span class="ruby-identifier">stream</span>&#x000A;10:       <span class="ruby-ivar">@sym</span>     = <span class="ruby-identifier">sym</span>&#x000A;11:       <span class="ruby-ivar">@attrs</span>   = {}&#x000A;12: &#x000A;13:       <span class="ruby-ivar">@original_stream_length</span> = <span class="ruby-ivar">@stream</span>.<span class="ruby-identifier">length</span>&#x000A;14: &#x000A;15:       <span class="ruby-ivar">@builder</span>.<span class="ruby-identifier">tag!</span> <span class="ruby-identifier">sym</span>&#x000A;16:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000023-source'>    <span class="ruby-comment cmt"># File lib/markaby/cssproxy.rb, line 7</span>&#x000A; 7:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">builder</span>, <span class="ruby-identifier">stream</span>, <span class="ruby-identifier">sym</span>)&#x000A; 8:       <span class="ruby-ivar">@builder</span> = <span class="ruby-identifier">builder</span>&#x000A; 9:       <span class="ruby-ivar">@stream</span>  = <span class="ruby-identifier">stream</span>&#x000A;10:       <span class="ruby-ivar">@sym</span>     = <span class="ruby-identifier">sym</span>&#x000A;11:       <span class="ruby-ivar">@attrs</span>   = {}&#x000A;12: &#x000A;13:       <span class="ruby-ivar">@original_stream_length</span> = <span class="ruby-ivar">@stream</span>.<span class="ruby-identifier">length</span>&#x000A;14: &#x000A;15:       <span class="ruby-ivar">@builder</span>.<span class="ruby-identifier">tag!</span> <span class="ruby-identifier">sym</span>&#x000A;16:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000023'>
-                <a name='M000023'></a>
+              <div class='method public-instance' id='method-M000024'>
+                <a name='M000024'></a>
                 <div class='synopsis'>
                   <span class='name'>respond_to?</span>
                   <span class='arguments'>(sym, include_private = false)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000023-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000024-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000023-source'>    <span class="ruby-comment cmt"># File lib/markaby/cssproxy.rb, line 18</span>&#x000A;18:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-identifier">include_private</span> = <span class="ruby-keyword kw">false</span>)&#x000A;19:       <span class="ruby-identifier">include_private</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">private_methods</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_sym</span> }.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">sym</span>.<span class="ruby-identifier">to_sym</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword kw">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword kw">false</span>&#x000A;20:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000024-source'>    <span class="ruby-comment cmt"># File lib/markaby/cssproxy.rb, line 18</span>&#x000A;18:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-identifier">include_private</span> = <span class="ruby-keyword kw">false</span>)&#x000A;19:       <span class="ruby-identifier">include_private</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">private_methods</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">to_sym</span> }.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">sym</span>.<span class="ruby-identifier">to_sym</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword kw">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword kw">false</span>&#x000A;20:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>

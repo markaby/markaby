@@ -45,13 +45,14 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000011">form_for</a></li>
+              <li><a href="#M000012">form_for</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='class-list'>
               <h2>Classes and Modules</h2>
               Class <a href="RailsBuilder/FormHelperProxy.html" class="link">Markaby::Rails::RailsBuilder::FormHelperProxy</a><br />
+              Class <a href="RailsBuilder/OutputBuffer.html" class="link">Markaby::Rails::RailsBuilder::OutputBuffer</a><br />
             </div>
             <div id='aliases-list'>
               <h2>External Aliases</h2>
@@ -67,17 +68,17 @@
             </div>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000011'>
-                <a name='M000011'></a>
+              <div class='method public-instance' id='method-M000012'>
+                <a name='M000012'></a>
                 <div class='synopsis'>
                   <span class='name'>form_for</span>
-                  <span class='arguments'>(*args) {|FormHelperProxy.new(self, __form_for_variable)| ...}</span>
+                  <span class='arguments'>(*args) {|FormHelperProxy.new(@_helper, __form_for_variable)| ...}</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000011-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000012-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000011-source'>   <span class="ruby-comment cmt"># File lib/markaby/rails/rails_builder.rb, line 4</span>&#x000A;4:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">form_for</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;5:         <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">form_for</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">__form_for_variable</span><span class="ruby-operator">|</span>&#x000A;6:           <span class="ruby-keyword kw">yield</span>(<span class="ruby-constant">FormHelperProxy</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">__form_for_variable</span>))&#x000A;7:         <span class="ruby-keyword kw">end</span>&#x000A;8:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000012-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/rails_builder.rb, line 4</span>&#x000A; 4:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">form_for</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A; 5:         <span class="ruby-ivar">@_helper</span>.<span class="ruby-identifier">output_buffer</span> = <span class="ruby-constant">OutputBuffer</span>.<span class="ruby-identifier">new</span>&#x000A; 6: &#x000A; 7:         <span class="ruby-ivar">@template</span>.<span class="ruby-identifier">form_for</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">__form_for_variable</span><span class="ruby-operator">|</span>&#x000A; 8:           <span class="ruby-comment cmt"># flush &lt;form tags&gt; + switch back to markaby</span>&#x000A; 9:           <span class="ruby-identifier">text</span>(<span class="ruby-ivar">@_helper</span>.<span class="ruby-identifier">output_buffer</span>)&#x000A;10:           <span class="ruby-ivar">@_helper</span>.<span class="ruby-identifier">output_buffer</span> = <span class="ruby-keyword kw">self</span>&#x000A;11: &#x000A;12:           <span class="ruby-keyword kw">yield</span> <span class="ruby-constant">FormHelperProxy</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_helper</span>, <span class="ruby-identifier">__form_for_variable</span>)&#x000A;13: &#x000A;14:           <span class="ruby-comment cmt"># switch back to output string output buffer and flush</span>&#x000A;15:           <span class="ruby-comment cmt"># final &lt;/form&gt; tag</span>&#x000A;16:           <span class="ruby-ivar">@_helper</span>.<span class="ruby-identifier">output_buffer</span> = <span class="ruby-constant">OutputBuffer</span>.<span class="ruby-identifier">new</span>&#x000A;17:         <span class="ruby-keyword kw">end</span>&#x000A;18:         <span class="ruby-identifier">text</span>(<span class="ruby-ivar">@_helper</span>.<span class="ruby-identifier">output_buffer</span>)&#x000A;19: &#x000A;20:         <span class="ruby-comment cmt"># finally, switch back to our regular buffer</span>&#x000A;21:         <span class="ruby-ivar">@_helper</span>.<span class="ruby-identifier">output_buffer</span> = <span class="ruby-keyword kw">self</span>&#x000A;22:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>

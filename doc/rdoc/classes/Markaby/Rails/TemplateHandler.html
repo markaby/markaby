@@ -45,8 +45,8 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000014">compile</a></li>
-              <li><a href="#M000015">render</a></li>
+              <li><a href="#M000015">compile</a></li>
+              <li><a href="#M000016">render</a></li>
             </ol>
           </div>
           <div id='context'>
@@ -72,30 +72,30 @@
             </div>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000014'>
-                <a name='M000014'></a>
+              <div class='method public-instance' id='method-M000015'>
+                <a name='M000015'></a>
                 <div class='synopsis'>
                   <span class='name'>compile</span>
                   <span class='arguments'>(template, local_assigns={})</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000014-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000015-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000014-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/current.rb, line 8</span>&#x000A; 8:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">compile</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">local_assigns</span>={})&#x000A; 9:         <span class="ruby-value str">&quot;handler = Markaby::Rails::TemplateHandler.new\nhandler.view = self\nhandler.render(lambda { \#{template.source} }, local_assigns)\n&quot;</span>&#x000A;10:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000015-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/current.rb, line 8</span>&#x000A; 8:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">compile</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">local_assigns</span>={})&#x000A; 9:         <span class="ruby-value str">&quot;handler = Markaby::Rails::TemplateHandler.new\nhandler.view = self\nhandler.render(lambda { \#{template.source} }, local_assigns)\n&quot;</span>&#x000A;10:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000015'>
-                <a name='M000015'></a>
+              <div class='method public-instance' id='method-M000016'>
+                <a name='M000016'></a>
                 <div class='synopsis'>
                   <span class='name'>render</span>
                   <span class='arguments'>(template, local_assigns = (template.respond_to?(:locals) ? template.locals : {}))</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000015-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000016-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000015-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/current.rb, line 17</span>&#x000A;17:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">local_assigns</span> = (<span class="ruby-identifier">template</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:locals</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">template</span>.<span class="ruby-identifier">locals</span> <span class="ruby-operator">:</span> {}))&#x000A;18:         <span class="ruby-identifier">builder</span> = <span class="ruby-constant">RailsBuilder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">instance_variables</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">local_assigns</span>), <span class="ruby-ivar">@view</span>)&#x000A;19:         <span class="ruby-ivar">@view</span>.<span class="ruby-identifier">output_buffer</span> = <span class="ruby-identifier">builder</span>&#x000A;20: &#x000A;21:         <span class="ruby-identifier">template</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Proc</span>) <span class="ruby-operator">?</span>&#x000A;22:           <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">template</span>) <span class="ruby-operator">:</span>&#x000A;23:           <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">instance_eval</span>(<span class="ruby-identifier">template</span>.<span class="ruby-identifier">source</span>)&#x000A;24: &#x000A;25:         <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">to_s</span>&#x000A;26:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000016-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/current.rb, line 17</span>&#x000A;17:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">local_assigns</span> = (<span class="ruby-identifier">template</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:locals</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">template</span>.<span class="ruby-identifier">locals</span> <span class="ruby-operator">:</span> {}))&#x000A;18:         <span class="ruby-identifier">builder</span> = <span class="ruby-constant">RailsBuilder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">instance_variables</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">local_assigns</span>), <span class="ruby-ivar">@view</span>)&#x000A;19:         <span class="ruby-ivar">@view</span>.<span class="ruby-identifier">output_buffer</span> = <span class="ruby-identifier">builder</span>&#x000A;20: &#x000A;21:         <span class="ruby-identifier">template</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Proc</span>) <span class="ruby-operator">?</span>&#x000A;22:           <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">template</span>) <span class="ruby-operator">:</span>&#x000A;23:           <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">instance_eval</span>(<span class="ruby-identifier">template</span>.<span class="ruby-identifier">source</span>)&#x000A;24: &#x000A;25:         <span class="ruby-identifier">builder</span>.<span class="ruby-identifier">to_s</span>&#x000A;26:       <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
