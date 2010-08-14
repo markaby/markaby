@@ -37,5 +37,5 @@ end
 
 module Tilt
   MarkabyTemplate = Markaby::Tilt::Template
-  register "mab", MarkabyTemplate
+  register :mab, MarkabyTemplate
 end

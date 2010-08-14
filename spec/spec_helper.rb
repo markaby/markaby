@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'test/unit'
 require 'spec'
 require 'spec/interop/test'
@@ -8,6 +7,10 @@ $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'markaby'
 require 'markaby/kernel_method'
 require 'markaby/rails'
+
+require 'sinatra'
+require 'markaby/sinatra'
+require 'erb'
 
 module MarkabyTestHelpers
   def link_to(obj)

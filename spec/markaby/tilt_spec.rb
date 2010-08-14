@@ -1,6 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
-require 'markaby/tilt'
-require 'erb'
 
 module Markaby
   describe Tilt, "templates" do
