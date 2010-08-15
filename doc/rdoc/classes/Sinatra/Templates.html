@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
   <head>
-    <title>: Markaby::Rails::CaptureHelper [RDoc Documentation]</title>
+    <title>: Sinatra::Templates [RDoc Documentation]</title>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
     <script type='text/javascript'>
       //<![CDATA[
         function popupCode(url) {
@@ -27,11 +27,11 @@
       <div class='header'>
         <h1 class='name'>
           <span class='type'>Module</span>
-          Markaby::Rails::CaptureHelper
+          Sinatra::Templates
         </h1>
         <ol class='paths'>
           <li>
-            <a href="../../../files/lib/markaby/rails/current_rb.html">lib/markaby/rails/current.rb</a>
+            <a href="../../files/lib/markaby/sinatra_rb.html">lib/markaby/sinatra.rb</a>
           </li>
         </ol>
       </div>
@@ -41,23 +41,23 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000011">capture</a></li>
+              <li><a href="#M000041">mab</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000011'>
-                <a name='M000011'></a>
+              <div class='method public-instance' id='method-M000041'>
+                <a name='M000041'></a>
                 <div class='synopsis'>
-                  <span class='name'>capture</span>
-                  <span class='arguments'>(*args, &amp;block)</span>
+                  <span class='name'>mab</span>
+                  <span class='arguments'>(template, options={}, locals={})</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000011-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000041-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000011-source'>    <span class="ruby-comment cmt"># File lib/markaby/rails/current.rb, line 46</span>&#x000A;46:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">capture</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;47:         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">output_buffer</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">Builder</span>)&#x000A;48:           <span class="ruby-identifier">output_buffer</span>.<span class="ruby-identifier">capture</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;49:         <span class="ruby-keyword kw">else</span>&#x000A;50:           <span class="ruby-keyword kw">super</span>&#x000A;51:         <span class="ruby-keyword kw">end</span>&#x000A;52:       <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000041-source'>    <span class="ruby-comment cmt"># File lib/markaby/sinatra.rb, line 14</span>&#x000A;14:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">mab</span>(<span class="ruby-identifier">template</span>, <span class="ruby-identifier">options</span>={}, <span class="ruby-identifier">locals</span>={})&#x000A;15:       <span class="ruby-identifier">render</span> <span class="ruby-identifier">:mab</span>, <span class="ruby-identifier">template</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">locals</span>&#x000A;16:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>

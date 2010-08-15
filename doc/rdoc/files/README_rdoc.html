@@ -31,7 +31,7 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>Fri Aug 13 17:45:01 -0400 2010</span>
+          <span class='datetime'>Sun Aug 15 16:33:25 -0400 2010</span>
         </div>
       </div>
       <div id='content'>
@@ -44,26 +44,48 @@
             weaves the two languages together. Also a replacement for templating
             languages which use primitive languages that blend with HTML.
             </p>
-            <h2>Using <a href="../classes/Markaby.html">Markaby</a> as a Rails plugin</h2>
+            <h2>Using <a href="../classes/Markaby.html">Markaby</a> as a Rails plugin / gem</h2>
             <p>
             Write Rails templates in pure Ruby. Example layout:
             </p>
-            <pre>html do&#x000A;  head do&#x000A;    title 'Products: ' + action_name&#x000A;    stylesheet_link_tag 'scaffold'&#x000A;  end&#x000A;&#x000A;  body do&#x000A;    p flash[:notice], :style =&gt; &quot;color: green&quot;&#x000A;&#x000A;    self &lt;&lt; content_for_layout&#x000A;  end&#x000A;end</pre>
+            <pre>html do&#x000A;  head do&#x000A;    title 'Products: ' + action_name&#x000A;    stylesheet_link_tag 'scaffold'&#x000A;  end&#x000A;&#x000A;  body do&#x000A;    p flash[:notice], :style =&gt; &quot;color: green&quot;&#x000A;&#x000A;    div.signup! do&#x000A;      form_for @user do |f|&#x000A;        f.text_field :email&#x000A;      end&#x000A;    end&#x000A;&#x000A;    yield&#x000A;  end&#x000A;end</pre>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> templates end in .mab
+            </p>
             <p>
             <a href="../classes/Markaby.html">Markaby</a> supports many versions of
-            rails:
+            rails, including the latest rails:
             </p>
             <pre>1.2.2, 1.2.3, 1.2.4, 1.2.5, 1.2.6, 2.2.0,&#x000A;2.2.1, 2.2.2, 2.2.3, 2.3.1, 2.3.2, 2.3.2.1,&#x000A;2.3.3, 2.3.3.1, 2.3.4, 2.3.5, 2.3.6, 2.3.7,&#x000A;2.3.8</pre>
             <p>
-            Install it as a plugin:
+            Rails 3.0 support is planned.
             </p>
+            <h3>Install it as a plugin</h3>
             <pre>script/plugin install git://github.com/markaby/markaby.git</pre>
+            <h3>Install it as a gem</h3>
+            <pre>gem install markaby</pre>
             <p>
             If you are loading it in a different way (from a gem), make sure it&#8217;s
-            on the LOAD_PATH, and add the following in an initializer
+            on the $LOAD_PATH, and add the following in an initializer
             (config/initializers/markaby.rb will work):
             </p>
             <pre>require 'markaby'&#x000A;require 'markaby/rails'&#x000A;&#x000A;Markaby::Rails.load</pre>
+            <p>
+            Or, you could try config.gem, but that&#8217;s now known as a bad idea.
+            </p>
+            <h2>Using <a href="../classes/Markaby.html">Markaby</a> with <a href="../classes/Sinatra.html">Sinatra</a> (1.0+)</h2>
+            <pre>require 'markaby/sinatra'&#x000A;&#x000A;get '/foo' do&#x000A;  mab :my_template # my_template.mab in the sinatra view path&#x000A;end</pre>
+            <p>
+            If you are looking for sinatra support pre 0.7, see <a
+            href="http://github.com/sbfaulkner/sinatra-markaby">github.com/sbfaulkner/sinatra-markaby</a>
+            </p>
+            <h2>Using <a href="../classes/Markaby.html">Markaby</a> with other frameworks</h2>
+            <p>
+            <a href="../classes/Markaby.html">Markaby</a> has a <a
+            href="../classes/Tilt.html">Tilt</a> module, so in principle, any web
+            framework that supports <a href="../classes/Tilt.html">Tilt</a> can/will
+            also support <a href="../classes/Markaby.html">Markaby</a>.
+            </p>
             <h2>Using <a href="../classes/Markaby.html">Markaby</a> as a Ruby class</h2>
             <p>
             <a href="../classes/Markaby.html">Markaby</a> is flaming easy to call from
@@ -71,7 +93,7 @@
             </p>
             <pre>require 'markaby'&#x000A;&#x000A;mab = Markaby::Builder.new&#x000A;mab.html do&#x000A;  head { title &quot;Boats.com&quot; }&#x000A;  body do&#x000A;    h1 &quot;Boats.com has great deals&quot;&#x000A;    ul do&#x000A;      li &quot;$49 for a canoe&quot;&#x000A;      li &quot;$39 for a raft&quot;&#x000A;      li &quot;$29 for a huge boot that floats and can fit 5 people&quot;&#x000A;    end&#x000A;  end&#x000A;end&#x000A;puts mab.to_s</pre>
             <p>
-            <a href="../classes/Markaby/Builder.html#M000030">Markaby::Builder.new</a>
+            <a href="../classes/Markaby/Builder.html#M000031">Markaby::Builder.new</a>
             does take two arguments for passing in variables and a helper object. You
             can also affix the block right on to the class.
             </p>

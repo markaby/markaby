@@ -41,18 +41,18 @@
             <h2>Methods</h2>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000003">head</a></li>
-              <li><a href="#M000002">html_tag</a></li>
-              <li><a href="#M000006">xhtml_frameset</a></li>
-              <li><a href="#M000005">xhtml_strict</a></li>
-              <li><a href="#M000004">xhtml_transitional</a></li>
+              <li><a href="#M000002">head</a></li>
+              <li><a href="#M000001">html_tag</a></li>
+              <li><a href="#M000005">xhtml_frameset</a></li>
+              <li><a href="#M000004">xhtml_strict</a></li>
+              <li><a href="#M000003">xhtml_transitional</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public instance methods</h2>
-              <div class='method public-instance' id='method-M000003'>
-                <a name='M000003'></a>
+              <div class='method public-instance' id='method-M000002'>
+                <a name='M000002'></a>
                 <div class='synopsis'>
                   <span class='name'>head</span>
                   <span class='arguments'>(*args, &amp;block)</span>
@@ -64,14 +64,14 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000003-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000002-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000003-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 30</span>&#x000A;30:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">head</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;31:       <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">:head</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-keyword kw">do</span>&#x000A;32:         <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">:meta</span>, <span class="ruby-value str">&quot;http-equiv&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Content-Type&quot;</span>, <span class="ruby-value str">&quot;content&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;text/html; charset=utf-8&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@output_meta_tag</span>&#x000A;33:         <span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;34:       <span class="ruby-keyword kw">end</span>&#x000A;35:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000002-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 30</span>&#x000A;30:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">head</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;31:       <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">:head</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-keyword kw">do</span>&#x000A;32:         <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">:meta</span>, <span class="ruby-value str">&quot;http-equiv&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;Content-Type&quot;</span>, <span class="ruby-value str">&quot;content&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;text/html; charset=utf-8&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@output_meta_tag</span>&#x000A;33:         <span class="ruby-identifier">instance_eval</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;34:       <span class="ruby-keyword kw">end</span>&#x000A;35:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000002'>
-                <a name='M000002'></a>
+              <div class='method public-instance' id='method-M000001'>
+                <a name='M000001'></a>
                 <div class='synopsis'>
                   <span class='name'>html_tag</span>
                   <span class='arguments'>(sym, *args, &amp;block)</span>
@@ -79,9 +79,9 @@
                 <div class='description'>
                   <p>
                   Every HTML tag method goes through an <a
-                  href="BuilderTags.html#M000002">html_tag</a> call. So, calling <tt>div</tt>
+                  href="BuilderTags.html#M000001">html_tag</a> call. So, calling <tt>div</tt>
                   is equivalent to calling <tt><a
-                  href="BuilderTags.html#M000002">html_tag</a>(:div)</tt>. All HTML tags in
+                  href="BuilderTags.html#M000001">html_tag</a>(:div)</tt>. All HTML tags in
                   Markaby&#8217;s list are given generated wrappers for this method.
                   </p>
                   <p>
@@ -90,14 +90,14 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000002-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000001-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000002-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 18</span>&#x000A;18:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">html_tag</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;19:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@auto_validation</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@tagset</span>.<span class="ruby-identifier">self_closing</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">sym</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">block</span>&#x000A;20:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidXhtmlError</span>, <span class="ruby-node">&quot;the `#{sym}' element is self-closing, please remove the block&quot;</span>&#x000A;21:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">block</span>&#x000A;22:         <span class="ruby-constant">CssProxy</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>, <span class="ruby-identifier">sym</span>)&#x000A;23:       <span class="ruby-keyword kw">else</span>&#x000A;24:         <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;25:       <span class="ruby-keyword kw">end</span>&#x000A;26:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000001-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 18</span>&#x000A;18:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">html_tag</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;19:       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@auto_validation</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@tagset</span>.<span class="ruby-identifier">self_closing</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">sym</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">block</span>&#x000A;20:         <span class="ruby-identifier">raise</span> <span class="ruby-constant">InvalidXhtmlError</span>, <span class="ruby-node">&quot;the `#{sym}' element is self-closing, please remove the block&quot;</span>&#x000A;21:       <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">block</span>&#x000A;22:         <span class="ruby-constant">CssProxy</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-ivar">@streams</span>.<span class="ruby-identifier">last</span>, <span class="ruby-identifier">sym</span>)&#x000A;23:       <span class="ruby-keyword kw">else</span>&#x000A;24:         <span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">sym</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;25:       <span class="ruby-keyword kw">end</span>&#x000A;26:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000006'>
-                <a name='M000006'></a>
+              <div class='method public-instance' id='method-M000005'>
+                <a name='M000005'></a>
                 <div class='synopsis'>
                   <span class='name'>xhtml_frameset</span>
                   <span class='arguments'>(attrs = {}, &amp;block)</span>
@@ -108,14 +108,14 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000006-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000005-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000006-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 52</span>&#x000A;52:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">xhtml_frameset</span>(<span class="ruby-identifier">attrs</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;53:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">tagset</span> = <span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">XHTMLFrameset</span>&#x000A;54:       <span class="ruby-identifier">xhtml_html</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;55:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000005-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 52</span>&#x000A;52:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">xhtml_frameset</span>(<span class="ruby-identifier">attrs</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;53:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">tagset</span> = <span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">XHTMLFrameset</span>&#x000A;54:       <span class="ruby-identifier">xhtml_html</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;55:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000005'>
-                <a name='M000005'></a>
+              <div class='method public-instance' id='method-M000004'>
+                <a name='M000004'></a>
                 <div class='synopsis'>
                   <span class='name'>xhtml_strict</span>
                   <span class='arguments'>(attrs = {}, &amp;block)</span>
@@ -126,14 +126,14 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000005-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000004-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000005-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 46</span>&#x000A;46:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">xhtml_strict</span>(<span class="ruby-identifier">attrs</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;47:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">tagset</span> = <span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">XHTMLStrict</span>&#x000A;48:       <span class="ruby-identifier">xhtml_html</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;49:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000004-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 46</span>&#x000A;46:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">xhtml_strict</span>(<span class="ruby-identifier">attrs</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;47:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">tagset</span> = <span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">XHTMLStrict</span>&#x000A;48:       <span class="ruby-identifier">xhtml_html</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;49:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
-              <div class='method public-instance' id='method-M000004'>
-                <a name='M000004'></a>
+              <div class='method public-instance' id='method-M000003'>
+                <a name='M000003'></a>
                 <div class='synopsis'>
                   <span class='name'>xhtml_transitional</span>
                   <span class='arguments'>(attrs = {}, &amp;block)</span>
@@ -147,10 +147,10 @@
                   </p>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000004-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000003-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000004-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 40</span>&#x000A;40:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">xhtml_transitional</span>(<span class="ruby-identifier">attrs</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;41:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">tagset</span> = <span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">XHTMLTransitional</span>&#x000A;42:       <span class="ruby-identifier">xhtml_html</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;43:     <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000003-source'>    <span class="ruby-comment cmt"># File lib/markaby/builder_tags.rb, line 40</span>&#x000A;40:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">xhtml_transitional</span>(<span class="ruby-identifier">attrs</span> = {}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;41:       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">tagset</span> = <span class="ruby-constant">Markaby</span><span class="ruby-operator">::</span><span class="ruby-constant">XHTMLTransitional</span>&#x000A;42:       <span class="ruby-identifier">xhtml_html</span>(<span class="ruby-identifier">attrs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;43:     <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
