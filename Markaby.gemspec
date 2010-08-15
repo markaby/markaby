@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{markaby}
-  s.version = "0.6.10"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
-  s.date = %q{2010-08-13}
+  s.date = %q{2010-08-15}
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{scott@railsnewbie.com}
   s.extra_rdoc_files = [
@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
      "lib/markaby/rails/current.rb",
      "lib/markaby/rails/deprecated.rb",
      "lib/markaby/rails/rails_builder.rb",
+     "lib/markaby/sinatra.rb",
      "lib/markaby/tags.rb",
      "lib/markaby/tilt.rb",
      "spec/markaby/builder_spec.rb",
@@ -46,6 +47,7 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/views/markaby/_partial_child_with_locals.mab",
      "spec/markaby/rails/views/markaby/access_to_helpers.mab",
      "spec/markaby/rails/views/markaby/broken.mab",
+     "spec/markaby/rails/views/markaby/commented_out_template.mab",
      "spec/markaby/rails/views/markaby/correct_template_values.mab",
      "spec/markaby/rails/views/markaby/double_output.mab",
      "spec/markaby/rails/views/markaby/form_for.mab",
@@ -66,6 +68,14 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/views/markaby/yielding_with_content_for.mab",
      "spec/markaby/rails_spec.rb",
      "spec/markaby/rails_version_spec.rb",
+     "spec/markaby/sinatra/app.rb",
+     "spec/markaby/sinatra/sinatra_spec.rb",
+     "spec/markaby/sinatra/views/helpers.mab",
+     "spec/markaby/sinatra/views/layout.mab",
+     "spec/markaby/sinatra/views/markaby_template.mab",
+     "spec/markaby/sinatra/views/scope_instance_variables.mab",
+     "spec/markaby/sinatra/views/simple_html.mab",
+     "spec/markaby/sinatra/views/variables.mab",
      "spec/markaby/tilt/erb.erb",
      "spec/markaby/tilt/locals.mab",
      "spec/markaby/tilt/markaby.mab",
@@ -90,6 +100,8 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/spec_helper.rb",
      "spec/markaby/rails_spec.rb",
      "spec/markaby/rails_version_spec.rb",
+     "spec/markaby/sinatra/app.rb",
+     "spec/markaby/sinatra/sinatra_spec.rb",
      "spec/markaby/tilt_spec.rb",
      "spec/spec_helper.rb"
   ]

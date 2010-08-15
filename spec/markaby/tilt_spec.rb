@@ -1,6 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
-require 'markaby/tilt'
-require 'erb'
 
 module Markaby
   describe Tilt, "templates" do
@@ -36,15 +34,6 @@ module Markaby
       tilt.render.should == "<html></html>"
     end
 
-    it "should evaluate a block in the scope given" do
-      pending do
-        scope = mock 'scope object', :foo => "bar"
-
-        tilt = ::Tilt::MarkabyTemplate.new { li foo }
-        tilt.render(scope).should == "<li>bar</li>"
-      end
-    end
-
     it "should evaluate a template file in the scope given" do
       scope = mock 'scope object', :foo => "bar"
 
@@ -58,14 +47,14 @@ module Markaby
     end
 
     it "should yield to the block given" do
-      pending do
-        tilt = ::Tilt::MarkabyTemplate.new("tilt/yielding.mab", &@block)
-        output = tilt.render(Object.new, {}) do
-          text("Joe")
-        end
+      tilt = ::Tilt::MarkabyTemplate.new("tilt/yielding.mab", &@block)
+      eval_scope = Markaby::Builder.new
 
-        output.should == "Hey Joe"
+      output = tilt.render(Object.new, {}) do
+        text("Joe")
       end
+
+      output.should == "Hey Joe"
     end
 
     it "should be able to render two templates in a row" do

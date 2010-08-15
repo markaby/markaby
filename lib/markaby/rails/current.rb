@@ -7,9 +7,11 @@ module Markaby
 
       def compile(template, local_assigns={})
         <<-CODE
-          handler = Markaby::Rails::TemplateHandler.new
-          handler.view = self
-          handler.render(lambda { #{template.source} }, local_assigns)
+          __template_handler = Markaby::Rails::TemplateHandler.new
+          __template_handler.view = self
+          __template_handler.render(lambda {
+            #{template.source}
+          }, local_assigns)
         CODE
       end
 
@@ -41,7 +43,30 @@ module Markaby
       end
     end
 
-    module CaptureHelper
+    module Helpers
+      # allow fragments to act as strings.  url_for has a
+      # case statment in it:
+      #
+      # case options
+      # when String
+      #   ...
+      #
+      # which essential is doing the following:
+      #
+      # String === options
+      #
+      # That assertion fails with Markaby::Fragments, which are essential
+      # builder/string fragments.
+      #
+      def url_for(options={})
+        case options
+        when Markaby::Fragment
+          super(options.to_s)
+        else
+          super
+        end
+      end
+
       def capture(*args, &block)
         if output_buffer.kind_of?(Markaby::Builder)
           output_buffer.capture(&block)
@@ -53,34 +78,8 @@ module Markaby
   end
 end
 
-# allow fragments to act as strings.  url_for has a
-# nasty case statment in it:
-#
-# case options
-# when String
-#   ...
-#
-# which essential is doing the following:
-#
-# String === options
-#
-ActionView::Helpers::UrlHelper.class_eval do
-  alias_method :url_for_aliased_by_markaby, :url_for
-
-  def url_for(options={})
-    options ||= {}
-
-    url = case options
-    when Markaby::Fragment
-      url_for_aliased_by_markaby(options.to_s)
-    else
-      url_for_aliased_by_markaby(options)
-    end
-  end
-end
-
 ActionView::Base.class_eval do
-  include Markaby::Rails::CaptureHelper
+  include Markaby::Rails::Helpers
 end
 
 ActionView::Template.register_template_handler(:mab, Markaby::Rails::TemplateHandler)
