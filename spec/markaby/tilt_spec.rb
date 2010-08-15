@@ -36,15 +36,6 @@ module Markaby
       tilt.render.should == "<html></html>"
     end
 
-    it "should evaluate a block in the scope given" do
-      pending do
-        scope = mock 'scope object', :foo => "bar"
-
-        tilt = ::Tilt::MarkabyTemplate.new { li foo }
-        tilt.render(scope).should == "<li>bar</li>"
-      end
-    end
-
     it "should evaluate a template file in the scope given" do
       scope = mock 'scope object', :foo => "bar"
 
