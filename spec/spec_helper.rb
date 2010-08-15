@@ -8,7 +8,6 @@ require 'markaby'
 require 'markaby/kernel_method'
 require 'markaby/rails'
 
-require 'sinatra'
 require 'markaby/sinatra'
 require 'erb'
 

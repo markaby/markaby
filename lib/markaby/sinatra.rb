@@ -1,4 +1,5 @@
 require 'markaby/tilt'
+require 'sinatra'
 
 module Sinatra
   class Base

@@ -1,3 +1,4 @@
+require 'markaby'
 require 'tilt'
 
 module Markaby
