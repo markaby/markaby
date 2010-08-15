@@ -28,12 +28,16 @@ Write Rails templates in pure Ruby.  Example layout:
     end
   end
 
-Markaby supports many versions of rails:
+Markaby templates end in .mab
+
+Markaby supports many versions of rails, including the latest rails:
 
   1.2.2, 1.2.3, 1.2.4, 1.2.5, 1.2.6, 2.2.0,
   2.2.1, 2.2.2, 2.2.3, 2.3.1, 2.3.2, 2.3.2.1,
   2.3.3, 2.3.3.1, 2.3.4, 2.3.5, 2.3.6, 2.3.7,
   2.3.8
+
+Rails 3.0 support is planned.
 
 === Install it as a plugin
 
@@ -53,6 +57,23 @@ an initializer (config/initializers/markaby.rb will work):
   Markaby::Rails.load
 
 Or, you could try config.gem, but that's now known as a bad idea.
+
+
+== Using Markaby with Sinatra (1.0+)
+
+  require 'markaby/sinatra'
+
+  get '/foo' do
+    mab :my_template # my_template.mab in the sinatra view path
+  end
+
+If you are looking for sinatra support pre 0.7, see http://github.com/sbfaulkner/sinatra-markaby
+
+
+== Using Markaby with other frameworks
+
+Markaby has a Tilt module, so in principle, any web framework that supports
+Tilt can/will also support Markaby.
 
 
 == Using Markaby as a Ruby class
