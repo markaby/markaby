@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{markaby}
-  s.version = "0.7.0"
+  s.version = "0.7.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["_why", "Tim Fletcher", "John Barton", "spox", "smtlaissezfaire"]
-  s.date = %q{2010-08-15}
+  s.date = %q{2010-08-19}
   s.description = %q{Tim Fletcher and _why's ruby driven HTML templating system}
   s.email = %q{scott@railsnewbie.com}
   s.extra_rdoc_files = [
@@ -44,6 +44,7 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/spec_helper.rb",
      "spec/markaby/rails/views/layouts/layout.mab",
      "spec/markaby/rails/views/markaby/_a_partial.mab",
+     "spec/markaby/rails/views/markaby/_form_for_with_body_in_erb.erb",
      "spec/markaby/rails/views/markaby/_partial_child_with_locals.mab",
      "spec/markaby/rails/views/markaby/access_to_helpers.mab",
      "spec/markaby/rails/views/markaby/broken.mab",
@@ -61,6 +62,7 @@ Gem::Specification.new do |s|
      "spec/markaby/rails/views/markaby/render_mab_without_explicit_render_call.mab",
      "spec/markaby/rails/views/markaby/render_with_ivar.mab",
      "spec/markaby/rails/views/markaby/renders_erb.rhtml",
+     "spec/markaby/rails/views/markaby/renders_form_for_with_erb_body.mab",
      "spec/markaby/rails/views/markaby/routes.mab",
      "spec/markaby/rails/views/markaby/yielding.mab",
      "spec/markaby/rails/views/markaby/yielding_content_for_with_block_helper.mab",
