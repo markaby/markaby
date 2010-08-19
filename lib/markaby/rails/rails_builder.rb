@@ -66,7 +66,14 @@ module Markaby
 
         def method_missing(sym, *args, &block)
           result = @proxied_object.__send__(sym, *args, &block)
-          @view.concat(result)
+
+          # a markaby template may call render :partial with the form proxy helper.
+          # we only want to manually concat _if_ we are in a markaby template (not, say, erb)
+          if @view.template.extension == "mab"
+            @view.concat(result)
+          end
+
+          result
         end
       end
     end

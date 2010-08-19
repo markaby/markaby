@@ -153,6 +153,14 @@ if RUNNING_RAILS
       render :layout   => "layout.mab",
              :template => "markaby/double_output"
     end
+
+    def renders_form_for_with_erb_body
+      @obj = Object.new
+
+      def @obj.foo
+        "bar"
+      end
+    end
   end
 
   class MarkabyOnRailsTest < ActionController::TestCase
@@ -254,7 +262,7 @@ if RUNNING_RAILS
       get :routes
       assert_response :success
 
-      expected_output = "<a href=\"/users/new\">Foo</a>"
+      expected_output = '<a href="/users/new">Foo</a>'
       assert_equal expected_output, @response.body
     end
 
@@ -280,7 +288,7 @@ if RUNNING_RAILS
 
         assert_response :success
 
-        assert_equal "<form action=\"/markaby/render_form_for_with_fields\" method=\"post\"><input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" /></form>",
+        assert_equal '<form action="/markaby/render_form_for_with_fields" method="post"><input id="foo_foo" name="foo[foo]" size="30" type="text" /></form>',
                      @response.body
       end
 
@@ -289,10 +297,10 @@ if RUNNING_RAILS
 
         assert_response :success
 
-        expected_output =  "<form action=\"/markaby/render_form_for_with_multiple_fields\" method=\"post\">"
-        expected_output << "<input id=\"foo_foo\" name=\"foo[foo]\" size=\"30\" type=\"text\" />"
-        expected_output << "<input id=\"foo_baz\" name=\"foo[baz]\" size=\"30\" type=\"text\" />"
-        expected_output << "</form>"
+        expected_output =  '<form action="/markaby/render_form_for_with_multiple_fields" method="post">'
+        expected_output << '<input id="foo_foo" name="foo[foo]" size="30" type="text" />'
+        expected_output << '<input id="foo_baz" name="foo[baz]" size="30" type="text" />'
+        expected_output << '</form>'
 
         assert_equal expected_output,
                      @response.body
@@ -349,6 +357,17 @@ if RUNNING_RAILS
         expected_output << '</div>'
 
         assert_equal expected_output, @response.body
+      end
+
+      def test_renders_form_for_with_erb_render_in_body
+        get :renders_form_for_with_erb_body
+        assert_response :success
+
+        str = '<form action="/markaby/renders_form_for_with_erb_body" method="post">'
+        str << '<input id="foo_foo" name="foo[foo]" size="30" type="text" />'
+        str << '</form>'
+
+        assert_equal str, @response.body
       end
     end
   end
