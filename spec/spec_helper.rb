@@ -8,8 +8,8 @@ require 'markaby'
 require 'markaby/kernel_method'
 require 'markaby/rails'
 
-require 'markaby/sinatra'
 require 'erb'
+require 'markaby/rails/spec_helper'
 
 module MarkabyTestHelpers
   def link_to(obj)
