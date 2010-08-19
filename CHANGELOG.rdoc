@@ -1,3 +1,7 @@
+= 0.7.1 (2010-08-19)
+
+* Rails fixes for form_for called from erb templates
+
 = 0.7.0
 
 * Sinatra 1.0 support
