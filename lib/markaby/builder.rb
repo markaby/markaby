@@ -187,7 +187,7 @@ module Markaby
         block = proc { text(str) }
       end
 
-      f = fragment { @builder.method_missing(tag, *args, &block) }
+      f = fragment { @builder.tag!(tag, *args, &block) }
       @used_ids[ele_id] = f if ele_id
       f
     end
