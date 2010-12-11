@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-class MarkabyTest < Test::Unit::TestCase
+describe Markaby do
   def teardown
     Markaby::Builder.restore_defaults!
   end
@@ -239,5 +239,11 @@ class MarkabyTest < Test::Unit::TestCase
 
     builder = Markaby::Builder.new({}, klass.new)
     builder.capture { @hello }.should == "hello there"
+  end
+
+  describe Markaby::InvalidXhtmlError do
+    it "should inherit from StandardError" do
+      Markaby::InvalidXhtmlError.superclass.should == StandardError
+    end
   end
 end
