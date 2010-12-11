@@ -72,8 +72,10 @@ If you are looking for sinatra support pre 0.7, see http://github.com/sbfaulkner
 
 == Using Markaby with other frameworks
 
-Markaby has a Tilt module, so in principle, any web framework that supports
-Tilt can/will also support Markaby.
+Tilt has a Markaby module, so in principle, any web framework that supports
+Tilt will also support Markaby.  See the appropriate tilt documentation:
+
+  http://github.com/rtomayko/tilt
 
 
 == Using Markaby as a Ruby class
