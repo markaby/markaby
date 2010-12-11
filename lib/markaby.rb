@@ -22,7 +22,7 @@ module Markaby
   version_file = File.expand_path(File.dirname(__FILE__) + "/../VERSION")
   VERSION      = File.read(version_file).strip
 
-  class InvalidXhtmlError < Exception; end
+  class InvalidXhtmlError < StandardError; end
 end
 
 require 'builder' unless defined?(Builder)
