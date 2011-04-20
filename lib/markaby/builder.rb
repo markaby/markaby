@@ -276,8 +276,8 @@ module Markaby
       @transformed_stream = false
     end
 
-    if RUBY_VERSION_ID >= 191
-      undef_method :to_s, :inspect, :==
+    [:to_s, :inspect, :==].each do |method|
+      undef_method method if method_defined?(method)
     end
 
   private
