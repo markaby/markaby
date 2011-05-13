@@ -19,6 +19,13 @@ module Markaby
   AttrHAlign = [:align, :char, :charoff]
   AttrVAlign = [:valign]
   Attrs      = AttrCore + AttrI18n + AttrEvents
+  
+  AttrsBoolean = [
+    :checked, :disabled, :multiple, :readonly, :selected, # standard forms
+    :autofocus, :required, :novalidate, :formnovalidate, # HTML5 forms
+    :defer, :ismap, # <script defer>, <img ismap>
+    :compact, :declare, :noresize, :noshade, :nowrap # deprecated or unused
+  ]
 
   # All the tags and attributes from XHTML 1.0 Strict
   class XHTMLStrict
