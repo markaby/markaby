@@ -178,6 +178,13 @@ module Markaby
                 raise InvalidXhtmlError, "id `#{ele_id}' already used (id's must be unique)."
               end
             end
+            if AttrsBoolean.include? atname
+              if v
+                attrs[k] = atname.to_s
+              else
+                attrs.delete k
+              end
+            end
           end
         end
       end
