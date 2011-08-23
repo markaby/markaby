@@ -1,5 +1,73 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
+class MarkabyTest < Test::Unit::TestCase
+  def teardown
+    Markaby::Builder.restore_defaults!
+  end
+
+  def test_simple
+    assert_equal "<hr/>", mab { hr }
+    assert_equal "<hr/><br/>", mab { hr; br }
+    assert_equal "<p>foo</p>", mab { p 'foo' }
+    assert_equal "<p>foo</p>", mab { p { 'foo' } }
+  end
+
+  def test_classes_and_ids
+    assert_equal %{<div class="one"></div>},     mab { div.one '' }
+    assert_equal %{<div class="one two"></div>}, mab { div.one.two '' }
+    assert_equal %{<div id="three"></div>},      mab { div.three! '' }
+    assert_equal %{<hr class="hidden"/>},        mab { hr.hidden }
+
+    out = mab { input.foo :id => 'bar' }
+    out.should match("<input.*class=\"foo\".*/>")
+    out.should match("<input.*name=\"bar\".*/>")
+  end
+
+  def test_escaping
+    assert_equal "<h1>Apples &amp; Oranges</h1>", mab { h1 'Apples & Oranges' }
+    assert_equal "<h1>Apples & Oranges</h1>", mab { h1 { 'Apples & Oranges' } }
+    assert_equal "<h1 class=\"fruits&amp;floots\">Apples</h1>", mab { h1 'Apples', :class => 'fruits&floots' }
+  end
+
+  def test_capture
+    builder = Markaby::Builder.new
+    assert builder.to_s.empty?
+    assert_equal "<h1>TEST</h1>", builder.capture { h1 'TEST' }
+    assert builder.to_s.empty?
+    assert mab { capture { h1 'hello world' }; nil }.empty?
+    assert_equal mab { div { h1 'TEST' } }, mab { div { capture { h1 'TEST' } } }
+  end
+
+  def test_ivars
+    html = "<div><h1>Steve</h1><div><h2>Gerald</h2></div><h3>Gerald</h3></div>"
+    assert_equal html, mab { div { @name = 'Steve'; h1 @name; div { @name = 'Gerald'; h2 @name }; h3 @name } }
+    assert_equal html, mab { div { @name = 'Steve'; h1 @name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name } }
+    assert_equal html, mab(:name => 'Steve') { div { h1 @name; self << capture { div { @name = 'Gerald'; h2 @name } }; h3 @name } }
+  end
+
+  def test_ivars_without_at_symbol
+    assert_equal "<h1>Hello World</h1>", mab { @message = 'Hello World'; h1 message }
+  end
+
+  def spec_helpers
+    Markaby::Builder.ignored_helpers.clear
+    assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }
+    assert_equal %{<a href="">edit</a>}, mab({}, MarkabyTestHelpers) { link_to('edit') }
+    assert mab({}, MarkabyTestHelpers) { @output_helpers = false; link_to('edit'); nil }.empty?
+    Markaby::Builder.ignore_helpers :pluralize
+    assert_exception(NoMethodError, "undefined method `pluralize'", {}, MarkabyTestHelpers) { pluralize('squirrel') }
+  end
+
+  def test_uses_helper_instance_variable
+    helper = Module.new do
+      @some_ivar = :ivar_value
+    end
+
+    builder = Markaby::Builder.new({}, helper)
+    assert_equal :ivar_value, builder.some_ivar
+  end
+end
+
 describe Markaby do
   it "can assign helpers after instantiation" do
     helper = mock 'helper', :foo => :bar
@@ -181,4 +249,3 @@ describe Markaby do
     end
   end
 end
-

@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'rails', 'spec_helper')
+require File.expand_path('../rails/spec_helper', __FILE__)
 
 if RUNNING_RAILS
   class NonSpecificTestController < ActionController::Base

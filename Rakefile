@@ -1,5 +1,6 @@
 require 'rake'
-require 'spec/rake/spectask'
+require 'rspec/core/rake_task'
+require 'rake/testtask'
 require 'rake/clean'
 
 begin
@@ -14,13 +15,13 @@ rescue LoadError
   puts "Could not load hanna-rdoc.  Please install with mislav-hanna package"
 end
 
-task :default => :spec
+task :default => [:spec, :test]
 
-desc 'Run the specs'
-Spec::Rake::SpecTask.new do |t|
-  t.warning = false
-  t.spec_opts = ["--color"]
+Rake::TestTask.new(:test) do |t|
+  t.pattern = 'spec/markaby/*_test.rb'
 end
+
+RSpec::Core::RakeTask.new(:spec)
 
 begin
   require 'jeweler'

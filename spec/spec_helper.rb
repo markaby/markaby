@@ -1,6 +1,6 @@
 require 'test/unit'
-require 'spec'
-require 'spec/interop/test'
+require 'test/unit/autorunner'
+require 'rspec'
 
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 
@@ -36,6 +36,9 @@ module Test
   module Unit
     class TestCase
       include TestHelpers
+      def self.it(name, &blk)
+        define_method("test_#{name}", &blk)
+      end
     end
   end
 end
