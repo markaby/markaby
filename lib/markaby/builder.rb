@@ -28,7 +28,7 @@ module Markaby
       :indent                 => 0,
       :output_helpers         => true,
       :output_xml_instruction => true,
-      :output_meta_tag        => true,
+      :output_meta_tag        => 'xhtml',
       :auto_validation        => true,
       :tagset                 => Markaby::XHTMLTransitional,
       :root_attributes => {
