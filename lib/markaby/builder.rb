@@ -30,7 +30,7 @@ module Markaby
       :output_xml_instruction => true,
       :output_meta_tag        => 'xhtml',
       :auto_validation        => true,
-      :tagset                 => Markaby::XHTMLTransitional,
+      :tagset                 => Markaby::HTML5,
       :root_attributes => {
         :xmlns      => 'http://www.w3.org/1999/xhtml',
         :'xml:lang' => 'en',
