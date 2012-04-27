@@ -1,6 +1,6 @@
 module Markaby
   module BuilderTags
-    (XHTMLTransitional.tags - [:head]).each do |k|
+    (HTML5.tags - [:head]).each do |k|
       class_eval <<-CODE, __FILE__, __LINE__
         def #{k}(*args, &block)
           html_tag(#{k.inspect}, *args, &block)
@@ -28,7 +28,8 @@ module Markaby
     # set to <tt>text/html; charset=utf-8</tt>.
     def head(*args, &block)
       tag!(:head, *args) do
-        tag!(:meta, "http-equiv" => "Content-Type", "content" => "text/html; charset=utf-8") if @output_meta_tag
+        tag!(:meta, "http-equiv" => "Content-Type", "content" => "text/html; charset=utf-8") if @output_meta_tag == 'xhtml'
+        tag!(:meta, "charset" => "utf-8") if @output_meta_tag == 'html5'
         instance_eval(&block)
       end
     end
@@ -53,11 +54,25 @@ module Markaby
       xhtml_html(attrs, &block)
     end
 
+    # Builds an html tag with HTML5 doctype instead.
+    def html5(attrs = {}, &block)
+      self.tagset = Markaby::HTML5
+      @root_attributes = {} # lose the default xml stuff
+      @auto_validation = false
+      @output_meta_tag = "html5"
+      html5_html(attrs, &block)
+    end
+
   private
 
     def xhtml_html(attrs = {}, &block)
       instruct! if @output_xml_instruction
       declare!(:DOCTYPE, :html, :PUBLIC, *tagset.doctype)
+      tag!(:html, @root_attributes.merge(attrs), &block)
+    end
+
+    def html5_html(attrs = {}, &block)
+      declare!(:DOCTYPE, :html)
       tag!(:html, @root_attributes.merge(attrs), &block)
     end
   end
