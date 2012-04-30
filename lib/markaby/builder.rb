@@ -30,7 +30,7 @@ module Markaby
       :output_xml_instruction => true,
       :output_meta_tag        => 'xhtml',
       :auto_validation        => true,
-      :tagset                 => Markaby::HTML5,
+      :tagset                 => Markaby::XHTMLTransitional,
       :root_attributes => {
         :xmlns      => 'http://www.w3.org/1999/xhtml',
         :'xml:lang' => 'en',
@@ -38,10 +38,24 @@ module Markaby
       }
     }
 
+    HTML5_OPTIONS = {
+      :indent                 => 0,
+      :output_helpers         => true,
+      :output_xml_instruction => false,
+      :output_meta_tag        => 'html5',
+      :auto_validation        => false,
+      :tagset                 => Markaby::HTML5,
+      :root_attributes        => {}
+    }
+
     @@options = DEFAULT_OPTIONS.dup
 
     def self.restore_defaults!
       @@options = DEFAULT_OPTIONS.dup
+    end
+
+    def self.set_html5_options!
+      @@options = HTML5_OPTIONS.dup
     end
 
     def self.set(option, value)
