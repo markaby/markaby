@@ -58,7 +58,7 @@ module Markaby
     def html5(attrs = {}, &block)
       self.tagset = Markaby::HTML5
       @root_attributes = {} # lose the default xml stuff
-      @auto_validation = false
+      @auto_validation = false # because not yet implemented for html5
       @output_meta_tag = "html5"
       html5_html(attrs, &block)
     end

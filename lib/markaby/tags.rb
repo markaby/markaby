@@ -1,6 +1,8 @@
 module Markaby
   FORM_TAGS         = [ :form, :input, :select, :textarea ]
-  SELF_CLOSING_TAGS = [ :base, :meta, :link, :hr, :br, :param, :img, :area, :input, :col, :frame ]
+  SELF_CLOSING_TAGS = [:area, :base, :br, :col, :command, :embed, :frame, :hr,
+                       :img, :input, :keygen, :link, :meta, :param, :source,
+                       :track, :wbr]
 
   # Common sets of attributes.
   AttrCore   = [:id, :class, :style, :title]
@@ -209,22 +211,33 @@ module Markaby
         :article => Attrs,
         :aside => Attrs,
         :audio => Attrs,
+        :bdi => Attrs,
         :canvas => Attrs,
+        :command => Attrs,
         :datalist => Attrs,
         :details => Attrs,
+        :embed => Attrs,
         :figure => Attrs,
+        :figcaption => Attrs,
         :footer => Attrs,
         :header => Attrs,
         :hgroup => Attrs,
+        :keygen => Attrs,
         :mark => Attrs,
         :menu => Attrs,
         :meter => Attrs,
         :nav => Attrs,
         :output => Attrs,
         :progress => Attrs,
+        :rp => Attrs,
+        :rt => Attrs,
+        :ruby => Attrs,
         :section => Attrs,
+        :source => Attrs,
         :time => Attrs,
-        :video => Attrs
+        :track => Attrs,
+        :video => Attrs,
+        :wbr => Attrs
     })
 
     @tags = @tagset.keys
