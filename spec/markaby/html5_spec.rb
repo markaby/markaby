@@ -49,12 +49,12 @@ describe Markaby do
   end
 
   it "should not add a closing slash to self-closing tags in html5" do
-    document = mab { html5 { meta :charset => "utf-8" } }
+    document = mab5 { html5 { meta :charset => "utf-8" } }
     document.should include('<meta charset="utf-8">')
   end
 
   it "should close empty non-self-closing tags in html5" do
-    document = mab { header }
+    document = mab5 { header }
     document.should include("<header></header>")
   end
 end
