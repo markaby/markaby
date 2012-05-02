@@ -333,6 +333,11 @@ module Markaby
   class SgmlMarkup < ::Builder::XmlMarkup
     attr_accessor :target, :level
 
+    def initialize(options={})
+      super(options)
+      @tagset = options[:tagset] || ::Markaby::HTML5
+    end
+
     def method_missing(sym, *args, &block)
       text = nil
       attrs = nil
@@ -363,9 +368,16 @@ module Markaby
           _newline
         end
       elsif text.nil?
-        _indent
-        _start_tag(sym, attrs, false)
-        _newline
+        if @tagset.self_closing.include?(sym)
+            _indent
+            _start_tag(sym, attrs, false)
+            _newline
+        else
+            _indent
+            _start_tag(sym, attrs, false)
+            _end_tag(sym)
+            _newline
+        end
       else
         _indent
         _start_tag(sym, attrs)
