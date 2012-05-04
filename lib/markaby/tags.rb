@@ -240,6 +240,48 @@ module Markaby
         :wbr => Attrs
     })
 
+    # Additional attributes found in HTML5
+    additional_tags = {
+      :a => [:media, :download, :ping],
+      :area => [:media, :download, :ping, :hreflang, :rel, :type],
+      :base => [:target],
+      :button => [:autofocus, :form, :formaction, :formenctype, :formmethod,
+                  :formnovalidate, :formtarget],
+      :fieldset => [:form, :disabled, :name],
+      :form => [:novalidate],
+      :label => [:form],
+      :html => [:manifest],
+      :iframe => [:sandbox, :seamless, :srcdoc],
+      :img => [:crossorigin],
+      :input => [:autofocus, :placeholder, :form, :required, :autocomplete,
+                 :min, :max, :multiple, :pattern, :step, :list, :width, :height,
+                 :dirname, :formaction, :formenctype, :formmethod,
+                 :formnovalidate, :formtarget],
+      :link => [:sizes],
+      :meta => [:charset],
+      :menu => [:type, :label],
+      :object => [:form],
+      :ol => [:reversed],
+      :object => [:typemustmatch],
+      :output => [:form],
+      :script => [:async],
+      :select => [:autofocus, :form, :required],
+      :style => [:scoped],
+      :textarea => [:autofocus, :placeholder, :form, :required, :dirname,
+                    :maxlength, :wrap],
+    }
+
+    AttrsHTML5  = [:contenteditable, :contextmentu, :draggable, :dropzone,
+                   :hidden, :role, :spellcheck, :translate]
+
+    additional_tags.each do |k, v|
+      @tagset[k] += v
+    end
+
+    @tagset.each do |k, v|
+      @tagset[k] += AttrsHTML5
+    end
+
     @tags = @tagset.keys
     @forms = @tags & FORM_TAGS
     @self_closing = @tags & SELF_CLOSING_TAGS

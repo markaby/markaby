@@ -60,4 +60,14 @@ describe Markaby do
     document = mab5 { header }
     document.should include("<header></header>")
   end
+
+  it "should not allow fake attributes" do
+     lambda { mab5 { input "something", :fake => "fake" }}.should raise_error(Markaby::InvalidXhtmlError)
+  end
+
+  it "should allow new attributes" do
+     lambda { mab5 { input "something", :placeholder => "placeholder" }}.should_not raise_error(Markaby::InvalidXhtmlError)
+  end
+#  it "should be possible to use HTML5 options outside kernel method" do
+#  end
 end
