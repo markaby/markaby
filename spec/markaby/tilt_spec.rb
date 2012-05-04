@@ -66,13 +66,11 @@ module Markaby
     end
 
     it "should retrieve a Tilt::MarkabyTemplate when calling Tilt['hello.mab']" do
-#      ::Tilt['./tilt/markaby.mab'].should == Markaby::Tilt::Template
-      ::Tilt['./tilt/markaby.mab'].should == ::Tilt::MarkabyTemplate # isn't this how above spec actually reads?
+      ::Tilt['./tilt/markaby.mab'].should == Markaby::Tilt::Template
     end
 
     it "should return a new instance of the implementation class (when calling Tilt.new)" do
-#      ::Tilt.new(File.dirname(__FILE__) + "/tilt/markaby.mab").should be_a_kind_of(Markaby::Tilt::Template)
-      ::Tilt.new(File.dirname(__FILE__) + "/tilt/markaby.mab").should be_a_kind_of(::Tilt::MarkabyTemplate)
+      ::Tilt.new(File.dirname(__FILE__) + "/tilt/markaby.mab").should be_a_kind_of(Markaby::Tilt::Template)
     end
   end
 end

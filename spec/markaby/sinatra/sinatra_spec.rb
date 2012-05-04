@@ -63,5 +63,17 @@ unless RUNNING_RAILS
       last_response.should be_ok
       last_response.body.should == "<li>bacon</li>"
     end
+
+    it "should be able to render html5 tags" do
+      get '/html5'
+      last_response.should be_ok
+      last_response.body.should include('<header>')
+    end
+
+    it "should not add a slash to self-closing tags" do
+      get '/html5'
+      last_response.should be_ok
+      last_response.body.should include('<br>')
+    end
   end
 end
