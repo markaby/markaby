@@ -47,3 +47,8 @@ end
 get "/helpers" do
   mab :helpers
 end
+
+get "/html5" do
+  Markaby::Builder.set_html5_options!
+  mab :html5
+end

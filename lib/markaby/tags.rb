@@ -1,6 +1,8 @@
 module Markaby
   FORM_TAGS         = [ :form, :input, :select, :textarea ]
-  SELF_CLOSING_TAGS = [ :base, :meta, :link, :hr, :br, :param, :img, :area, :input, :col, :frame ]
+  SELF_CLOSING_TAGS = [:area, :base, :br, :col, :command, :embed, :frame, :hr,
+                       :img, :input, :keygen, :link, :meta, :param, :source,
+                       :track, :wbr]
 
   # Common sets of attributes.
   AttrCore   = [:id, :class, :style, :title]
@@ -192,6 +194,93 @@ module Markaby
       :frameset => AttrCore + [:rows, :cols, :onload, :onunload],
       :frame    => AttrCore + [:longdesc, :name, :src, :frameborder, :marginwidth, :marginheight, :noresize, :scrolling]
     })
+
+    @tags = @tagset.keys
+    @forms = @tags & FORM_TAGS
+    @self_closing = @tags & SELF_CLOSING_TAGS
+  end
+
+  class HTML5
+    class << self
+      attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
+    end
+
+    @doctype = ['html']
+    @tagset = XHTMLTransitional.tagset.merge({
+        :abbr => Attrs,
+        :article => Attrs,
+        :aside => Attrs,
+        :audio => Attrs,
+        :bdi => Attrs,
+        :canvas => Attrs,
+        :command => Attrs,
+        :datalist => Attrs,
+        :details => Attrs,
+        :embed => Attrs,
+        :figure => Attrs,
+        :figcaption => Attrs,
+        :footer => Attrs,
+        :header => Attrs,
+        :hgroup => Attrs,
+        :keygen => Attrs,
+        :mark => Attrs,
+        :menu => Attrs,
+        :meter => Attrs,
+        :nav => Attrs,
+        :output => Attrs,
+        :progress => Attrs,
+        :rp => Attrs,
+        :rt => Attrs,
+        :ruby => Attrs,
+        :section => Attrs,
+        :source => Attrs,
+        :time => Attrs,
+        :track => Attrs,
+        :video => Attrs,
+        :wbr => Attrs
+    })
+
+    # Additional attributes found in HTML5
+    additional_tags = {
+      :a => [:media, :download, :ping],
+      :area => [:media, :download, :ping, :hreflang, :rel, :type],
+      :base => [:target],
+      :button => [:autofocus, :form, :formaction, :formenctype, :formmethod,
+                  :formnovalidate, :formtarget],
+      :fieldset => [:form, :disabled, :name],
+      :form => [:novalidate],
+      :label => [:form],
+      :html => [:manifest],
+      :iframe => [:sandbox, :seamless, :srcdoc],
+      :img => [:crossorigin],
+      :input => [:autofocus, :placeholder, :form, :required, :autocomplete,
+                 :min, :max, :multiple, :pattern, :step, :list, :width, :height,
+                 :dirname, :formaction, :formenctype, :formmethod,
+                 :formnovalidate, :formtarget],
+      :link => [:sizes],
+      :meta => [:charset],
+      :menu => [:type, :label],
+      :object => [:form],
+      :ol => [:reversed],
+      :object => [:typemustmatch],
+      :output => [:form],
+      :script => [:async],
+      :select => [:autofocus, :form, :required],
+      :style => [:scoped],
+      :textarea => [:autofocus, :placeholder, :form, :required, :dirname,
+                    :maxlength, :wrap],
+    }
+
+    AttrsHTML5  = [:contenteditable, :contextmentu, :draggable, :dropzone,
+                   :hidden, :role, :spellcheck, :translate]
+
+    additional_tags.each do |k, v|
+      @tagset[k] += v
+    end
+
+    @tagset.each do |k, v|
+      @tagset[k] += AttrsHTML5
+    end
 
     @tags = @tagset.keys
     @forms = @tags & FORM_TAGS

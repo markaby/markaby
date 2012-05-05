@@ -1,0 +1,16 @@
+html5 do
+    header do
+        h1 "whut!"
+    end
+
+    ul do
+      li "hi"
+      li "there"
+    end
+
+    p do
+      text "I think"
+      br
+      text "therefore..."
+    end
+end
