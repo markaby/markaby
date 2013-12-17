@@ -70,7 +70,7 @@ end
 
 describe Markaby do
   it "can assign helpers after instantiation" do
-    helper = mock 'helper', :foo => :bar
+    helper = double 'helper', :foo => :bar
 
     builder = Markaby::Builder.new
     builder.helper = helper

@@ -61,8 +61,6 @@ Or, you could try config.gem, but that's now known as a bad idea.
 
 == Using Markaby with Sinatra (1.0+)
 
-  require 'markaby/sinatra'
-
   get '/foo' do
     mab :my_template # my_template.mab in the sinatra view path
   end

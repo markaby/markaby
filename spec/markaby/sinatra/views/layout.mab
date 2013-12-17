@@ -1,7 +1,0 @@
-if @display_layout
-  html do
-    yield
-  end
-else
-  yield
-end

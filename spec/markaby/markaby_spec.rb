@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe Markaby do
   it "can assign helpers after instantiation" do
-    helper = mock 'helper', :foo => :bar
+    helper = double 'helper', :foo => :bar
 
     builder = Markaby::Builder.new
     builder.helper = helper

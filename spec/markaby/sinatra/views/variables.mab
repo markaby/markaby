@@ -1,3 +1,0 @@
-p :class => "name" do
-  name
-end
