@@ -55,11 +55,10 @@ module Markaby
     end
 
     # Builds an html tag with HTML5 doctype instead.
-    def html5(attrs = {}, override_options=true, &block)
-      if override_options
-        Markaby::Builder::HTML5_OPTIONS.each do |k, v|
-          self.instance_variable_set("@#{k}".to_sym, v)
-        end
+    def html5(attrs = {}, &block)
+      self.tagset = Markaby::HTML5
+      Markaby::Builder::HTML5_OPTIONS.each do |k, v|
+        self.instance_variable_set("@#{k}".to_sym, v)
       end
       html5_html(attrs, &block)
     end

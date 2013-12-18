@@ -43,7 +43,7 @@ module Markaby
       :output_helpers         => true,
       :output_xml_instruction => false,
       :output_meta_tag        => 'html5',
-      :auto_validation        => false,
+      :auto_validation        => true,
       :tagset                 => Markaby::HTML5,
       :root_attributes        => {}
     }
