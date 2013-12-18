@@ -111,11 +111,7 @@ module Markaby
         end
       end
 
-      if @output_meta_tag == 'html5'
-        @builder = SgmlMarkup.new(:indent => @indent, :target => @streams.last)
-      else
-        @builder = XmlMarkup.new(:indent => @indent, :target => @streams.last)
-      end
+      @builder = XmlMarkup.new(:indent => @indent, :target => @streams.last)
 
       text(capture(&block)) if block
     end
@@ -328,64 +324,5 @@ module Markaby
 
   class XmlMarkup < ::Builder::XmlMarkup
     attr_accessor :target, :level
-  end
-
-  class SgmlMarkup < ::Builder::XmlMarkup
-    attr_accessor :target, :level
-
-    def initialize(options={})
-      super(options)
-      @tagset = options[:tagset] || ::Markaby::HTML5
-    end
-
-    def method_missing(sym, *args, &block)
-      text = nil
-      attrs = nil
-      sym = "#{sym}:#{args.shift}" if args.first.kind_of?(::Symbol)
-      args.each do |arg|
-        case arg
-        when ::Hash
-          attrs ||= {}
-          attrs.merge!(arg)
-        else
-          text ||= ''
-          text << arg.to_s
-        end
-      end
-      if block
-        unless text.nil?
-          ::Kernel::raise ::ArgumentError,
-            "SgmlMarkup cannot mix a text argument with a block"
-        end
-        _indent
-        _start_tag(sym, attrs)
-        _newline
-        begin
-          _nested_structures(block)
-        ensure
-          _indent
-          _end_tag(sym)
-          _newline
-        end
-      elsif text.nil?
-        if @tagset.self_closing.include?(sym)
-          _indent
-          _start_tag(sym, attrs, false)
-          _newline
-        else
-          _indent
-          _start_tag(sym, attrs, false)
-          _end_tag(sym)
-          _newline
-        end
-      else
-        _indent
-        _start_tag(sym, attrs)
-        text! text
-        _end_tag(sym)
-        _newline
-      end
-      @target
-    end
   end
 end
