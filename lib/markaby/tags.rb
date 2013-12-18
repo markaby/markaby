@@ -21,7 +21,7 @@ module Markaby
   AttrHAlign = [:align, :char, :charoff]
   AttrVAlign = [:valign]
   Attrs      = AttrCore + AttrI18n + AttrEvents
-  
+
   AttrsBoolean = [
     :checked, :disabled, :multiple, :readonly, :selected, # standard forms
     :autofocus, :required, :novalidate, :formnovalidate, # HTML5 forms
@@ -207,37 +207,37 @@ module Markaby
 
     @doctype = ['html']
     @tagset = XHTMLTransitional.tagset.merge({
-        :abbr => Attrs,
-        :article => Attrs,
-        :aside => Attrs,
-        :audio => Attrs,
-        :bdi => Attrs,
-        :canvas => Attrs,
-        :command => Attrs,
-        :datalist => Attrs,
-        :details => Attrs,
-        :embed => Attrs,
-        :figure => Attrs,
-        :figcaption => Attrs,
-        :footer => Attrs,
-        :header => Attrs,
-        :hgroup => Attrs,
-        :keygen => Attrs,
-        :mark => Attrs,
-        :menu => Attrs,
-        :meter => Attrs,
-        :nav => Attrs,
-        :output => Attrs,
-        :progress => Attrs,
-        :rp => Attrs,
-        :rt => Attrs,
-        :ruby => Attrs,
-        :section => Attrs,
-        :source => Attrs,
-        :time => Attrs,
-        :track => Attrs,
-        :video => Attrs,
-        :wbr => Attrs
+      :abbr => Attrs,
+      :article => Attrs,
+      :aside => Attrs,
+      :audio => Attrs,
+      :bdi => Attrs,
+      :canvas => Attrs,
+      :command => Attrs,
+      :datalist => Attrs,
+      :details => Attrs,
+      :embed => Attrs,
+      :figure => Attrs,
+      :figcaption => Attrs,
+      :footer => Attrs,
+      :header => Attrs,
+      :hgroup => Attrs,
+      :keygen => Attrs,
+      :mark => Attrs,
+      :menu => Attrs,
+      :meter => Attrs,
+      :nav => Attrs,
+      :output => Attrs,
+      :progress => Attrs,
+      :rp => Attrs,
+      :rt => Attrs,
+      :ruby => Attrs,
+      :section => Attrs,
+      :source => Attrs,
+      :time => Attrs,
+      :track => Attrs,
+      :video => Attrs,
+      :wbr => Attrs
     })
 
     # Additional attributes found in HTML5
