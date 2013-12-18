@@ -5,59 +5,9 @@ It is an alternative to ERb which weaves the two languages together.
 Also a replacement for templating languages which use primitive languages
 that blend with HTML.
 
-== Using Markaby as a Rails plugin / gem
-
-Write Rails templates in pure Ruby.  Example layout:
-
-  html do
-    head do
-      title 'Products: ' + action_name
-      stylesheet_link_tag 'scaffold'
-    end
-
-    body do
-      p flash[:notice], :style => "color: green"
-
-      div.signup! do
-        form_for @user do |f|
-          f.text_field :email
-        end
-      end
-
-      yield
-    end
-  end
-
-Markaby templates end in .mab
-
-Markaby supports many versions of rails, including the latest rails:
-
-  1.2.2, 1.2.3, 1.2.4, 1.2.5, 1.2.6, 2.2.0,
-  2.2.1, 2.2.2, 2.2.3, 2.3.1, 2.3.2, 2.3.2.1,
-  2.3.3, 2.3.3.1, 2.3.4, 2.3.5, 2.3.6, 2.3.7,
-  2.3.8
-
-Rails 3.0 support is planned.
-
-=== Install it as a plugin
-
-  script/plugin install git://github.com/markaby/markaby.git
-
 === Install it as a gem
 
   gem install markaby
-
-If you are loading it in a different way (from a gem), make sure
-it's on the $LOAD_PATH, and add the following in
-an initializer (config/initializers/markaby.rb will work):
-
-  require 'markaby'
-  require 'markaby/rails'
-
-  Markaby::Rails.load
-
-Or, you could try config.gem, but that's now known as a bad idea.
-
 
 == Using Markaby with Sinatra (1.0+)
 
@@ -67,6 +17,15 @@ Or, you could try config.gem, but that's now known as a bad idea.
 
 If you are looking for sinatra support pre 0.7, see http://github.com/sbfaulkner/sinatra-markaby
 
+A note on Tilt - using markaby with html5 doesn't quite yet work properly.  If you'd like to render a template with html 5, call this at the start of a .mab template:
+
+enable_html5!
+
+Or enable html 5 globally:
+
+Markaby::Builder.class_eval do
+  @@options = Markaby::Builder::HTML5_OPTIONS
+end
 
 == Using Markaby with other frameworks
 
@@ -172,15 +131,15 @@ Which results in:
 == 3. Validate Your XHTML 1.0 Output
 
 If you'd like Markaby to help you assemble valid XHTML documents,
-you can use the <tt>xhtml_transitional</tt> or <tt>xhtml_strict</tt>
+you can use the <tt>html5</tt>, <tt>xhtml_transitional</tt> or <tt>xhtml_strict</tt>
 methods in place of the normal <tt>html</tt> tag.
 
-  xhtml_strict do
+  html5 do
     head { ... }
     body { ... }
   end
 
-This will add the XML instruction and the doctype tag to your document.
+This will add the XML instruction and the doctype tag to your document (for xhtml_strict and xhtml_transitional).
 Also, a character set meta tag will be placed inside your <tt>head</tt>
 tag.
 
@@ -259,45 +218,6 @@ won't work with this technique.
     countries.each do |country|
       tag! :option, country
     end
-  end
-
-= A Note About Rails Helpers
-
-When used in Rails templates, the Rails helper object is passed into
-Markaby::Builder.  When you call helper methods inside Markaby, the output
-from those methods will be output to the stream.  This is incredibly
-handy, since most Rails helpers output HTML tags.
-
-  head do
-    javascript_include_tag 'prototype'
-    autodiscovery_link_tag
-  end
-
-However, some methods are designed to give back a String which you can use
-elsewhere.  That's okay!  Every method returns a Fragment object, which can
-be used as a string.
-
-  p { "Total is: #{number_to_human_size @file_bytes}" }
-
-Also see the Quick Tour above, specifically the stuff about auto-stringification.
-
-If for any reason you have trouble with fragments, you can just
-call the <tt>@helpers</tt> object with the method and you'll get
-the String back and nothing will be output.
-
-  p { "Total is: #{@helpers.number_to_human_size @file_bytes}" }
-
-Conversely, you may call instance variables from your controller by using
-a method and its value will be returned, nothing will be output.
-
-  # Inside imaginary ProductController
-  def list
-    @products = Product.find :all
-  end
-
-  # Inside app/views/product/list.mab
-  products.each do |product|
-    p product.title
   end
 
 = Credits
