@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Markaby::VERSION
   spec.authors       = ["Scott Taylor"]
   spec.email         = ["scott@railsnewbie.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = "_why's markaby templating language"
+  spec.summary       = "A pure ruby based, html markup language"
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "builder"
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
 end
