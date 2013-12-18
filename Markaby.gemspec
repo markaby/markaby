@@ -6,7 +6,7 @@ require 'markaby/version'
 Gem::Specification.new do |spec|
   spec.name          = "markaby"
   spec.version       = Markaby::VERSION
-  spec.authors       = ["Scott Taylor"]
+  spec.authors       = ["Scott Taylor", "judofyr", "_why"]
   spec.email         = ["scott@railsnewbie.com"]
   spec.description   = "_why's markaby templating language"
   spec.summary       = "A pure ruby based, html markup language"
