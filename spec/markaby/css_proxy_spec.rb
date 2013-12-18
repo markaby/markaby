@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-class CssProxyTest < Test::Unit::TestCase
+describe Markaby::CssProxy do
   it "should have method_missing as private" do
     methods = Markaby::CssProxy.private_instance_methods.dup
     methods.map! { |m| m.to_sym }
@@ -14,34 +14,29 @@ class CssProxyTest < Test::Unit::TestCase
     end.new
   end
 
-  def test_responds_to_everything
+  it "responds_to_everything" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-
-    assert proxy.respond_to?(:any_method)
-    assert proxy.respond_to?(:foobarbazasdfasdfadfs)
+    proxy.respond_to?(:any_method).should be_true
+    proxy.respond_to?(:foobarbazasdfasdfadfs).should be_true
   end
 
-  def test_does_not_respond_to_method_missing
+  it "does_not_respond_to_method_missing" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-
-    assert !proxy.respond_to?(:method_missing)
+    proxy.should_not respond_to(:method_missing)
   end
 
-  def test_does_respond_to_private_instance_methods_with_private_flag_set_to_true
+  it "does_respond_to_private_instance_methods_with_private_flag_set_to_true" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-
-    assert proxy.respond_to?(:method_missing, true)
+    proxy.respond_to?(:method_missing, true).should be_true
   end
 
-  def test_does_not_respond_to_private_instance_methods_with_private_flag_set_to_false
+  it "does_not_respond_to_private_instance_methods_with_private_flag_set_to_false" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-
-    assert !proxy.respond_to?(:method_missing, false)
+    proxy.respond_to?(:method_missing, false).should be_false
   end
 
-  def test_respond_to_should_always_return_boolean
+  it "respond_to_should_always_return_boolean" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-
-    assert_equal proxy.respond_to?(:method_missing, :a_value), true
+    proxy.respond_to?(:method_missing, :a_value).should be_true
   end
 end
