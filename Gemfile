@@ -4,6 +4,5 @@ gem 'builder'
 
 group :test do
   gem 'rake'
-  gem 'garlic'
   gem 'rspec'
 end

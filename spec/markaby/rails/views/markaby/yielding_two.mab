@@ -1,7 +1,0 @@
-p :class => "hi" do
-  "hi there"
-end
-
-p :class => "hi" do
-  "hi again"
-end

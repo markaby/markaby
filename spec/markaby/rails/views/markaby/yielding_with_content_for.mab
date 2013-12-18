@@ -1,3 +1,0 @@
-content_for :foo do
-  p "in foo content_for"
-end

@@ -1,3 +1,0 @@
-p :class => "hey" do
-  "hi there"
-end

@@ -16,8 +16,6 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 # * Markaby::MetAid: metaprogramming helper methods.
 # * Markaby::Tags: lists the roles of various XHTML tags to help Builder
 #   use these tags as they are intended.
-# * Markaby::Template: a class for hooking Markaby into Rails as a
-#   proper templating language.
 module Markaby
   class InvalidXhtmlError < StandardError; end
 end
