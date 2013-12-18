@@ -1,28 +1,10 @@
 require 'rake'
 require "bundler/gem_tasks"
 require 'rspec/core/rake_task'
-require 'rake/testtask'
 require 'rake/clean'
 
-begin
-  require 'hanna/rdoctask'
-
-  Rake::RDocTask.new do |rdoc|
-    rdoc.rdoc_dir = 'doc/rdoc'
-    rdoc.options << '--line-numbers'
-    rdoc.rdoc_files.add(['README.rdoc', 'CHANGELOG.rdoc', 'lib/**/*.rb'])
-  end
-rescue LoadError
-  puts "Could not load hanna-rdoc.  Please install with mislav-hanna package"
-end
-
-task :default => [:spec, :test]
-
-Rake::TestTask.new(:test) do |t|
-  t.pattern = 'spec/markaby/*_test.rb'
-end
-
 RSpec::Core::RakeTask.new(:spec)
+task :default => :spec
 
 desc "List any Markaby specific warnings"
 task :warnings do
