@@ -369,14 +369,14 @@ module Markaby
         end
       elsif text.nil?
         if @tagset.self_closing.include?(sym)
-            _indent
-            _start_tag(sym, attrs, false)
-            _newline
+          _indent
+          _start_tag(sym, attrs, false)
+          _newline
         else
-            _indent
-            _start_tag(sym, attrs, false)
-            _end_tag(sym)
-            _newline
+          _indent
+          _start_tag(sym, attrs, false)
+          _end_tag(sym)
+          _newline
         end
       else
         _indent
