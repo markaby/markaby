@@ -47,6 +47,16 @@ describe Markaby do
     builder.three.should == "four"
   end
 
+  it "should create locals as singleton methods" do
+    builder = Markaby::Builder.new
+    builder.locals = { :one => "two", :three => "four" }
+    builder.singleton_methods.should == [:one, :three]
+  end
+
+  it "should work with builder bang methods" do
+    mab { instruct! }.should == "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+  end
+
   it "should be able to produce the correct html from a fragment" do
     str = ""
     str += "<div>"
