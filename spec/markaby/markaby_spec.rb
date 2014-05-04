@@ -36,6 +36,12 @@ describe Markaby do
     builder.three.should == "four"
   end
 
+  it "should create locals as singleton methods" do
+    builder = Markaby::Builder.new
+    builder.locals = { :one => "two", :three => "four" }
+    builder.singleton_methods.should == [:one, :three]
+  end
+
   def test_builder_bang_methods
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", mab { instruct! }
   end
