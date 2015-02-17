@@ -121,10 +121,10 @@ describe Markaby do
       div {
         h1 "Monkeys"
         h2 {
-          "Giraffes #{small('Miniature')} and #{strong 'Large'}"
+          "Giraffes #{small('Miniature')} and #{strong 'Large'}".html_safe
         }
         h3 "Donkeys"
-        h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse" }
+        h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse".html_safe }
       }
     }
 
