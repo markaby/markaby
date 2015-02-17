@@ -146,7 +146,10 @@ module Markaby
 
     # Write a +string+ to the HTML stream without escaping it.
     def text(string)
-      @builder << string.to_s
+      out_buf = ::ActiveSupport::SafeBuffer.new
+      out_buf << string
+
+      @builder << out_buf
       nil
     end
     alias_method :<<, :text
@@ -206,8 +209,7 @@ module Markaby
       end
 
       if block
-        str = ::ActiveSupport::SafeBuffer.new
-        str << capture(&block)
+        str = capture(&block)
         block = proc { text(str) }
       end
 
