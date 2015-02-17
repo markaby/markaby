@@ -211,6 +211,16 @@ module Markaby
         block = proc { text(str) }
       end
 
+      args.map! do |arg|
+        # leave attributes alone, XmlBuffer will escape them
+        next arg unless arg.is_a? String
+
+        # sanitize the string arg(s)
+        arg_buf = ::ActiveSupport::SafeBuffer.new
+        arg_buf << arg
+        arg_buf
+      end
+
       f = fragment { @builder.tag!(tag, *args, &block) }
       @used_ids[ele_id] = f if ele_id
       f
