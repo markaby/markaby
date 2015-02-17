@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string'
+
 require 'markaby/tags'
 require 'markaby/builder_tags'
 
