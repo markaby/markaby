@@ -214,6 +214,19 @@ describe Markaby do
       generated.should == str
     end
 
+    it "should escape HTML appended to the output buffer" do
+      str = ""
+      str += "&lt;script&gt;"
+      str += "alert(&#39;hello, xss&#39;);"
+      str += "&lt;/script&gt;"
+
+      generated = mab do
+        self << "<script>alert('hello, xss');</script>"
+      end
+
+      generated.should == str
+    end
+
     it "should not escape blocks that evaluate to #html_safe?" do
       str = ""
       str += "<div>"
@@ -231,7 +244,7 @@ describe Markaby do
       generated.should == str
     end
 
-    it "should no escape strings that evaluate to #html_safe?" do
+    it "should not escape strings that evaluate to #html_safe?" do
       str = ""
       str += "<span>"
       str += "<script>"
