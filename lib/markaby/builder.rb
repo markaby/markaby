@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string'
+
 require 'markaby/tags'
 require 'markaby/builder_tags'
 
@@ -160,7 +162,7 @@ module Markaby
       @streams.push(@builder.target = Stream.new)
       @builder.level += 1
       str = instance_eval(&block)
-      str = @streams.last.join if @streams.last.any?
+      str = @streams.last.join.html_safe if @streams.last.any?
       @streams.pop
       @builder.level -= 1
       @builder.target = @streams.last
@@ -204,8 +206,19 @@ module Markaby
       end
 
       if block
-        str = capture(&block)
+        str = ::ActiveSupport::SafeBuffer.new
+        str << capture(&block)
         block = proc { text(str) }
+      end
+
+      args.map! do |arg|
+        # leave attributes alone, XmlBuffer will escape them
+        next arg unless arg.is_a? String
+
+        # sanitize the string arg(s)
+        arg_buf = ::ActiveSupport::SafeBuffer.new
+        arg_buf << arg
+        arg_buf
       end
 
       f = fragment { @builder.tag!(tag, *args, &block) }
@@ -319,6 +332,13 @@ module Markaby
 
     def transformed_stream?
       @transformed_stream
+    end
+  end
+
+  class ::Builder::XmlBase
+    # do not auto-escape text
+    def text!(text)
+      _text(text)
     end
   end
 

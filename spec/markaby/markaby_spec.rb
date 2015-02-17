@@ -53,10 +53,10 @@ describe Markaby do
       div {
         h1 "Monkeys"
         h2 {
-          "Giraffes #{small('Miniature')} and #{strong 'Large'}"
+          "Giraffes #{small('Miniature')} and #{strong 'Large'}".html_safe
         }
         h3 "Donkeys"
-        h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse" }
+        h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse".html_safe }
       }
     }
 
@@ -178,6 +178,72 @@ describe Markaby do
   describe Markaby::InvalidXhtmlError do
     it "should inherit from StandardError" do
       Markaby::InvalidXhtmlError.superclass.should == StandardError
+    end
+  end
+
+  describe "XSS Prevention" do
+    it "should escape blocks which aren't html safe" do
+      str = ""
+      str += "<div>"
+      str += "&lt;script&gt;"
+      str += "alert(&#39;hello, xss&#39;);"
+      str += "&lt;/script&gt;"
+      str += "</div>"
+
+      generated = mab do
+        div do
+          "<script>alert('hello, xss');</script>"
+        end
+      end
+
+      generated.should == str
+    end
+
+    it "should escape strings which aren't html safe" do
+      str = ""
+      str += "<span>"
+      str += "&lt;script&gt;"
+      str += "alert(&#39;hello, xss&#39;);"
+      str += "&lt;/script&gt;"
+      str += "</span>"
+
+      generated = mab do
+        span "<script>alert('hello, xss');</script>"
+      end
+
+      generated.should == str
+    end
+
+    it "should not escape blocks that evaluate to #html_safe?" do
+      str = ""
+      str += "<div>"
+      str += "<script>"
+      str += "alert('a-ok');"
+      str += "</script>"
+      str += "</div>"
+
+      generated = mab do
+        div do
+          "<script>alert('a-ok');</script>".html_safe
+        end
+      end
+
+      generated.should == str
+    end
+
+    it "should no escape strings that evaluate to #html_safe?" do
+      str = ""
+      str += "<span>"
+      str += "<script>"
+      str += "alert('a-ok');"
+      str += "</script>"
+      str += "</span>"
+
+      generated = mab do
+        span "<script>alert('a-ok');</script>".html_safe
+      end
+
+      generated.should == str
     end
   end
 end
