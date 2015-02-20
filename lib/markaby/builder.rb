@@ -312,6 +312,10 @@ module Markaby
       @transformed_stream = false
     end
 
+    def html_safe?
+      true
+    end
+
     [:to_s, :inspect, :==].each do |method|
       undef_method method if method_defined?(method)
     end
