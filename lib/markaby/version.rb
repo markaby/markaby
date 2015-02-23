@@ -1,3 +1,3 @@
 module Markaby
-  VERSION = '0.9.3.proxy'
+  VERSION = '0.9.3'
 end
