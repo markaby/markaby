@@ -312,10 +312,6 @@ module Markaby
       @transformed_stream = false
     end
 
-    def html_safe?
-      true
-    end
-
     [:to_s, :inspect, :==].each do |method|
       undef_method method if method_defined?(method)
     end
@@ -332,7 +328,7 @@ module Markaby
 
       # We can't do @stream.slice!(@start, @length),
       # as it would invalidate the @starts and @lengths of other Fragment instances.
-      @str = @stream[@start, @length].to_s
+      @str = @stream[@start, @length].to_s.html_safe
       @stream[@start, @length] = [nil] * @length
     end
 
