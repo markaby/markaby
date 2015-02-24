@@ -188,7 +188,7 @@ module Markaby
 
           attrs.each do |k, v|
             atname = k.to_s.downcase.intern
-            unless k =~ /:/ or @tagset.tagset[tag].include? atname
+            unless k =~ /:/ or tag =~ /^data-.*$/ or @tagset.tagset[tag].include? atname
               raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
             end
             if atname == :id
