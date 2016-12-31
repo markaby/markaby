@@ -1,3 +1,5 @@
+require 'active_support/core_ext/string'
+
 require 'markaby/tags'
 require 'markaby/builder_tags'
 
@@ -139,12 +141,15 @@ module Markaby
 
     # Returns a string containing the HTML stream.  Internally, the stream is stored as an Array.
     def to_s
-      @streams.last.to_s
+      @streams.last.to_s.html_safe
     end
 
     # Write a +string+ to the HTML stream without escaping it.
     def text(string)
-      @builder << string.to_s
+      out_buf = ::ActiveSupport::SafeBuffer.new
+      out_buf << string
+
+      @builder << out_buf
       nil
     end
     alias_method :<<, :text
@@ -160,7 +165,7 @@ module Markaby
       @streams.push(@builder.target = Stream.new)
       @builder.level += 1
       str = instance_eval(&block)
-      str = @streams.last.join if @streams.last.any?
+      str = @streams.last.join.html_safe if @streams.last.any?
       @streams.pop
       @builder.level -= 1
       @builder.target = @streams.last
@@ -183,7 +188,7 @@ module Markaby
 
           attrs.each do |k, v|
             atname = k.to_s.downcase.intern
-            unless k =~ /:/ or @tagset.tagset[tag].include? atname
+            unless k =~ /:/ or tag =~ /^data-.*$/ or @tagset.tagset[tag].include? atname
               raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
             end
             if atname == :id
@@ -206,6 +211,16 @@ module Markaby
       if block
         str = capture(&block)
         block = proc { text(str) }
+      end
+
+      args.map! do |arg|
+        # leave attributes alone, XmlBuffer will escape them
+        next arg unless arg.is_a? String
+
+        # sanitize the string arg(s)
+        arg_buf = ::ActiveSupport::SafeBuffer.new
+        arg_buf << arg
+        arg_buf
       end
 
       f = fragment { @builder.tag!(tag, *args, &block) }
@@ -313,12 +328,19 @@ module Markaby
 
       # We can't do @stream.slice!(@start, @length),
       # as it would invalidate the @starts and @lengths of other Fragment instances.
-      @str = @stream[@start, @length].to_s
+      @str = @stream[@start, @length].to_s.html_safe
       @stream[@start, @length] = [nil] * @length
     end
 
     def transformed_stream?
       @transformed_stream
+    end
+  end
+
+  class ::Builder::XmlBase
+    # do not auto-escape text
+    def text!(text)
+      _text(text)
     end
   end
 

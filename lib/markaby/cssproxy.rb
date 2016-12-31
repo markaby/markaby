@@ -15,8 +15,12 @@ module Markaby
       @builder.tag! sym
     end
 
+    def to_s
+      @fragment.to_s
+    end
+
     def respond_to?(sym, include_private = false)
-      include_private || !private_methods.map { |m| m.to_sym }.include?(sym.to_sym) ? true : false
+      include_private || private_methods.map { |m| m.to_sym }.include?(sym.to_sym) ? true : false
     end
 
   private
@@ -44,9 +48,9 @@ module Markaby
       end
 
       if block
-        @builder.tag! @sym, *args, &block
+        @fragment = @builder.tag! @sym, *args, &block
       else
-        @builder.tag! @sym, *args
+        @fragment = @builder.tag! @sym, *args
       end
 
       self
