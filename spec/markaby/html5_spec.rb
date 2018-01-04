@@ -95,6 +95,9 @@ describe Markaby do
       end
     end
 
-    doc.should == "<!DOCTYPE html><html><input type=\"text\" name=\"foo\" value=\"bar\" placeholder=\"something\"/></html>"
+    doc.should include('<input type="text" ')
+    doc.should include('name="foo"')
+    doc.should include('value="bar"')
+    doc.should include('placeholder="something"')
   end
 end
