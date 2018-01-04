@@ -17,10 +17,11 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 # * Markaby::Tags: lists the roles of various XHTML tags to help Builder
 #   use these tags as they are intended.
 module Markaby
+  VERSION = '0.8.1'
+
   class InvalidXhtmlError < StandardError; end
 end
 
-require "markaby/version"
 require 'builder' unless defined?(Builder)
 require 'markaby/builder'
 require 'markaby/cssproxy'
