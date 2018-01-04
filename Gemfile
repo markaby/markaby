@@ -8,5 +8,5 @@ group :test do
 end
 
 group :development do
-  gem 'byebug', platforms: :mri
+  gem 'byebug', :platforms => :mri
 end
