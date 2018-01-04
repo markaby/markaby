@@ -13,4 +13,4 @@ matrix:
     - rvm: 2.5
     - rvm: jruby-9.1.15.0
     - rvm: rbx-2
-install: bundle install --only=test --jobs=3 --retry=3
+install: bundle install --without=development --jobs=3 --retry=3
