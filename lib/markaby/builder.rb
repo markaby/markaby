@@ -171,6 +171,8 @@ module Markaby
     # the arguments are the same as the tags implemented via method_missing.
     def tag!(tag, *args, &block)
       ele_id = nil
+
+      # TODO: Move this logic to the tagset so that the tagset itself can validate + raise when invalid
       if @auto_validation && @tagset
         if !@tagset.tagset.has_key?(tag)
           raise InvalidXhtmlError, "no element `#{tag}' for #{tagset.doctype}"
