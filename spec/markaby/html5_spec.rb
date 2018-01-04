@@ -100,4 +100,14 @@ describe Markaby do
     doc.should include('value="bar"')
     doc.should include('placeholder="something"')
   end
+
+  it "should allow data attributes anywhere" do
+    doc = mab do
+      html5 do
+        div('data-foo': 'bar')
+      end
+    end
+
+    doc.should include('<div data-foo="bar"/>')
+  end
 end

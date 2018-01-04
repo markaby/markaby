@@ -185,15 +185,19 @@ module Markaby
 
           attrs.each do |k, v|
             atname = k.to_s.downcase.intern
-            unless k =~ /:/ or @tagset.tagset[tag].include? atname
+
+            unless k =~ /:/ or @tagset.tagset[tag].include?(atname) or (@tagset == Markaby::HTML5 && atname =~ /^data-/)
               raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
             end
+
             if atname == :id
               ele_id = v.to_s
+
               if @used_ids.has_key? ele_id
                 raise InvalidXhtmlError, "id `#{ele_id}' already used (id's must be unique)."
               end
             end
+
             if AttrsBoolean.include? atname
               if v
                 attrs[k] = atname.to_s
