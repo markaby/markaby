@@ -7,7 +7,17 @@ that blend with HTML.
 
 === Install it as a gem
 
-  gem install markaby
+  # in Gemfile:
+
+  gem 'markaby'
+
+=== Using Markaby with Rails 5+
+
+Install the gem (using bundler), then:
+
+  # in config/initializers/markaby.rb:
+  require 'markaby/rails'
+  ::Markaby::Rails::TemplateHandler.register!
 
 == Using Markaby with Sinatra (1.0+)
 
