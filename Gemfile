@@ -5,5 +5,5 @@ gem 'builder'
 group :test do
   gem 'rake'
   gem 'rspec'
-  gem 'byebug'
+  gem 'byebug', platforms: :mri
 end
