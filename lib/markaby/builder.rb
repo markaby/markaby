@@ -186,7 +186,7 @@ module Markaby
           attrs.each do |k, v|
             atname = k.to_s.downcase.intern
 
-            unless k =~ /:/ or @tagset.tagset[tag].include?(atname) or (@tagset == Markaby::HTML5 && atname =~ /^data-/)
+            unless k =~ /:/ or @tagset.tagset[tag].include?(atname) or (@tagset == Markaby::HTML5 && atname.to_s =~ /^data-/)
               raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
             end
 
