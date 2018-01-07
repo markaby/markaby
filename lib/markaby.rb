@@ -18,8 +18,8 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 #   use these tags as they are intended.
 module Markaby
   MAJOR = 0
-  MINOR = 8
-  TINY = 1
+  MINOR = 9
+  TINY = 0
 
   VERSION = "#{MAJOR}.#{MINOR}.#{TINY}"
 

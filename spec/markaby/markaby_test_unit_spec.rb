@@ -107,7 +107,7 @@ class MarkabyTest < Test::Unit::TestCase
   end
 
   def test_markaby_should_have_correct_version
-    assert_equal Markaby::VERSION, '0.8.1'
+    assert_equal Markaby::VERSION, '0.9.0'
   end
 
   def test_duplicate_usage_of_same_id
