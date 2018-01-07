@@ -47,7 +47,15 @@ module Markaby
       @@options[option]
     end
 
-    attr_accessor :tagset
+    attr_reader :tagset
+
+    def tagset=(tagset)
+      @tagset = tagset
+
+      tagset.default_options.each do |k, v|
+        self.instance_variable_set("@#{k}".to_sym, v)
+      end
+    end
 
     # Create a Markaby builder object.  Pass in a hash of variable assignments to
     # +assigns+ which will be available as instance variables inside tag construction

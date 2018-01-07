@@ -56,16 +56,12 @@ module Markaby
 
     # Builds an html tag with HTML5 doctype instead.
     def html5(attrs = {}, &block)
-      enable_html5!
+      self.tagset = Markaby::HTML5
       html5_html(attrs, &block)
     end
 
     def enable_html5!
-      self.tagset = Markaby::HTML5
-
-      Markaby::Builder::HTML5_OPTIONS.each do |k, v|
-        self.instance_variable_set("@#{k}".to_sym, v)
-      end
+      raise NotImplementedError, "Deprecated! Call self.tagset = Markaby::HTML5"
     end
 
   private
