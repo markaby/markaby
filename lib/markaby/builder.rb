@@ -66,14 +66,6 @@ module Markaby
       @@options[option]
     end
 
-    def self.ignored_helpers
-      @@ignored_helpers ||= []
-    end
-
-    def self.ignore_helpers(*helpers)
-      ignored_helpers.concat helpers
-    end
-
     attr_accessor :output_helpers, :tagset
 
     # Create a Markaby builder object.  Pass in a hash of variable assignments to
@@ -235,7 +227,7 @@ module Markaby
     # method_missing used to be the lynchpin in Markaby, but it's no longer used to handle
     # HTML tags.  See html_tag for that.
     def method_missing(sym, *args, &block)
-      if @_helper.respond_to?(sym, true) && !self.class.ignored_helpers.include?(sym)
+      if @_helper.respond_to?(sym, true)
         r = @_helper.send(sym, *args, &block)
         if @output_helpers && r.respond_to?(:to_str)
           fragment { @builder << r }

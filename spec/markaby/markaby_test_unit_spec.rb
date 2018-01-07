@@ -41,13 +41,10 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal "<h1>Hello World</h1>", mab { @message = 'Hello World'; h1 message }
   end
 
-  def test_spec_helpers
-    Markaby::Builder.ignored_helpers.clear
+  def test_helpers
     assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }
     assert_equal %{<a href="">edit</a>}, mab({}, MarkabyTestHelpers) { link_to('edit') }
     assert mab({}, MarkabyTestHelpers) { @output_helpers = false; link_to('edit'); nil }.empty?
-    Markaby::Builder.ignore_helpers :pluralize
-    assert_exception(NoMethodError, "undefined method `pluralize'", {}, MarkabyTestHelpers) { pluralize('squirrel') }
   end
 
   def test_uses_helper_instance_variable
