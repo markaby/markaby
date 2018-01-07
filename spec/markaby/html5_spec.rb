@@ -104,7 +104,7 @@ describe Markaby do
   it "should allow data attributes anywhere" do
     doc = mab do
       html5 do
-        div('data-foo': 'bar')
+        div('data-foo' => 'bar')
       end
     end
 
