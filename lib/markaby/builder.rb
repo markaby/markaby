@@ -29,9 +29,8 @@ module Markaby
       :auto_validation        => true,
     }
 
-    XHTML_OPTIONS   = XHTMLTransitional.default_options.dup
     HTML5_OPTIONS   = HTML5.default_options.dup
-    DEFAULT_OPTIONS = GENERIC_OPTIONS.merge(XHTML_OPTIONS)
+    DEFAULT_OPTIONS = GENERIC_OPTIONS.merge(HTML5_OPTIONS)
 
     @@options = DEFAULT_OPTIONS.dup
 
