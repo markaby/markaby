@@ -24,36 +24,19 @@ module Markaby
   class Builder
     include Markaby::BuilderTags
 
-    DEFAULT_OPTIONS = {
+    GENERIC_OPTIONS = {
       :indent                 => 0,
-      :output_xml_instruction => true,
-      :output_meta_tag        => 'xhtml',
       :auto_validation        => true,
-      :tagset                 => Markaby::XHTMLTransitional,
-      :root_attributes => {
-        :xmlns      => 'http://www.w3.org/1999/xhtml',
-        :'xml:lang' => 'en',
-        :lang       => 'en'
-      }
     }
 
-    HTML5_OPTIONS = {
-      :indent                 => 0,
-      :output_xml_instruction => false,
-      :output_meta_tag        => 'html5',
-      :auto_validation        => true,
-      :tagset                 => Markaby::HTML5,
-      :root_attributes        => {}
-    }
+    XHTML_OPTIONS   = XHTMLTransitional.default_options.dup
+    HTML5_OPTIONS   = HTML5.default_options.dup
+    DEFAULT_OPTIONS = GENERIC_OPTIONS.merge(XHTML_OPTIONS)
 
     @@options = DEFAULT_OPTIONS.dup
 
     def self.restore_defaults!
       @@options = DEFAULT_OPTIONS.dup
-    end
-
-    def self.set_html5_options!
-      @@options = HTML5_OPTIONS.dup
     end
 
     def self.set(option, value)

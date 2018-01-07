@@ -29,12 +29,36 @@ module Markaby
     :compact, :declare, :noresize, :noshade, :nowrap # deprecated or unused
   ]
 
-  # All the tags and attributes from XHTML 1.0 Strict
-  class XHTMLStrict
+  class Tagset
     class << self
       attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
-    end
 
+      def default_options
+        {
+          :tagset => self
+        }
+      end
+    end
+  end
+
+  class XmlTagset < Tagset
+    class << self
+      def default_options
+        super.merge({
+          :output_xml_instruction => true,
+          :output_meta_tag        => 'xhtml',
+          :root_attributes        => {
+            :xmlns      => 'http://www.w3.org/1999/xhtml',
+            :'xml:lang' => 'en',
+            :lang       => 'en'
+          }
+        })
+      end
+    end
+  end
+
+  # All the tags and attributes from XHTML 1.0 Strict
+  class XHTMLStrict < XmlTagset
     @doctype = ['-//W3C//DTD XHTML 1.0 Strict//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd']
     @tagset  = {
       :html       => AttrI18n + [:id, :xmlns],
@@ -122,11 +146,7 @@ module Markaby
   end
 
   # Additional tags found in XHTML 1.0 Transitional
-  class XHTMLTransitional
-    class << self
-      attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
-    end
-
+  class XHTMLTransitional < XmlTagset
     @doctype = ['-//W3C//DTD XHTML 1.0 Transitional//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd']
     @tagset = XHTMLStrict.tagset.merge({
       :strike   => Attrs,
@@ -184,11 +204,7 @@ module Markaby
   end
 
   # Additional tags found in XHTML 1.0 Frameset
-  class XHTMLFrameset
-    class << self
-      attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
-    end
-
+  class XHTMLFrameset < XmlTagset
     @doctype = ['-//W3C//DTD XHTML 1.0 Frameset//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd']
     @tagset = XHTMLTransitional.tagset.merge({
       :frameset => AttrCore + [:rows, :cols, :onload, :onunload],
@@ -200,9 +216,15 @@ module Markaby
     @self_closing = @tags & SELF_CLOSING_TAGS
   end
 
-  class HTML5
+  class HTML5 < Tagset
     class << self
-      attr_accessor :tags, :tagset, :forms, :self_closing, :doctype
+      def default_options
+        super.merge({
+          :output_xml_instruction => false,
+          :output_meta_tag        => 'html5',
+          :root_attributes        => {}
+        })
+      end
     end
 
     @doctype = ['html']
