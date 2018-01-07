@@ -28,7 +28,9 @@ describe Markaby do
 
   it "should put correct xhtml charset meta" do
     document = mab { xhtml_strict { head { title 'OKay' } } }
-    document.should include('<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>')
+    document.should include('<meta')
+    document.should include('http-equiv="Content-Type"')
+    document.should include('content="text/html; charset=utf-8"')
   end
 
   it "should put correct html5 charset meta" do
