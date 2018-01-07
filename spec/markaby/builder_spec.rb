@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 module Markaby
-  describe Markaby::Builder do
+  describe Builder do
     before do
       Markaby::Builder.restore_defaults!
     end
