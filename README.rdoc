@@ -5,21 +5,71 @@ It is an alternative to ERb which weaves the two languages together.
 Also a replacement for templating languages which use primitive languages
 that blend with HTML.
 
-=== Install it as a gem
+== Install it
+
+Just do what everyone else does:
 
   # in Gemfile:
-
   gem 'markaby'
 
-=== Using Markaby with Rails 5+
+then bundle install:
+
+  bundle install
+
+or gem install if you are a weirdo not using bundler.
+
+=== Using Markaby with Rails 4/5+:
 
 Install the gem (using bundler), then:
 
   # in config/initializers/markaby.rb:
-  require 'markaby/rails'
-  ::Markaby::Rails::TemplateHandler.register!
 
-== Using Markaby with Sinatra (1.0+)
+  require 'markaby/rails'
+
+  Markaby::Rails::TemplateHandler.register!({
+    tagset: Markaby::HTML5,
+    indent: 2,
+  })
+
+Note, Markaby hasn't been tested on anything below Rails 5.  Please submit bugs
+and/or patches if you'd like support for anything before rails 5.
+
+Name your templates with an html.mab extension.  You'll also want to configure
+your text editor to see .mab as ruby.
+
+Here's how you'd do that for Atom:
+
+1. Install the file-types module:
+
+    apm install file-types
+
+1. in your config: Atom -> Config:
+
+    "*":
+      "file-types":
+        "\\.mab$": "source.ruby"
+
+Now that's some chunky bacon!
+
+=== Using Markaby in helpers:
+
+Just call Markaby::Builder with a block as below.
+
+You can also require 'markaby/kernel_method' to make it even easier:
+
+    # my_helper.rb:
+    require 'markaby/kernel_method' # or put this in an initializer
+
+    module MyHelper
+      # note - you can also use Markaby::Builder.new { }.to_s
+      def chunky_bacon
+        mab do
+          p "Chunky Bacon!"
+        end
+      end
+    end
+
+=== Using Markaby with Sinatra (1.0+)
 
   get '/foo' do
     mab :my_template # my_template.mab in the sinatra view path
@@ -27,23 +77,12 @@ Install the gem (using bundler), then:
 
 If you are looking for sinatra support pre 0.7, see http://github.com/sbfaulkner/sinatra-markaby
 
-A note on Tilt - using markaby with html5 doesn't quite yet work properly.  If you'd like to render a template with html 5, call this at the start of a .mab template:
-
-enable_html5!
-
-Or enable html 5 globally:
-
-Markaby::Builder.class_eval do
-  @@options = Markaby::Builder::HTML5_OPTIONS
-end
-
-== Using Markaby with other frameworks
+=== Using Markaby with other frameworks
 
 Tilt has a Markaby module, so in principle, any web framework that supports
 Tilt will also support Markaby.  See the appropriate tilt documentation:
 
-  http://github.com/rtomayko/tilt
-
+http://github.com/rtomayko/tilt
 
 == Using Markaby as a Ruby class
 
@@ -230,11 +269,26 @@ won't work with this technique.
     end
   end
 
+== Some other notes, so you aren't confused:
+
+=== On using different tagsets:
+
+Because of the ways various frameworks sub-render templates, to use a different
+tagset in a rendered sub template, you may need to set it at the top of your
+sub-template:
+
+  self.tagset = Markaby::HTML5
+  # or Markaby::Transitional, Markaby::XHTMLStrict, Markaby::XHTMLFrameset
+
+Note, this is only necessary if you were rendering, say, a one off page as
+html transitional but had the default engine as html5.
+
+
 = Credits
 
 Markaby is a work of immense hope by Tim Fletcher and why the lucky stiff.
 It is maintained by joho, spox, and smtlaissezfaire.
-Thankyou for giving it a whirl.
+Thank you for giving it a whirl.
 
 Markaby is inspired by the HTML library within cgi.rb.  Hopefully it will
 turn around and take some cues.
