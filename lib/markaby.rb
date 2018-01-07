@@ -17,7 +17,11 @@ $:.unshift File.expand_path(File.dirname(__FILE__))
 # * Markaby::Tags: lists the roles of various XHTML tags to help Builder
 #   use these tags as they are intended.
 module Markaby
-  VERSION = '0.8.1'
+  MAJOR = 0
+  MINOR = 8
+  TINY = 1
+
+  VERSION = "#{MAJOR}.#{MINOR}.#{TINY}"
 
   class InvalidXhtmlError < StandardError; end
 end
