@@ -44,7 +44,7 @@ class MarkabyTest < Test::Unit::TestCase
   def test_helpers
     assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }
     assert_equal %{<a href="">edit</a>}, mab({}, MarkabyTestHelpers) { link_to('edit') }
-    assert mab({}, MarkabyTestHelpers) { @output_helpers = false; link_to('edit'); nil }.empty?
+    assert mab({}, MarkabyTestHelpers) { link_to('edit'); nil }.empty?
   end
 
   def test_uses_helper_instance_variable

@@ -26,7 +26,6 @@ module Markaby
 
     DEFAULT_OPTIONS = {
       :indent                 => 0,
-      :output_helpers         => true,
       :output_xml_instruction => true,
       :output_meta_tag        => 'xhtml',
       :auto_validation        => true,
@@ -40,7 +39,6 @@ module Markaby
 
     HTML5_OPTIONS = {
       :indent                 => 0,
-      :output_helpers         => true,
       :output_xml_instruction => false,
       :output_meta_tag        => 'html5',
       :auto_validation        => true,
@@ -66,7 +64,7 @@ module Markaby
       @@options[option]
     end
 
-    attr_accessor :output_helpers, :tagset
+    attr_accessor :tagset
 
     # Create a Markaby builder object.  Pass in a hash of variable assignments to
     # +assigns+ which will be available as instance variables inside tag construction
@@ -228,12 +226,7 @@ module Markaby
     # HTML tags.  See html_tag for that.
     def method_missing(sym, *args, &block)
       if @_helper.respond_to?(sym, true)
-        r = @_helper.send(sym, *args, &block)
-        if @output_helpers && r.respond_to?(:to_str)
-          fragment { @builder << r }
-        else
-          r
-        end
+        @_helper.send(sym, *args, &block)
       elsif @assigns.has_key?(sym)
         @assigns[sym]
       elsif @assigns.has_key?(stringy_key = sym.to_s)
