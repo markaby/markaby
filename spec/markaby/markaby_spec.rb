@@ -1,6 +1,17 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe Markaby do
+  it "should work with classes and ids" do
+    mab { div.one '' }.should == %{<div class="one"></div>}
+    mab { div.one.two '' }.should == %{<div class="one two"></div>}
+    mab { div.three! '' }.should == %{<div id="three"></div>}
+    mab { hr.hidden }.should == %{<hr class="hidden"/>}
+
+    out = mab { input.foo :id => 'bar' }
+    out.should match("<input.*class=\"foo\".*/>")
+    out.should match("<input.*name=\"bar\".*/>")
+  end
+
   it "can assign helpers after instantiation" do
     helper = double 'helper', :foo => :bar
 

@@ -10,9 +10,11 @@ module MarkabyTestHelpers
   def link_to(obj)
     %{<a href="">#{obj}</a>}
   end
+
   def pluralize(string)
     string + "s"
   end
+
   module_function :link_to, :pluralize
 end
 
@@ -23,17 +25,6 @@ module TestHelpers
     rescue Exception => e
       assert_equal exclass, e.class
       assert_match /#{exmsg}/, e.message
-    end
-  end
-end
-
-module Test
-  module Unit
-    class TestCase
-      include TestHelpers
-      def self.it(name, &blk)
-        define_method("test_#{name}", &blk)
-      end
     end
   end
 end
