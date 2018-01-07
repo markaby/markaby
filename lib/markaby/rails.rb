@@ -4,7 +4,8 @@ module Markaby
   module Rails
     class TemplateHandler
       class << self
-        def register!
+        def register!(options={})
+          self.options = options
           ActionView::Template.register_template_handler(:mab, new)
         end
 
@@ -14,7 +15,7 @@ module Markaby
         # self.default_format = :html
 
         def options
-          @options ||= { indent: 2 }
+          @options ||= {}
         end
 
         def options=(val)
