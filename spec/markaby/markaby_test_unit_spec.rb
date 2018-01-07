@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
+require 'test/unit'
 
 class MarkabyTest < Test::Unit::TestCase
   def teardown
@@ -49,7 +50,7 @@ class MarkabyTest < Test::Unit::TestCase
     assert_equal "<h1>Hello World</h1>", mab { @message = 'Hello World'; h1 message }
   end
 
-  def spec_helpers
+  def test_spec_helpers
     Markaby::Builder.ignored_helpers.clear
     assert_equal %{squirrels}, mab({}, MarkabyTestHelpers) { pluralize('squirrel') }
     assert_equal %{<a href="">edit</a>}, mab({}, MarkabyTestHelpers) { link_to('edit') }
@@ -66,69 +67,9 @@ class MarkabyTest < Test::Unit::TestCase
     builder = Markaby::Builder.new({}, helper)
     assert_equal :ivar_value, builder.some_ivar
   end
-end
-
-describe Markaby do
-  it "can assign helpers after instantiation" do
-    helper = double 'helper', :foo => :bar
-
-    builder = Markaby::Builder.new
-    builder.helper = helper
-    builder.foo.should == :bar
-  end
-
-  it "should be able to set a local" do
-    builder = Markaby::Builder.new
-    builder.locals = { :foo => "bar" }
-    builder.foo.should == "bar"
-  end
-
-  it "should be able to set a different local value" do
-    builder = Markaby::Builder.new
-    builder.locals = { :foo => "baz" }
-    builder.foo.should == "baz"
-  end
-
-  it "should assign the correct key" do
-    builder = Markaby::Builder.new
-    builder.locals = { :key => :value }
-    builder.key.should == :value
-  end
-
-  it "should be able to assign multiple locals" do
-    builder = Markaby::Builder.new
-
-    builder.locals = { :one => "two", :three => "four" }
-
-    builder.one.should == "two"
-    builder.three.should == "four"
-  end
 
   def test_builder_bang_methods
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>", mab { instruct! }
-  end
-
-  it "should be able to produce the correct html from a fragment" do
-    str = ""
-    str += "<div>"
-    str += "<h1>Monkeys</h1>"
-    str += "<h2>Giraffes <small>Miniature</small> and <strong>Large</strong></h2>"
-    str += "<h3>Donkeys</h3>"
-    str += "<h4>Parakeet <b><i>Innocent IV</i></b> in Classic Chartreuse</h4>"
-    str += "</div>"
-
-    generated = mab {
-      div {
-        h1 "Monkeys"
-        h2 {
-          "Giraffes #{small('Miniature')} and #{strong 'Large'}"
-        }
-        h3 "Donkeys"
-        h4 { "Parakeet #{b { i 'Innocent IV' }} in Classic Chartreuse" }
-      }
-    }
-
-    generated.should == str
   end
 
   def test_fragments
@@ -230,22 +171,5 @@ describe Markaby do
 
     builder = Markaby::Builder.new
     builder.something.should == "<something/>"
-  end
-
-  it "should copy instance variables from a helper object" do
-    klass = Class.new do
-      def initialize
-        @hello = "hello there"
-      end
-    end
-
-    builder = Markaby::Builder.new({}, klass.new)
-    builder.capture { @hello }.should == "hello there"
-  end
-
-  describe Markaby::InvalidXhtmlError do
-    it "should inherit from StandardError" do
-      Markaby::InvalidXhtmlError.superclass.should == StandardError
-    end
   end
 end

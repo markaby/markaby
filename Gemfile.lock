@@ -19,6 +19,7 @@ GEM
     minitar-cli (0.6.1)
       minitar (~> 0.6.0)
       powerbar (~> 1.0)
+    power_assert (1.1.1)
     powerbar (1.0.18)
       hashie (>= 1.1.0)
     rake (10.1.0)
@@ -45,6 +46,8 @@ GEM
       ruby-debug-base19 (>= 0.11.19)
     ruby_core_source (0.1.5)
       archive-tar-minitar (>= 0.5.2)
+    test-unit (3.2.7)
+      power_assert
 
 PLATFORMS
   ruby
@@ -56,6 +59,7 @@ DEPENDENCIES
   rspec
   ruby-debug
   ruby-debug19
+  test-unit
 
 BUNDLED WITH
    1.16.1
