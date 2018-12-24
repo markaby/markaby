@@ -65,7 +65,7 @@ module Markaby
       :head       => AttrI18n + [:id, :profile],
       :title      => AttrI18n + [:id],
       :base       => [:href, :id],
-      :meta       => AttrI18n + [:id, :http, :name, :content, :scheme, 'http-equiv'.intern],
+      :meta       => AttrI18n + [:id, :name, :content, :scheme, 'http-equiv'.intern],
       :link       => Attrs    + [:charset, :href, :hreflang, :type, :rel, :rev, :media],
       :style      => AttrI18n + [:id, :type, :media, :title, 'xml:space'.intern],
       :script     => [:id, :charset, :type, :src, :defer, 'xml:space'.intern],
