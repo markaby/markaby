@@ -112,7 +112,7 @@ module Markaby
       :img        => Attrs + [:src, :alt, :longdesc, :height, :width, :usemap, :ismap],
       :map        => AttrI18n + AttrEvents + [:id, :class, :style, :title, :name],
       :area       => Attrs + AttrFocus + [:shape, :coords, :href, :nohref, :alt],
-      :form       => Attrs + [:action, :method, :enctype, :onsubmit, :onreset, :accept, :accept],
+      :form       => Attrs + [:action, :method, :enctype, :onsubmit, :onreset, :accept, 'accept-charset'.intern],
       :label      => Attrs + [:for, :accesskey, :onfocus, :onblur],
       :input      => Attrs + AttrFocus + [:type, :name, :value, :checked, :disabled, :readonly, :size, :maxlength, :src, :alt, :usemap, :onselect, :onchange, :accept],
       :select     => Attrs + [:name, :size, :multiple, :disabled, :tabindex, :onfocus, :onblur, :onchange],
