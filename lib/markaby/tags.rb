@@ -229,6 +229,7 @@ module Markaby
 
     @doctype = ['html']
     @tagset = XHTMLTransitional.tagset.merge({
+      :abbr => Attrs,
       :article => Attrs,
       :aside => Attrs,
       :audio => Attrs,
