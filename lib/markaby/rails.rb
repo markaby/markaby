@@ -24,10 +24,10 @@ module Markaby
         end
       end
 
-      def call(template)
+      def call(template, source=template.source)
         <<-CODE
           Markaby::Builder.new(Markaby::Rails::TemplateHandler.options, self) do
-            #{template.source}
+            #{source}
           end.to_s
         CODE
       end
