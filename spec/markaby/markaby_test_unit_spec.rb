@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
-require 'test/unit'
 
 class MarkabyTest < Test::Unit::TestCase
   include TestHelpers

@@ -5,6 +5,11 @@ $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'markaby'
 require 'markaby/kernel_method'
 require "markaby/rails"
+require 'test/unit'
+
+# need to set this to true otherwise Test::Unit goes berserk + tries to run
+# see https://jonleighton.name/2012/stop-test-unit-autorun/
+Test::Unit.run = true
 
 module MarkabyTestHelpers
   def link_to(obj)
