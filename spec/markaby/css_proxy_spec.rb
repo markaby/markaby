@@ -16,8 +16,8 @@ describe Markaby::CssProxy do
 
   it "responds_to_everything" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-    proxy.respond_to?(:any_method).should be_true
-    proxy.respond_to?(:foobarbazasdfasdfadfs).should be_true
+    proxy.respond_to?(:any_method).should be true
+    proxy.respond_to?(:foobarbazasdfasdfadfs).should be true
   end
 
   it "does_not_respond_to_method_missing" do
@@ -27,16 +27,16 @@ describe Markaby::CssProxy do
 
   it "does_respond_to_private_instance_methods_with_private_flag_set_to_true" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-    proxy.respond_to?(:method_missing, true).should be_true
+    proxy.respond_to?(:method_missing, true).should be true
   end
 
   it "does_not_respond_to_private_instance_methods_with_private_flag_set_to_false" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-    proxy.respond_to?(:method_missing, false).should be_false
+    proxy.respond_to?(:method_missing, false).should be false
   end
 
   it "respond_to_should_always_return_boolean" do
     proxy = Markaby::CssProxy.new(mock_builder, 'stream', :sym)
-    proxy.respond_to?(:method_missing, :a_value).should be_true
+    proxy.respond_to?(:method_missing, :a_value).should be true
   end
 end

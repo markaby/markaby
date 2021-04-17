@@ -54,17 +54,17 @@ describe Markaby do
   end
 
   it "should not add a closing slash to self-closing tags in html5" do
-    pending do
-      document = mab { html5 { br } }
-      document.should include('<br>')
-    end
+    pending
+
+    document = mab { html5 { br } }
+    document.should include('<br>')
   end
 
   it "should close empty non-self-closing tags in html5" do
-    pending do
-      document = mab { html5 { header } }
-      document.should include("<header></header>")
-    end
+    pending
+
+    document = mab { html5 { header } }
+    document.should include("<header></header>")
   end
 
   it "should not allow fake attributes" do
@@ -74,7 +74,7 @@ describe Markaby do
           input "something", :fake => "fake", :foo => "bar"
         end
       end
-    }.to raise_error
+    }.to raise_error(Markaby::InvalidXhtmlError)
   end
 
   it "should allow new attributes" do
