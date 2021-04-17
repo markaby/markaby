@@ -16,8 +16,6 @@ then bundle install:
 
   bundle install
 
-or gem install if you are a weirdo not using bundler.
-
 === Using Markaby with Rails 4/5+:
 
 Install the gem (using bundler), then:
@@ -30,9 +28,6 @@ Install the gem (using bundler), then:
     tagset: Markaby::HTML5,
     indent: 2,
   })
-
-Note, Markaby hasn't been tested on anything below Rails 5.  Please submit bugs
-and/or patches if you'd like support for anything before rails 5.
 
 Name your templates with an html.mab extension.  You'll also want to configure
 your text editor to see .mab as ruby.
