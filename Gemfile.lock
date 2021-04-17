@@ -23,7 +23,7 @@ GEM
       power_assert
 
 PLATFORMS
-  ruby
+  x86_64-darwin-17
 
 DEPENDENCIES
   builder
@@ -33,4 +33,4 @@ DEPENDENCIES
   test-unit
 
 BUNDLED WITH
-   1.16.1
+   2.2.16
