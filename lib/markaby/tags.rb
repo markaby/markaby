@@ -292,7 +292,7 @@ module Markaby
                     :maxlength, :wrap],
     }
 
-    AttrsHTML5  = [:contenteditable, :contextmentu, :draggable, :dropzone,
+    AttrsHTML5  = [:contenteditable, :contextmenu, :draggable, :dropzone,
                    :hidden, :role, :spellcheck, :translate]
 
     additional_tags.each do |k, v|
