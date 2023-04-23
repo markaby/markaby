@@ -147,13 +147,11 @@ module Markaby
     # Create a tag named +tag+. Other than the first argument which is the tag name,
     # the arguments are the same as the tags implemented via method_missing.
     def tag!(tag, *args, &block)
-      puts "TAG! #{tag} - #{@tagset}"
       attributes = {}
       if @auto_validation && @tagset
         tag = @tagset.validate_and_transform_tag_name! tag
         attributes = @tagset.validate_and_transform_attributes!(tag, *args)
       end
-      puts "Attributes are #{attributes}"
       element_id = attributes[:id].to_s
       raise InvalidXhtmlError, "id `#{element_id}' already used (id's must be unique)." if @used_ids.has_key?(element_id)
       if block
@@ -187,8 +185,8 @@ module Markaby
       when :assigns then @assigns[sym]
       when :stringy_assigns then @assigns[sym.to_s]
       when :ivar then instance_variable_get(ivar)
-      when :helper_ivar then instance_variables_for(@_helper).include?(ivar)
-      when :xml_markup then instance_methods_for(::Builder::XmlMarkup).include?(sym)
+      when :helper_ivar then @_helper.instance_variable_get(ivar)
+      when :xml_markup then @builder.__send__(sym, *args, &block)
       when :tag then tag!(sym, *args, &block)
       when :tagset then @tagset.handle_tag sym, self, *args, &block
       else super
