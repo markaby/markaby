@@ -117,4 +117,14 @@ describe Markaby do
 
     doc.should include('<div data-foo="bar"/>')
   end
+
+  it "should allow aria attributes everywhere" do
+    doc = mab do
+      html5 do
+        div("aria-foo" => "bar")
+      end
+    end
+
+    doc.should include('<div aria-foo="bar"/>')
+  end
 end

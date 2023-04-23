@@ -70,7 +70,7 @@ module Markaby
       end
 
       def valid_attribute_name? tag_name, attribute_name
-        attribute_name.to_s.start_with?(":", "data-") || @tagset[tag_name].include?(attribute_name)
+        attribute_name.to_s.start_with?(":", "data-", "aria-") || @tagset[tag_name].include?(attribute_name)
       end
     end
   end
