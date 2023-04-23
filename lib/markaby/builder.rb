@@ -1,5 +1,5 @@
-require 'markaby/tags'
-require 'markaby/builder_tags'
+require "markaby/tagset"
+require "markaby/builder_tags"
 
 module Markaby
   RUBY_VERSION_ID = RUBY_VERSION.split(".").join.to_i
@@ -23,13 +23,12 @@ module Markaby
   #
   class Builder
     include Markaby::BuilderTags
-
     GENERIC_OPTIONS = {
-      :indent                 => 0,
-      :auto_validation        => true,
+      indent: 0,
+      auto_validation: true
     }
 
-    HTML5_OPTIONS   = HTML5.default_options.dup
+    HTML5_OPTIONS = HTML5.default_options.dup
     DEFAULT_OPTIONS = GENERIC_OPTIONS.merge(HTML5_OPTIONS)
 
     @@options = DEFAULT_OPTIONS.dup
@@ -52,7 +51,7 @@ module Markaby
       @tagset = tagset
 
       tagset.default_options.each do |k, v|
-        self.instance_variable_set("@#{k}".to_sym, v)
+        instance_variable_set("@#{k}".to_sym, v)
       end
     end
 
@@ -85,13 +84,11 @@ module Markaby
         instance_variable_set("@#{k}", v)
       end
 
-      if helper
-        helper.instance_variables.each do |iv|
-          instance_variable_set(iv, helper.instance_variable_get(iv))
-        end
+      helper&.instance_variables&.each do |iv|
+        instance_variable_set(iv, helper.instance_variable_get(iv))
       end
 
-      @builder = XmlMarkup.new(:indent => @indent, :target => @streams.last)
+      @builder = XmlMarkup.new(indent: @indent, target: @streams.last)
 
       text(capture(&block)) if block
     end
@@ -150,56 +147,26 @@ module Markaby
     # Create a tag named +tag+. Other than the first argument which is the tag name,
     # the arguments are the same as the tags implemented via method_missing.
     def tag!(tag, *args, &block)
-      ele_id = nil
-
-      # TODO: Move this logic to the tagset so that the tagset itself can validate + raise when invalid
+      puts "TAG! #{tag} - #{@tagset}"
+      attributes = {}
       if @auto_validation && @tagset
-        if !@tagset.tagset.has_key?(tag)
-          raise InvalidXhtmlError, "no element `#{tag}' for #{tagset.doctype}"
-        elsif args.last.respond_to?(:to_hash)
-          attrs = args.last.to_hash
-
-          if @tagset.forms.include?(tag) && attrs[:id]
-            attrs[:name] ||= attrs[:id]
-          end
-
-          attrs.each do |k, v|
-            atname = k.to_s.downcase.intern
-
-            unless k =~ /:/ or @tagset.tagset[tag].include?(atname) or (@tagset == Markaby::HTML5 && atname.to_s =~ /^data-/)
-              raise InvalidXhtmlError, "no attribute `#{k}' on #{tag} elements"
-            end
-
-            if atname == :id
-              ele_id = v.to_s
-
-              if @used_ids.has_key? ele_id
-                raise InvalidXhtmlError, "id `#{ele_id}' already used (id's must be unique)."
-              end
-            end
-
-            if AttrsBoolean.include? atname
-              if v
-                attrs[k] = atname.to_s
-              else
-                attrs.delete k
-              end
-            end
-          end
-        end
+        tag = @tagset.validate_and_transform_tag_name! tag
+        attributes = @tagset.validate_and_transform_attributes!(tag, *args)
       end
-
+      puts "Attributes are #{attributes}"
+      element_id = attributes[:id].to_s
+      raise InvalidXhtmlError, "id `#{element_id}' already used (id's must be unique)." if @used_ids.has_key?(element_id)
       if block
         str = capture(&block)
         block = proc { text(str) }
       end
 
       f = fragment { @builder.tag!(tag, *args, &block) }
-      @used_ids[ele_id] = f if ele_id
+      @used_ids[element_id] = f unless element_id.empty?
       f
     end
 
-  private
+    private
 
     # This method is used to intercept calls to helper methods and instance
     # variables.  Here is the order of interception:
@@ -210,30 +177,38 @@ module Markaby
     # * If +sym+ is also the name of an instance variable, the
     #   value of the instance variable is returned.
     # * If +sym+ has come this far and no +tagset+ is found, +sym+ and its arguments are passed to tag!
-    # * If a tagset is found, though, +NoMethodError+ is raised.
+    # * If a tagset is found, the tagset is tole to handle +sym+
     #
     # method_missing used to be the lynchpin in Markaby, but it's no longer used to handle
     # HTML tags.  See html_tag for that.
     def method_missing(sym, *args, &block)
-      if @_helper.respond_to?(sym, true)
-        @_helper.send(sym, *args, &block)
-      elsif @assigns.has_key?(sym)
-        @assigns[sym]
-      elsif @assigns.has_key?(stringy_key = sym.to_s)
-        # Rails' ActionView assigns hash has string keys for
-        # instance variables that are defined in the controller.
-        @assigns[stringy_key]
-      elsif instance_variables_for(self).include?(ivar = "@#{sym}".to_sym)
-        instance_variable_get(ivar)
-      elsif @_helper && instance_variables_for(@_helper).include?(ivar)
-        @_helper.instance_variable_get(ivar)
-      elsif instance_methods_for(::Builder::XmlMarkup).include?(sym)
-        @builder.__send__(sym, *args, &block)
-      elsif !@tagset
-        tag!(sym, *args, &block)
-      else
-        super
+      case response_for(sym)
+      when :helper then @_helper.send(sym, *args, &block)
+      when :assigns then @assigns[sym]
+      when :stringy_assigns then @assigns[sym.to_s]
+      when :ivar then instance_variable_get(ivar)
+      when :helper_ivar then instance_variables_for(@_helper).include?(ivar)
+      when :xml_markup then instance_methods_for(::Builder::XmlMarkup).include?(sym)
+      when :tag then tag!(sym, *args, &block)
+      when :tagset then @tagset.handle_tag sym, self, *args, &block
+      else super
       end
+    end
+
+    def response_for sym
+      return :helper if @_helper.respond_to?(sym, true)
+      return :assigns if @assigns.has_key?(sym)
+      return :stringy_assigns if @assigns.has_key?(sym.to_s)
+      return :ivar if instance_variables_for(self).include?(ivar = "@#{sym}".to_sym)
+      return :helper_ivar if @_helper && instance_variables_for(@_helper).include?(ivar)
+      return :xml_markup if instance_methods_for(::Builder::XmlMarkup).include?(sym)
+      return :tag if @tagset.nil?
+      return :tagset if @tagset.can_handle? sym
+      nil
+    end
+
+    def respond_to_missing? sym, include_private = false
+      !response_for(sym).nil?
     end
 
     if RUBY_VERSION_ID >= 191
@@ -282,11 +257,15 @@ module Markaby
       undef_method method if method_defined?(method)
     end
 
-  private
+    private
 
-    def method_missing(*args, &block)
+    def method_missing(...)
       transform_stream unless transformed_stream?
-      @str.__send__(*args, &block)
+      @str.__send__(...)
+    end
+
+    def respond_to_missing? sym, *args
+      @str.respond_to? sym
     end
 
     def transform_stream
