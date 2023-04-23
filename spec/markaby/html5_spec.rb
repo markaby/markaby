@@ -3,7 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 describe Markaby do
   it "should insert an html5 doctype" do
     document = mab { html5 { head { title "OKay" } } }
-    puts document
     document.should include("<!DOCTYPE html>")
   end
 
@@ -69,10 +68,8 @@ describe Markaby do
   end
 
   it "should allow custom elements" do
-    puts "BOOM------------------------------------------------------------------"
     document = mab { html5 { my_custom_element { "Hello" } } }
     document.should include("<my-custom-element>Hello</my-custom-element>")
-    puts "BANG------------------------------------------------------------------"
   end
 
   it "should not allow fake attributes" do

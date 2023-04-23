@@ -23,7 +23,6 @@ module Markaby
       end
 
       def validate_and_transform_tag_name! tag_name
-        puts "HTML5 VALIDATE TAG NAME #{tag_name}"
         custom_element?(tag_name) ? custom_element_tag_for(tag_name) : super
       end
 

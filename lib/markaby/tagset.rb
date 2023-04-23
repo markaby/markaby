@@ -68,7 +68,11 @@ module Markaby
       end
 
       def validate_attribute! tag, name
-        raise InvalidXhtmlError, "no attribute `#{name}' on #{tag} elements" unless name.start_with?(":") || @tagset[tag].include?(name)
+        raise InvalidXhtmlError, "no attribute `#{name}' on #{tag} elements" unless valid_attribute_name? tag, name
+      end
+
+      def valid_attribute_name? tag, name
+        name.start_with?(":", "data-") || @tagset[tag].include?(name)
       end
 
       def transform_boolean_attribute name, value
