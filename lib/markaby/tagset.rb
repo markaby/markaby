@@ -56,6 +56,8 @@ module Markaby
       def transform_attributes tag_name, attributes
         attributes[:name] ||= attributes[:id] if forms.include?(tag_name) && attributes[:id]
         attributes.transform_keys! { |name| transform_attribute_name name }
+        hashed_attributes = attributes.keys.select { |name| attributes[name].is_a? Hash }
+        hashed_attributes.each { |name| transform_attribute_hash attributes, name }
         attributes.reject! { |name, value| name.nil? || (AttrsBoolean.include?(name) && value.nil?) }
         attributes.keys.each { |name| validate_attribute! tag_name, name }
         attributes
@@ -63,6 +65,16 @@ module Markaby
 
       def transform_attribute_name name
         name.to_s.downcase.tr("_", "-").to_sym
+      end
+
+      def transform_attribute_hash attributes, prefix
+        values = attributes[prefix]
+        expanded_attributes = {}
+        values.each do |suffix, value|
+          name = :"#{prefix}-#{suffix}"
+          expanded_attributes[name] = value
+        end
+        attributes.merge!(expanded_attributes).delete(prefix)
       end
 
       def validate_attribute! tag_name, attribute_name
