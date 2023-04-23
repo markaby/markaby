@@ -71,7 +71,7 @@ module Markaby
         values = attributes[prefix]
         expanded_attributes = {}
         values.each do |suffix, value|
-          name = :"#{prefix}-#{suffix}"
+          name = transform_attribute_name "#{prefix}-#{suffix}"
           expanded_attributes[name] = value
         end
         attributes.merge!(expanded_attributes).delete(prefix)

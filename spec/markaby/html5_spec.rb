@@ -128,6 +128,16 @@ describe Markaby do
     doc.should include('<div data-foo="bar"/>')
   end
 
+  it "dasherises data attributes provided as a hash" do
+    doc = mab do
+      html5 do
+        div(data: {some_attribute: "value"})
+      end
+    end
+
+    doc.should include('<div data-some-attribute="value"/>')
+  end
+
   it "should allow aria attributes everywhere" do
     doc = mab do
       html5 do
