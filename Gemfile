@@ -1,14 +1,14 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'builder'
+gem "builder"
 
-group :development do 
+group :development do
   gem "standardrb"
 end
 
 group :test do
-  gem 'rake'
-  gem 'rspec'
-  gem 'test-unit'
-  gem 'byebug'
+  gem "rake"
+  gem "rspec"
+  gem "test-unit"
+  gem "byebug"
 end

@@ -39,7 +39,7 @@ module Markaby
           end
         end.new
 
-        builder = Markaby::Builder.new({:helpers => nil}, helper)
+        builder = Markaby::Builder.new({helpers: nil}, helper)
         builder.some_method.should == "a value"
       end
     end

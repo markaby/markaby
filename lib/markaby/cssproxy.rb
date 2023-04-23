@@ -6,9 +6,9 @@ module Markaby
   class CssProxy
     def initialize(builder, stream, sym)
       @builder = builder
-      @stream  = stream
-      @sym     = sym
-      @attrs   = {}
+      @stream = stream
+      @sym = sym
+      @attrs = {}
 
       @original_stream_length = @stream.length
 
@@ -16,10 +16,10 @@ module Markaby
     end
 
     def respond_to?(sym, include_private = false)
-      include_private || !private_methods.map { |m| m.to_sym }.include?(sym.to_sym) ? true : false
+      (include_private || !private_methods.map { |m| m.to_sym }.include?(sym.to_sym)) ? true : false
     end
 
-  private
+    private
 
     # Adds attributes to an element.  Bang methods set the :id attribute.
     # Other methods add to the :class attribute.
