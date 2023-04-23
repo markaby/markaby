@@ -149,8 +149,8 @@ module Markaby
     def tag!(tag, *args, &block)
       attributes = {}
       if @auto_validation && @tagset
-        tag = @tagset.validate_and_transform_tag_name! tag
         attributes = @tagset.validate_and_transform_attributes!(tag, *args)
+        tag = @tagset.validate_and_transform_tag_name! tag
       end
       element_id = attributes[:id].to_s
       raise InvalidXhtmlError, "id `#{element_id}' already used (id's must be unique)." if @used_ids.has_key?(element_id)

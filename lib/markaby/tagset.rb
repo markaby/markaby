@@ -36,47 +36,41 @@ module Markaby
         {tagset: self}
       end
 
-      def can_handle? tag
+      def can_handle? tag_name
         false
       end
 
-      def handle_tag tag, builder, *args, &block
+      def handle_tag tag_name, builder, *args, &block
         raise NoMethodError.new
       end
 
-      def validate_and_transform_tag_name! tag
-        @tagset.has_key?(tag) ? tag : raise(InvalidXhtmlError, "no element `#{tag}' for #{doctype}")
+      def validate_and_transform_tag_name! tag_name
+        raise(InvalidXhtmlError, "no element `#{tag_name}' for #{doctype}") unless @tagset.has_key?(tag_name)
+        tag_name
       end
 
-      def validate_and_transform_attributes! tag, *args
-        args.last.respond_to?(:to_hash) ? transform_attributes(tag, args.last.to_hash) : {}
+      def validate_and_transform_attributes! tag_name, *args
+        args.last.respond_to?(:to_hash) ? transform_attributes(tag_name, args.last.to_hash) : {}
       end
 
-      def transform_attributes tag, attrs
-        attrs[:name] ||= attrs[:id] if forms.include?(tag) && attrs[:id]
-        attrs.each do |key, value|
-          name = transform_attribute_name key
-          validate_attribute! tag, name
-          attrs[key] = transform_boolean_attribute(name, value) if AttrsBoolean.include? name
-        end
-        attrs.compact
+      def transform_attributes tag_name, attributes
+        attributes[:name] ||= attributes[:id] if forms.include?(tag_name) && attributes[:id]
+        attributes.transform_keys! { |name| transform_attribute_name name }
+        attributes.reject! { |name, value| name.nil? || (AttrsBoolean.include?(name) && value.nil?) }
+        attributes.keys.each { |name| validate_attribute! tag_name, name }
+        attributes
       end
 
-      # (@tagset == Markaby::HTML5 && atname.to_s =~ /^data-/)
       def transform_attribute_name name
-        name.to_s.downcase.tr("_", "-").intern
+        name.to_s.downcase.tr("_", "-").to_sym
       end
 
-      def validate_attribute! tag, name
-        raise InvalidXhtmlError, "no attribute `#{name}' on #{tag} elements" unless valid_attribute_name? tag, name
+      def validate_attribute! tag_name, attribute_name
+        raise InvalidXhtmlError, "no attribute `#{attribute_name}' on #{tag_name} elements" unless valid_attribute_name? tag_name, attribute_name
       end
 
-      def valid_attribute_name? tag, name
-        name.start_with?(":", "data-") || @tagset[tag].include?(name)
-      end
-
-      def transform_boolean_attribute name, value
-        value ? name.to_s : nil
+      def valid_attribute_name? tag_name, attribute_name
+        attribute_name.to_s.start_with?(":", "data-") || @tagset[tag_name].include?(attribute_name)
       end
     end
   end
