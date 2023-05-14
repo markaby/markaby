@@ -264,6 +264,8 @@ won't work with this technique.
     end
   end
 
+If you wish to register your own, specialist, tags, you can install a TagHandler
+
 == Some other notes, so you aren't confused:
 
 === On using different tagsets:

@@ -1,7 +1,9 @@
+require "markaby/html5"
+
 module Markaby
   module BuilderTags
     (HTML5.tags - [:head]).each do |k|
-      class_eval <<-CODE, __FILE__, __LINE__
+      class_eval <<-CODE, __FILE__, __LINE__ + 1
         def #{k}(*args, &block)
           html_tag(#{k.inspect}, *args, &block)
         end
@@ -28,8 +30,8 @@ module Markaby
     # set to <tt>text/html; charset=utf-8</tt>.
     def head(*args, &block)
       tag!(:head, *args) do
-        tag!(:meta, "http-equiv" => "Content-Type", "content" => "text/html; charset=utf-8") if @output_meta_tag == 'xhtml'
-        tag!(:meta, "charset" => "utf-8") if @output_meta_tag == 'html5'
+        tag!(:meta, "http-equiv" => "Content-Type", "content" => "text/html; charset=utf-8") if @output_meta_tag == "xhtml"
+        tag!(:meta, "charset" => "utf-8") if @output_meta_tag == "html5"
         instance_eval(&block)
       end
     end
@@ -64,7 +66,7 @@ module Markaby
       raise NotImplementedError, "Deprecated! Call self.tagset = Markaby::HTML5"
     end
 
-  private
+    private
 
     def xhtml_html(attrs = {}, &block)
       instruct! if @output_xml_instruction
