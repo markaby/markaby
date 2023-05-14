@@ -53,19 +53,19 @@ describe Markaby do
     document.should include("<br/>")
   end
 
-  it "should not add a closing slash to self-closing tags in html5" do
-    pending
+  # it "should not add a closing slash to self-closing tags in html5" do
+  #   pending
 
-    document = mab { html5 { br } }
-    document.should include("<br>")
-  end
+  #   document = mab { html5 { br } }
+  #   document.should include("<br>")
+  # end
 
-  it "should close empty non-self-closing tags in html5" do
-    pending
+  # it "should close empty non-self-closing tags in html5" do
+  #   pending
 
-    document = mab { html5 { header } }
-    document.should include("<header></header>")
-  end
+  #   document = mab { html5 { header } }
+  #   document.should include("<header></header>")
+  # end
 
   it "should allow custom elements" do
     document = mab { html5 { my_custom_element(id: "mce-123") { "Hello" } } }
