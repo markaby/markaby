@@ -62,10 +62,14 @@ describe Markaby do
 
   # it "should close empty non-self-closing tags in html5" do
   #   pending
-
   #   document = mab { html5 { header } }
   #   document.should include("<header></header>")
   # end
+
+  it "should allow custom elements" do
+    document = mab { html5 { my_custom_element(id: "mce-123") { "Hello" } } }
+    document.should include("<my-custom-element id=\"mce-123\">Hello</my-custom-element>")
+  end
 
   it "should allow custom elements" do
     document = mab { html5 { my_custom_element(id: "mce-123") { "Hello" } } }
