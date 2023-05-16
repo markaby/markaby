@@ -71,11 +71,6 @@ describe Markaby do
     document.should include("<my-custom-element id=\"mce-123\">Hello</my-custom-element>")
   end
 
-  it "should allow custom elements" do
-    document = mab { html5 { my_custom_element(id: "mce-123") { "Hello" } } }
-    document.should include("<my-custom-element id=\"mce-123\">Hello</my-custom-element>")
-  end
-
   it "should not allow fake attributes" do
     expect {
       mab do
