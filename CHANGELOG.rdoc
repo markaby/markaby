@@ -1,3 +1,15 @@
+= HEAD
+
+* Add data attributes: https://github.com/markaby/markaby/pull/44 (rahoulb)
+
+  * Add data + aria attributes
+  * Allow creation of custom web components / elements in html5
+      my_custom_element prop: "value" =>
+      "<my-custom-element prop="value"></my-custom-element>"
+    See https://stackoverflow.com/questions/9845011/are-custom-elements-valid-html5
+  * split up tag sets into different files
+  * add standardrb + use code conventions
+
 = 0.7.1 (2010-08-19)
 
 * Rails fixes for form_for called from erb templates
