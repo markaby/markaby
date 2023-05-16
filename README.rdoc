@@ -154,15 +154,17 @@ Which results in:
     <div class="entryContent">Okay, once again, the idea here is ...</div>
   </div>
 
+Alternatively you can define the class as an attribute on your element - see below.  
+
 == 2. Element IDs
 
 IDs may be added by the use of bang methods:
 
-  div.page! {
-    div.content! {
+  div.page! do
+    div.content! do
       h1 "A Short Short Saintly Dog"
-    }
-  }
+    end
+  end
 
 Which results in:
 
@@ -171,6 +173,8 @@ Which results in:
       <h1>A Short Short Saintly Dog</h1>
     </div>
   </div>
+
+Alternatively you can define the ID as an attribute on your element - see below.  
 
 == 3. Validate Your XHTML 1.0 Output
 
@@ -190,8 +194,8 @@ tag.
 Now, since Markaby knows which doctype you're using, it checks a big
 list of valid tags and attributes before printing anything.
 
-  >> div :styl => "padding: 10px" do
-  >>   img :src => "samorost.jpg"
+  >> div styl: "padding: 10px" do
+  >>   img src: "samorost.jpg"
   >> end
   InvalidHtmlError: no such attribute `styl'
 
@@ -217,11 +221,11 @@ as an argument:
 One caveat: if you have other tags inside a block, the string
 passed back will be ignored.
 
-  div.comment {
+  div.comment do
     div.author "_why"
     div.says "Torpedoooooes!"
     "<div>Silence.</div>"
-  }
+  end
 
 The final div above won't appear in the output.  You can't mix
 tag modes like that, friend.
@@ -264,6 +268,8 @@ won't work with this technique.
     end
   end
 
+If you wish to register your own, specialist, tags, you can install a TagHandler
+
 == Some other notes, so you aren't confused:
 
 === On using different tagsets:
@@ -278,6 +284,59 @@ sub-template:
 Note, this is only necessary if you were rendering, say, a one off page as
 html transitional but had the default engine as html5.
 
+=== Defining attributes on elements
+
+If you do not use the <tt>CssProxy</tt> (<tt>div.entry</tt> to define the class, <tt>div.page!</tt> to define the ID), then you can pass a hash to your element to define any arbitrary attributes.  
+
+  div id: "page-123", class: "entry" do
+    div style: "display: inline-block;" do
+      p "Have you noticed this book is basically written by a lunatic?"
+    end
+  end
+
+Will result in 
+
+  <div id="page-123" class="entry">
+    <div style="display: inline-block;">
+      <p>Have you noticed this book is basically written by a lunatic?</p>
+    </div>
+  </div>
+
+If you pass a hash to your attribute definition, Markaby will expand the hash entries.  This is useful for data attributes (for example, if you are using a Stimulus controller), or aria attributes.  Any attributes will have underscores replaced with dashes when the hash is expanded.  
+
+  div data: { controller: "something" } do 
+    div do 
+      h1(data: { something_target: "title" }) { "There goes my pickup" }
+    end
+  end
+
+Will result in 
+
+  <div data-controller="something">
+    <div>
+      <h1 data-something-target="title">There goes my pickup</h1>
+    </div>
+  </div>
+
+=== Custom elements and web components
+
+If you are using the HTML5 tagset (which is the default), and your document has custom-elements defined, you can create those in the same way as standard elements.  
+
+Unlike standard elements, there is no validity checking for your attributes.  
+
+  article do 
+    my_custom_panel variant: "primary" do 
+      p "Our careers are so over"
+    end
+  end
+
+Results in
+
+  <article>
+    <my-custom-panel variant="primary">
+      <p>Our careers are so over</p>
+    </my-custom-panel>
+  </article>
 
 = Credits
 

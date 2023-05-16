@@ -1,10 +1,10 @@
-require 'markaby'
+require "markaby"
 
 module Markaby
   module Rails
     class TemplateHandler
       class << self
-        def register!(options={})
+        def register!(options = {})
           self.options = options
           ActionView::Template.register_template_handler(:mab, new)
         end
@@ -19,12 +19,12 @@ module Markaby
         end
 
         def options=(val)
-          self.options.merge!(val)
-          self.options
+          options.merge!(val)
+          options
         end
       end
 
-      def call(template, source=template.source)
+      def call(template, source = template.source)
         <<-CODE
           Markaby::Builder.new(Markaby::Rails::TemplateHandler.options, self) do
             #{source}

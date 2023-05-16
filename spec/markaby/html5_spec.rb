@@ -2,12 +2,12 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe Markaby do
   it "should insert an html5 doctype" do
-    document = mab { html5 { head { title 'OKay' } } }
+    document = mab { html5 { head { title "OKay" } } }
     document.should include("<!DOCTYPE html>")
   end
 
   it "should not have xmlns in html5 html tag" do
-    document = mab { html5 { head { title 'OKay' } } }
+    document = mab { html5 { head { title "OKay" } } }
     document.should_not include("xmlns")
   end
 
@@ -27,14 +27,14 @@ describe Markaby do
   end
 
   it "should put correct xhtml charset meta" do
-    document = mab { xhtml_strict { head { title 'OKay' } } }
-    document.should include('<meta')
+    document = mab { xhtml_strict { head { title "OKay" } } }
+    document.should include("<meta")
     document.should include('http-equiv="Content-Type"')
     document.should include('content="text/html; charset=utf-8"')
   end
 
   it "should put correct html5 charset meta" do
-    document = mab { html5 { head { title 'OKay' } } }
+    document = mab { html5 { head { title "OKay" } } }
     document.should include('<meta charset="utf-8"/>')
   end
 
@@ -50,28 +50,37 @@ describe Markaby do
 
   it "should add a closing slash to self-closing tags in xhtml" do
     document = mab { br }
-    document.should include('<br/>')
+    document.should include("<br/>")
   end
 
-  it "should not add a closing slash to self-closing tags in html5" do
-    pending
+  # it "should not add a closing slash to self-closing tags in html5" do
+  #   pending
 
-    document = mab { html5 { br } }
-    document.should include('<br>')
+  #   document = mab { html5 { br } }
+  #   document.should include("<br>")
+  # end
+
+  # it "should close empty non-self-closing tags in html5" do
+  #   pending
+  #   document = mab { html5 { header } }
+  #   document.should include("<header></header>")
+  # end
+
+  it "should allow custom elements" do
+    document = mab { html5 { my_custom_element(id: "mce-123") { "Hello" } } }
+    document.should include("<my-custom-element id=\"mce-123\">Hello</my-custom-element>")
   end
 
-  it "should close empty non-self-closing tags in html5" do
-    pending
-
-    document = mab { html5 { header } }
-    document.should include("<header></header>")
+  it "should allow custom elements" do
+    document = mab { html5 { my_custom_element(id: "mce-123") { "Hello" } } }
+    document.should include("<my-custom-element id=\"mce-123\">Hello</my-custom-element>")
   end
 
   it "should not allow fake attributes" do
     expect {
       mab do
         html5 do
-          input "something", :fake => "fake", :foo => "bar"
+          input "something", fake: "fake", foo: "bar"
         end
       end
     }.to raise_error(Markaby::InvalidXhtmlError)
@@ -81,7 +90,7 @@ describe Markaby do
     expect {
       mab do
         html5 do
-          input "something", :placeholder => "placeholder"
+          input "something", placeholder: "placeholder"
         end
       end
     }.not_to raise_error
@@ -90,10 +99,10 @@ describe Markaby do
   it "should allow a placeholder on an input" do
     doc = mab do
       html5 do
-        input :type => "text",
-              :name => "foo",
-              :value => "bar",
-              :placeholder => "something"
+        input type: "text",
+          name: "foo",
+          value: "bar",
+          placeholder: "something"
       end
     end
 
@@ -106,10 +115,40 @@ describe Markaby do
   it "should allow data attributes anywhere" do
     doc = mab do
       html5 do
-        div('data-foo' => 'bar')
+        div("data-foo" => "bar")
       end
     end
 
     doc.should include('<div data-foo="bar"/>')
+  end
+
+  it "expands data attributes provided as a hash" do
+    doc = mab do
+      html5 do
+        div(data: {foo: "bar"})
+      end
+    end
+
+    doc.should include('<div data-foo="bar"/>')
+  end
+
+  it "dasherises data attributes provided as a hash" do
+    doc = mab do
+      html5 do
+        div(data: {some_attribute: "value"})
+      end
+    end
+
+    doc.should include('<div data-some-attribute="value"/>')
+  end
+
+  it "should allow aria attributes everywhere" do
+    doc = mab do
+      html5 do
+        div("aria-foo" => "bar")
+      end
+    end
+
+    doc.should include('<div aria-foo="bar"/>')
   end
 end

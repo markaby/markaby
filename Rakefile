@@ -4,22 +4,22 @@ require "rspec/core/rake_task"
 require "rake/clean"
 
 RSpec::Core::RakeTask.new(:spec)
-task :default => :spec
+task default: :spec
 
 Bundler::GemHelper.install_tasks
 
 desc "List any Markaby specific warnings"
 task :warnings do
-  `ruby -w test/test_markaby.rb 2>&1`.split(/\n/).each do |line|
-    next unless line =~ /warning:/
-    next if line =~ /builder-/
+  `ruby -w test/test_markaby.rb 2>&1`.split("\n").each do |line|
+    next unless /warning:/.match?(line)
+    next if /builder-/.match?(line)
     puts line
   end
 end
 
 desc "Start a Markaby-aware IRB session"
 task :irb do
-  sh 'irb -I lib -r markaby -r markaby/kernel_method'
+  sh "irb -I lib -r markaby -r markaby/kernel_method"
 end
 
 namespace :gemspec do

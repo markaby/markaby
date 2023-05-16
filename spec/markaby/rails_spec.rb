@@ -23,7 +23,7 @@ describe Markaby::Rails do
   end
 
   it "should be able to pass options" do
-    Markaby::Rails::TemplateHandler.register!(:indent => 2)
+    Markaby::Rails::TemplateHandler.register!(indent: 2)
     Markaby::Rails::TemplateHandler.options[:indent].should == 2
   end
 end

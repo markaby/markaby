@@ -4,7 +4,7 @@
 # as well as the full set of Markaby classes.
 #
 # For a full list of features and instructions, see the README.
-$:.unshift File.expand_path(File.dirname(__FILE__))
+$:.unshift __dir__
 
 # Markaby is a module containing all of the great Markaby classes that
 # do such an excellent job.
@@ -20,7 +20,8 @@ module Markaby
   class InvalidXhtmlError < StandardError; end
 end
 
-require 'markaby/version'
-require 'builder' unless defined?(Builder)
-require 'markaby/builder'
-require 'markaby/cssproxy'
+require "markaby/version"
+require "builder" unless defined?(Builder)
+require "markaby/tagset"
+require "markaby/builder"
+require "markaby/cssproxy"
