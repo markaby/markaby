@@ -154,7 +154,7 @@ Which results in:
     <div class="entryContent">Okay, once again, the idea here is ...</div>
   </div>
 
-Alternatively you can define the class as an attribute on your element - see below.  
+Alternatively you can define the class as an attribute on your element - see below.
 
 == 2. Element IDs
 
@@ -174,7 +174,7 @@ Which results in:
     </div>
   </div>
 
-Alternatively you can define the ID as an attribute on your element - see below.  
+Alternatively you can define the ID as an attribute on your element - see below.
 
 == 3. Validate Your XHTML 1.0 Output
 
@@ -286,7 +286,7 @@ html transitional but had the default engine as html5.
 
 === Defining attributes on elements
 
-If you do not use the <tt>CssProxy</tt> (<tt>div.entry</tt> to define the class, <tt>div.page!</tt> to define the ID), then you can pass a hash to your element to define any arbitrary attributes.  
+If you do not use the <tt>CssProxy</tt> (<tt>div.entry</tt> to define the class, <tt>div.page!</tt> to define the ID), then you can pass a hash to your element to define any arbitrary attributes.
 
   div id: "page-123", class: "entry" do
     div style: "display: inline-block;" do
@@ -294,7 +294,7 @@ If you do not use the <tt>CssProxy</tt> (<tt>div.entry</tt> to define the class,
     end
   end
 
-Will result in 
+Will result in
 
   <div id="page-123" class="entry">
     <div style="display: inline-block;">
@@ -302,15 +302,15 @@ Will result in
     </div>
   </div>
 
-If you pass a hash to your attribute definition, Markaby will expand the hash entries.  This is useful for data attributes (for example, if you are using a Stimulus controller), or aria attributes.  Any attributes will have underscores replaced with dashes when the hash is expanded.  
+If you pass a hash to your attribute definition, Markaby will expand the hash entries.  This is useful for data attributes (for example, if you are using a Stimulus controller), or aria attributes.  Any attributes will have underscores replaced with dashes when the hash is expanded.
 
-  div data: { controller: "something" } do 
-    div do 
+  div data: { controller: "something" } do
+    div do
       h1(data: { something_target: "title" }) { "There goes my pickup" }
     end
   end
 
-Will result in 
+Will result in
 
   <div data-controller="something">
     <div>
@@ -320,12 +320,12 @@ Will result in
 
 === Custom elements and web components
 
-If you are using the HTML5 tagset (which is the default), and your document has custom-elements defined, you can create those in the same way as standard elements.  
+If you are using the HTML5 tagset (which is the default), and your document has custom-elements defined, you can create those in the same way as standard elements.
 
-Unlike standard elements, there is no validity checking for your attributes.  
+Unlike standard elements, there is no validity checking for your attributes.
 
-  article do 
-    my_custom_panel variant: "primary" do 
+  article do
+    my_custom_panel variant: "primary" do
       p "Our careers are so over"
     end
   end
