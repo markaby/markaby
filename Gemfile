@@ -6,10 +6,6 @@ group :development do
   gem "standardrb"
 end
 
-group :development do 
-  gem "standardrb"
-end
-
 group :test do
   gem "rake"
   gem "rspec"
