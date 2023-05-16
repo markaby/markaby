@@ -9,7 +9,7 @@ describe Markaby::CssProxy do
   end
 
   def mock_builder
-    mock_builder = Class.new do
+    Class.new do
       def tag!(*args)
       end
     end.new

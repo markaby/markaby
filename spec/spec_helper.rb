@@ -26,7 +26,7 @@ end
 module TestHelpers
   def assert_exception(exclass, exmsg, *mab_args, &block)
     mab(*mab_args, &block)
-  rescue Exception => e
+  rescue => e
     assert_equal exclass, e.class
     assert_match(/#{exmsg}/, e.message)
   end
