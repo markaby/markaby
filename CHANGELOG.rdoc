@@ -1,5 +1,10 @@
 = HEAD
 
+= 0.9.1
+
+* update release tasks [tech task]
+* re-release version since code was included in last release
+
 = 0.9.0
 
 * Add data attributes: https://github.com/markaby/markaby/pull/44 (rahoulb)
