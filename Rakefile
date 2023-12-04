@@ -29,19 +29,25 @@ namespace :gemspec do
   end
 end
 
-# namespace :release do
-#   task :patch => [:spec, "version:bump:patch", :update_gemspec, :rerdoc, :tag_release, :build, :push_tags]
-#
-#   task :update_gemspec => ["gemspec:generate", "gemspec:validate", "gemspec:commit"]
-#   task :tag_release do
-#     require File.dirname(__FILE__) + "/lib/markaby"
-#     version = "v#{Markaby::VERSION}"
-#     sh "git tag #{version}"
-#   end
-#
-#   task :push_tags do
-#     sh "git push --tags"
-#   end
-# end
-#
-# task :release => "release:patch"
+namespace :release do
+  # make sure to bump version + update changelogs in lib/markaby/version.rb before running
+  task :patch => [:spec, :update_gemspec, :tag_release, :build, :push_tags]
+
+  task :update_gemspec => ["gemspec:commit"]
+
+  task :tag_release do
+    require File.dirname(__FILE__) + "/lib/markaby"
+    version = "v#{Markaby::VERSION}"
+    sh "git tag #{version}"
+  end
+
+  task :push_tags do
+    sh "git push --tags"
+  end
+
+  task :push_gem do
+    sh "gem push pkg/markaby-#{Markaby::VERSION}.gem"
+  end
+end
+
+task :release => "release:patch"
