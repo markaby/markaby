@@ -10,7 +10,7 @@ that blend with HTML.
 Just do what everyone else does:
 
   # in Gemfile:
-  gem 'markaby', '>= 0.9'
+  gem 'markaby'
 
 then bundle install:
 
