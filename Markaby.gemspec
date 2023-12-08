@@ -17,4 +17,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "builder"
   spec.add_development_dependency "bundler", ">= 2.2.10"
   spec.add_development_dependency "rake"
+  spec.required_ruby_version = '>= 2.7.0'
 end
