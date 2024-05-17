@@ -70,6 +70,7 @@ module Markaby
       section: Attrs,
       source: Attrs,
       summary: Attrs,
+      svg: Attrs,
       time: Attrs,
       track: Attrs,
       video: Attrs,
