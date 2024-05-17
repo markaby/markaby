@@ -55,6 +55,7 @@ module Markaby
       header: Attrs,
       hgroup: Attrs,
       keygen: Attrs,
+      main: Attrs,
       mark: Attrs,
       menu: Attrs,
       meter: Attrs,
