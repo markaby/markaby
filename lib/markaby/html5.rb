@@ -62,6 +62,7 @@ module Markaby
       meter: Attrs,
       nav: Attrs,
       output: Attrs,
+      picture: Attrs,
       progress: Attrs,
       rp: Attrs,
       rt: Attrs,
