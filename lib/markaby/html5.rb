@@ -71,6 +71,7 @@ module Markaby
       source: Attrs,
       summary: Attrs,
       svg: Attrs,
+      template: Attrs,
       time: Attrs,
       track: Attrs,
       video: Attrs,
