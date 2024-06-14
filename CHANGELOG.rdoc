@@ -1,5 +1,8 @@
 = HEAD
 
+* Earlopain - Fix compatibility with latest builder release #49
+ - https://github.com/markaby/markaby/pull/49
+
 = 0.9.1
 
 * update release tasks [tech task]
