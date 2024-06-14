@@ -245,7 +245,7 @@ module Markaby
   # is never used, though, and the stream stays intact.
   #
   # For a more practical explanation, check out the README.
-  class Fragment < ::Builder::BlankSlate
+  class Fragment < BasicObject
     def initialize(*args)
       @stream, @start, @length = args
       @transformed_stream = false
