@@ -3,6 +3,7 @@
 * Earlopain - Fix compatibility with latest builder release #49
  - https://github.com/markaby/markaby/pull/49
 * Aesthetikx Add Missing HTML5 Tags #48 - https://github.com/markaby/markaby/pull/48
+* MrPowers - Small Refactorings - https://github.com/markaby/markaby/pull/50, https://github.com/markaby/markaby/pull/34
 
 = 0.9.1
 
