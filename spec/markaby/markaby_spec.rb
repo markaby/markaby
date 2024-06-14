@@ -122,6 +122,45 @@ describe Markaby do
     builder.three.should == "four"
   end
 
+  it "should be able to concat with to_s" do
+    str = ""
+    str += "<div class=\"title\">"
+    str += "Rock Bottom <span>by Robert Wyatt</span>"
+    str += "</div>"
+
+    generated = mab {
+      div.title { "Rock Bottom " + span("by Robert Wyatt").to_s }
+    }
+
+    generated.should == str
+  end
+
+  it "should be able to contact without to_s, but with +" do
+    str = ""
+    str += "<div class=\"title\">"
+    str += "Rock Bottom <span>by Robert Wyatt</span>"
+    str += "</div>"
+
+    generated = mab {
+      div.title { "Rock Bottom " + span("by Robert Wyatt") }
+    }
+
+    generated.should == str
+  end
+
+  it "should be able to contact by interpolation" do
+    str = ""
+    str += "<div class=\"title\">"
+    str += "Rock Bottom <span>by Robert Wyatt</span>"
+    str += "</div>"
+
+    generated = mab {
+      div.title { "Rock Bottom #{span("by Robert Wyatt")}" }
+    }
+
+    generated.should == str
+  end
+
   it "should be able to produce the correct html from a fragment" do
     str = ""
     str += "<div>"

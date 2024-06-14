@@ -255,6 +255,12 @@ module Markaby
       undef_method method if method_defined?(method)
     end
 
+    def to_s
+      transform_stream unless transformed_stream?
+      @str.to_s
+    end
+    alias_method :to_str, :to_s
+
     private
 
     def method_missing(...)
@@ -271,7 +277,7 @@ module Markaby
 
       # We can't do @stream.slice!(@start, @length),
       # as it would invalidate the @starts and @lengths of other Fragment instances.
-      @str = @stream[@start, @length].to_s
+      @str = @stream[@start, @length].join.to_s
       @stream[@start, @length] = [nil] * @length
     end
 
