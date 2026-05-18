@@ -145,7 +145,7 @@ describe Markaby do
     generated.should == str
   end
 
-  it "should be able to contact without to_s, but with +" do
+  it "should be able to concat without to_s, but with +" do
     str = ""
     str += "<div class=\"title\">"
     str += "Rock Bottom <span>by Robert Wyatt</span>"
@@ -158,7 +158,7 @@ describe Markaby do
     generated.should == str
   end
 
-  it "should be able to contact by interpolation" do
+  it "should be able to concat by interpolation" do
     str = ""
     str += "<div class=\"title\">"
     str += "Rock Bottom <span>by Robert Wyatt</span>"

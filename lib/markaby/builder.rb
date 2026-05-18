@@ -164,7 +164,7 @@ module Markaby
     # * If +sym+ is also the name of an instance variable, the
     #   value of the instance variable is returned.
     # * If +sym+ has come this far and no +tagset+ is found, +sym+ and its arguments are passed to tag!
-    # * If a tagset is found, the tagset is tole to handle +sym+
+    # * If a tagset is found, the tagset is told to handle +sym+
     #
     # method_missing used to be the lynchpin in Markaby, but it's no longer used to handle
     # HTML tags.  See html_tag for that.
